@@ -17,5 +17,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/GetAllCustomers","API@index");
-Route::post("/InsertCustomer","API@insert");
+Route::get("/GetAllCustomers","API@getAll");
+Route::post("/LoginCustomer","API@login");
+Route::post("/SignupCustomer","API@signup");
+Route::post('/send-sms', "SmsController@getUserNumber");

@@ -9,21 +9,31 @@ CREATE PROCEDURE `USP_signup` (
     IN p_LastName VARCHAR(255),
     IN p_EmailID VARCHAR(255),
     IN p_PhoneNumber VARCHAR(255),
-    IN p_PlanID VARCHAR(255),
+    IN p_PlanID INT,
     IN p_Language VARCHAR(255)
   )
 proc_Call:BEGIN
 	DECLARE RowCount INT DEFAULT 0;
+  DECLARE ErrorNumber INT;
+  DECLARE ErrorMessage VARCHAR(1000);
     
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+      GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,ErrorMessage = MESSAGE_TEXT;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
+      ROLLBACK;
+    END;
+
+
   -- Language check block : START
   IF ( p_Language IS NULL OR TRIM(p_Language) = '' ) THEN
   BEGIN
-    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language` FROM `messagemaster` WHERE `Code` = 'ERR00012' AND `language` = 'English';
+    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00012' AND `language` = 'English';
     LEAVE proc_Call;
   END;
   ELSEIF NOT EXISTS (select 1 from languagelookup where language = p_Language) THEN
     BEGIN
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language` FROM `messagemaster` WHERE `Code` = 'ERR00009' AND `language` = 'English';
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00009' AND `language` = 'English';
       LEAVE proc_Call;
     END;
   END IF;
@@ -32,42 +42,42 @@ proc_Call:BEGIN
   -- Input check block : START
   IF(  p_Password IS NULL OR TRIM(p_Password) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_ConfirmPassword IS NULL OR TRIM(p_ConfirmPassword) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00017' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00017' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_FirstName IS NULL OR TRIM(p_FirstName) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00015' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00015' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_LastName IS NULL OR TRIM(p_LastName) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00016' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00016' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_EmailID IS NULL OR TRIM(p_EmailID) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00018' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00018' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_PhoneNumber IS NULL OR TRIM(p_PhoneNumber) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00019' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00019' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_PlanID IS NULL OR TRIM(p_PlanID) = '' ) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00020' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00020' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF (STRCMP( p_Password,p_ConfirmPassword )) THEN
       BEGIN
-          SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00013' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00013' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   END IF;
@@ -76,15 +86,15 @@ proc_Call:BEGIN
 	-- Email format valdation block : START
   IF( p_EmailID NOT RLIKE '^[a-zA-Z0-9][a-zA-Z0-9._-]*@[a-zA-Z0-9][a-zA-Z0-9._-]*\\.[a??-zA-Z]{2,4}$' ) THEN 
     BEGIN
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language` FROM `messagemaster` WHERE `Code` = 'ERR00001' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00001' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
   -- Email format valdation block : END
 
   -- Phone Number valdation block : START
-  ELSEIF(  p_PhoneNumber NOT LIKE '^[0-9]+$' OR LENGTH(p_PhoneNumber) != 10 ) THEN
+  ELSEIF(  !isnumeric(p_PhoneNumber) OR LENGTH(p_PhoneNumber) != 10 ) THEN
     BEGIN
-        SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00002' AND `language` = p_Language;
+        SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00002' AND `language` = p_Language;
         LEAVE proc_Call;
     END;
   -- Phone Number valdation block : END
@@ -94,7 +104,7 @@ proc_Call:BEGIN
   SET RowCount = ( SELECT 1 FROM `customerplan` WHERE u_ID = p_PlanID);
   IF(  RowCount = 0 ) THEN
     BEGIN
-        SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00021' AND `language` = p_Language;
+        SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00021' AND `language` = p_Language;
         LEAVE proc_Call;
     END;
   END IF;
@@ -105,7 +115,7 @@ proc_Call:BEGIN
     
   IF(RowCount > 0 ) THEN 
     BEGIN
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language` FROM `messagemaster` WHERE `Code` = 'ERR00004' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00004' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
   END IF;
@@ -114,38 +124,44 @@ proc_Call:BEGIN
     
   IF(RowCount > 0 ) THEN 
     BEGIN
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language` FROM `messagemaster` WHERE `Code` = 'ERR00003' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00003' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
   END IF;
 	-- Duplicate validation block : END
 
   -- Customer Account creation block : START
-  INSERT INTO `Customer`(
-    `password`,
-    `firstName`,
-    `middleName`,
-    `lastName`, 
-    `emailID`, 
-    `phoneNumber`,
-    `creationDatetime`,
-    `PlanID`
-  ) 
-  VALUES (
-    PASSWORD(p_Password),
-    p_FirstName,
-    p_MiddleName,
-    p_LastName,
-    p_EmailID,
-    p_PhoneNumber,
-    CURRENT_TIMESTAMP(),
-    p_PlanID
-  );
+
+  START TRANSACTION;
+    INSERT INTO `Customer`(
+      `password`,
+      `firstName`,
+      `middleName`,
+      `lastName`, 
+      `emailID`, 
+      `phoneNumber`,
+      `creationDatetime`,
+      `PlanID`
+    ) 
+    VALUES (
+      SHA1(p_Password),
+      p_FirstName,
+      p_MiddleName,
+      p_LastName,
+      p_EmailID,
+      p_PhoneNumber,
+      CURRENT_TIMESTAMP(),
+      p_PlanID
+    );
+  COMMIT WORK;
   -- Customer Account creation block : END
 
+  SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00007' AND `language` = p_Language;
 
 END$$
 
 DELIMITER ;
 
--- call USP_signup('9074200979','Test123!','nglish')
+/*
+call USP_signup('Test123!','Test123!','FName',null,'LName','Suffddbhacm@UKMF.com','1245789563',1,'English');
+*/
