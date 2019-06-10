@@ -1,7 +1,7 @@
 DROP procedure IF EXISTS `USP_login`;
 
 DELIMITER $$
-CREATE PROCEDURE `USP_login` ( IN p_Username VARCHAR(255),IN p_Password VARCHAR(255) ,IN p_Language VARCHAR(255) )
+CREATE PROCEDURE `USP_login` ( IN p_Username VARCHAR(255),IN p_Password VARCHAR(255) ,IN p_Source VARCHAR(255),IN p_Language VARCHAR(255) )
 proc_Call:BEGIN
 	DECLARE RowCount INT DEFAULT 0;
   DECLARE ErrorNumber INT;
@@ -34,6 +34,11 @@ proc_Call:BEGIN
     SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00010' AND `language` = p_Language;
     LEAVE proc_Call;
     END;
+  ELSEIF ( p_Source IS NULL OR TRIM(p_Source) = '' ) THEN
+    BEGIN
+      SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
+      LEAVE proc_Call;
+    END;
   ELSEIF ( p_Password IS NULL OR TRIM(p_Password) = '' ) THEN
     BEGIN
       SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
@@ -55,4 +60,4 @@ END$$
 
 DELIMITER ;
 
--- call USP_login('9074200979','Test123!','English')
+-- call USP_login('9074200979','Test123!','','English');
