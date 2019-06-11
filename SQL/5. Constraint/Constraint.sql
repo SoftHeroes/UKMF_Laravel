@@ -13,3 +13,5 @@ ALTER TABLE `MessageMaster` ADD CONSTRAINT `MessageMaster_fk0` FOREIGN KEY (`lan
 ALTER TABLE `ThirdPartyAPISetupActivityLog` ADD CONSTRAINT `ThirdPartyAPISetupActivityLog_fk0` FOREIGN KEY (`serviceID`) REFERENCES `ThirdPartyAPISetup`(`u_ID`);
 
 ALTER TABLE `Customer` ADD CONSTRAINT `Customer_fk0` FOREIGN KEY (`PlanID`) REFERENCES `CustomerPlan`(`u_ID`);
+
+ALTER TABLE `SMSAPISetupActivityLogs` ADD CONSTRAINT `SMSAPISetupActivityLogs_fk0` FOREIGN KEY (`serviceID`) REFERENCES `SMSAPISetups`(`u_ID`);

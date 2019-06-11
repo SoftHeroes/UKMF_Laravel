@@ -74,13 +74,28 @@ CREATE TABLE `ActivityLog` (
 DROP TABLE IF EXISTS `ThirdPartyAPISetup`;
 CREATE TABLE `ThirdPartyAPISetup` (
 	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
+	`APIName` varchar(255) NOT NULL UNIQUE,
 	`server` varchar(200) NOT NULL,
 	`resource` varchar(200) NOT NULL,
 	`environment` varchar(200) NOT NULL,
 	`method` varchar(200) NOT NULL,
-	`userID` varchar(200) NOT NULL,
-	`password` BINARY(200) NOT NULL,
-	`accessCode` BINARY(200) NOT NULL,
+	`userID` varchar(200),
+	`password` BINARY(200),
+	`accessCode` BINARY(200),
+	`param1` varchar(255),
+	`value1` varchar(255),
+	`param2` varchar(255),
+	`value2` varchar(255),
+	`param3` varchar(255),
+	`value3` varchar(255),
+	`param4` varchar(255),
+	`value4` varchar(255),
+	`param5` varchar(255),
+	`value5` varchar(255),
+	`param6` varchar(255),
+	`value6` varchar(255),
+	`param7` varchar(255),
+	`value7` varchar(255),
 	PRIMARY KEY (`u_ID`)
 );
 
@@ -109,10 +124,10 @@ DROP TABLE IF EXISTS `ThirdPartyAPISetupActivityLog`;
 CREATE TABLE `ThirdPartyAPISetupActivityLog` (
 	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
 	`serviceID` INT(10) NOT NULL,
-	`ResponseCode` varchar(200) NOT NULL,
-	`Response` varchar(200) NOT NULL,
-	`version` varchar(100) NOT NULL,
-	`source` varchar(200) NOT NULL,
+	`ResponseCode` varchar(200),
+	`ResponseMessage` varchar(200),
+	`request` varchar(5000) NOT NULL,
+	`response` varchar(5000),
 	PRIMARY KEY (`u_ID`)
 );
 
@@ -151,9 +166,59 @@ CREATE TABLE `CustomerPlan` (
 	`PlanName` varchar(255) NOT NULL UNIQUE DEFAULT '1',
 	`InvaildUpdateAttemptsAllowed` INT NOT NULL DEFAULT '3',
 	`userLockTime` INT(10) NOT NULL DEFAULT '600',
-	`QRCodeMethods` INT NULL,
-	`walletAmountLimit` INT(10) NULL,
+	`QRCodeMethods` INT,
+	`walletAmountLimit` INT(10) NOT NULL,
 	`Active` INT NOT NULL DEFAULT '1',
 	`Deleted` varchar(255) NOT NULL DEFAULT '0',
 	PRIMARY KEY (`u_ID`)
+);
+
+DROP TABLE IF EXISTS `SMSAPISetupActivityLogs`;
+CREATE TABLE `SMSAPISetupActivityLogs` (
+	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
+	`serviceID` INT(10) NOT NULL,
+	`ResponseCode` varchar(200),
+	`ResponseMessage` varchar(200),
+	`request` varchar(5000) NOT NULL,
+	`response` varchar(5000),
+	PRIMARY KEY (`u_ID`)
+);
+
+DROP TABLE IF EXISTS `SMSAPISetups`;
+CREATE TABLE `SMSAPISetups` (
+	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
+	`APIName` varchar(255) NOT NULL UNIQUE,
+	`server` varchar(200) NOT NULL,
+	`resource` varchar(200) NOT NULL,
+	`environment` varchar(200) NOT NULL,
+	`method` varchar(200) NOT NULL,
+	`userID` varchar(200),
+	`password` BINARY(200),
+	`accessCode` BINARY(200),
+	`param1` varchar(255),
+	`value1` varchar(255),
+	`param2` varchar(255),
+	`value2` varchar(255),
+	`param3` varchar(255),
+	`value3` varchar(255),
+	`param4` varchar(255),
+	`value4` varchar(255),
+	`param5` varchar(255),
+	`value5` varchar(255),
+	`param6` varchar(255),
+	`value6` varchar(255),
+	`param7` varchar(255),
+	`value7` varchar(255),
+	`receiverTag` varchar(255) NOT NULL,
+	`messageTag` varchar(255) NOT NULL,
+  `Active` INT(1) NOT NULL DEFAULT '1',
+	`Deleted` INT(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`u_ID`)
+);
+
+DROP TABLE IF EXISTS `APP_ENV`;
+CREATE TABLE `APP_ENV` (
+	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
+	`envName` varchar(255) NOT NULL ,
+  PRIMARY KEY (`u_ID`)
 );

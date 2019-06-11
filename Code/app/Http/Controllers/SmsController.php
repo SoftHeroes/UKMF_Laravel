@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\APICaller;
+
 class SmsController extends Controller
 {
     public function sentSMS(Request $request)
     {
+        $apiCaller = new APICaller('Test','local');
         $curl = curl_init();
         $phoneNumber = $request->input("phoneNumber");
         $MessageText = $request->input("MessageText");
