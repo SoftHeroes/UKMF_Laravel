@@ -38,6 +38,6 @@ class API extends Controller
                                                     '".$request->input("planID")."',
                                                     '".$request->input("language")."',
                                                     '".$request->input("source")."');");
-        return $response;
+        return response()->json($response[0]);
     }
 }

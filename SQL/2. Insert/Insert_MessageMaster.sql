@@ -181,3 +181,15 @@ SELECT * FROM (SELECT 'ERR00029','NO','Template return successfully.','1.0.0','E
 WHERE NOT EXISTS (
     SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00029' AND  `Message` = 'Template return successfully.'
 ) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00030','NO','Message sent successfully.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00030' AND  `Message` = 'Template return successfully.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00031','YES','Unable to sent message, Please try some time.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00031' AND  `Message` = 'Unable to sent message, Please try some time.'
+) LIMIT 1;

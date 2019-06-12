@@ -37,7 +37,6 @@
                 CURLOPT_CUSTOMREQUEST => $Method,
                 CURLOPT_POSTFIELDS => json_encode($fields),
                 CURLOPT_HTTPHEADER => array(
-                    "authorization: YOUR_API_KEY",
                     "accept: */*",
                     "cache-control: no-cache",
                     "content-type: application/json"
