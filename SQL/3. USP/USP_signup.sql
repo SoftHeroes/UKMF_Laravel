@@ -10,7 +10,8 @@ CREATE PROCEDURE `USP_signup` (
     IN p_EmailID VARCHAR(255),
     IN p_PhoneNumber VARCHAR(255),
     IN p_PlanID INT,
-    IN p_Language VARCHAR(255)
+    IN p_Language VARCHAR(255),
+    IN p_Source VARCHAR(255)
   )
 proc_Call:BEGIN
 	DECLARE RowCount INT DEFAULT 0;
@@ -80,6 +81,11 @@ proc_Call:BEGIN
           SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00013' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
+    ELSEIF (p_Source IS NULL OR TRIM(p_Source) = '') THEN
+      BEGIN
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
+          LEAVE proc_Call;
+      END;
   END IF;
 	-- Input check block : END
 
@@ -120,7 +126,7 @@ proc_Call:BEGIN
     END;
   END IF;
 
-	SET RowCount = ( SELECT 1 FROM `customer` WHERE phoneNumber = p_Password);
+	SET RowCount = ( SELECT 1 FROM `customer` WHERE phoneNumber = p_PhoneNumber);
     
   IF(RowCount > 0 ) THEN 
     BEGIN
@@ -163,5 +169,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_signup('Test123!','Test123!','FName',null,'LName','Suffddbhacm@UKMF.com','1245789563',2,'English');
+call USP_signup('Test123!','Test123!','FName',null,'LName','Suffddbhacm@UKMF.com','1245789563',1,'English',null);
 */

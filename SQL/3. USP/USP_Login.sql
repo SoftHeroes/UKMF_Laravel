@@ -4,7 +4,7 @@ DELIMITER $$
 
 CREATE PROCEDURE `USP_login` ( IN p_Username VARCHAR(255),IN p_Password VARCHAR(255) ,IN p_Language VARCHAR(255) )
 proc_Call:BEGIN
-	DECLARE RowCount INT DEFAULT 0;
+  DECLARE RowCount INT DEFAULT 0;
   DECLARE CustomerPhoneNumber VARCHAR(10);
   DECLARE ErrorNumber INT;
   DECLARE ErrorMessage VARCHAR(1000);
@@ -41,6 +41,12 @@ proc_Call:BEGIN
       SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
+  ELSEIF ( p_Source IS NULL OR TRIM(p_Source) = '' ) THEN
+    BEGIN
+      SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
+      LEAVE proc_Call;
+    END;
+
   END IF;
 	-- Input check block : END
   
