@@ -133,3 +133,45 @@ SELECT * FROM (SELECT 'ERR00021','YES','Invalid Plan ID.','1.0.0','English') AS 
 WHERE NOT EXISTS (
     SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00021' AND  `Message` = 'Invalid Plan ID.'
 ) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00023','YES','Template cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00023' AND  `Message` = 'Template cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00024','YES','Message cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00024' AND  `Message` = 'Message cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00025','YES','Invalid Template.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00025' AND  `Message` = 'Invalid Template.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00026','YES','API Name cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00026' AND  `Message` = 'API Name cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00027','YES','Invalid API Name.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00027' AND  `Message` = 'Invalid API Name.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00028','NO','URL generation successfully.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00028' AND  `Message` = 'URL generation successfully.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00029','NO','Template return successfully.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00029' AND  `Message` = 'Template return successfully.'
+) LIMIT 1;

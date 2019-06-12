@@ -3,40 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\APICaller;
+use Illuminate\Support\Facades\DB;
+require_once app_path() . '/Helpers/API/APICall.php';
 
 class SmsController extends Controller
 {
     public function sentSMS(Request $request)
     {
-        $apiCaller = new APICaller('Test','local');
-        $curl = curl_init();
+        $source = $request->input("source");
+        $templateName = $request->input("templateName");
         $phoneNumber = $request->input("phoneNumber");
-        $MessageText = $request->input("MessageText");
+        $language = $request->input("language");
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://www.fast2sms.com/dev/bulk?authorization=QmgTfZYwvXhoLz8l1aH2SUdM6Wpi9rBeVbt0RNsxJA54qGFPj3fRvBXC2LtnDy76JrweVkY8oW3QE4Pa&sender_id=FSTSMS&message=".urlencode($MessageText)."&language=english&route=p&numbers=".urlencode($phoneNumber),
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array("cache-control: no-cache"),
-        ));
+        $APIdata =  DB::select("call USP_getSMSURL('".$source."','".$templateName."','".$phoneNumber."','".$language."');");
         
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        
-        curl_close($curl);
-        
-        if ($err) {
-            return "cURL Error #:" . $err;
-        } else {
-            return $response;
-        }
+
+        $response = APIExecute($APIdata[0]->Method,$APIdata[0]->URL,null);
+
+        return response()->json(json_decode($response));
     }
 }

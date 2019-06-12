@@ -15,3 +15,5 @@ ALTER TABLE `ThirdPartyAPISetupActivityLog` ADD CONSTRAINT `ThirdPartyAPISetupAc
 ALTER TABLE `Customer` ADD CONSTRAINT `Customer_fk0` FOREIGN KEY (`PlanID`) REFERENCES `CustomerPlan`(`u_ID`);
 
 ALTER TABLE `SMSAPISetupActivityLogs` ADD CONSTRAINT `SMSAPISetupActivityLogs_fk0` FOREIGN KEY (`serviceID`) REFERENCES `SMSAPISetups`(`u_ID`);
+
+ALTER TABLE `SMSTemplates` ADD CONSTRAINT `SMSTemplates_fk0` FOREIGN KEY (`languageID`) REFERENCES `languageLookup`(`language`);

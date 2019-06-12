@@ -80,8 +80,8 @@ CREATE TABLE `ThirdPartyAPISetup` (
 	`environment` varchar(200) NOT NULL,
 	`method` varchar(200) NOT NULL,
 	`userID` varchar(200),
-	`password` BINARY(200),
-	`accessCode` BINARY(200),
+	`password` varbinary(255),
+	`accessCode` varbinary(255),
 	`param1` varchar(255),
 	`value1` varchar(255),
 	`param2` varchar(255),
@@ -116,7 +116,7 @@ CREATE TABLE `MessageMaster` (
 	`ErrorFound` varchar(5) NOT NULL,
 	`Message` varchar(200) NOT NULL,
 	`version` varchar(100) NOT NULL,
-	`language` varchar(100) NOT NULL,
+	`language` varchar(255) NOT NULL,
 	PRIMARY KEY (`u_ID`)
 );
 
@@ -141,7 +141,7 @@ CREATE TABLE `languageLookup` (
 DROP TABLE IF EXISTS `Customer`;
 CREATE TABLE `Customer` (
 	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
-	`password` varchar(100) NOT NULL,
+	`password` varbinary(255) NOT NULL,
 	`firstName` varchar(100),
 	`middleName` varchar(100),
 	`lastName` varchar(100),
@@ -152,7 +152,7 @@ CREATE TABLE `Customer` (
 	`InvaildUpdateAttemptsCount` INT NOT NULL DEFAULT '0',
 	`PlanID` INT(10) NOT NULL,
 	`QRCode` INT(10),
-	`UPIQRCode` BINARY,
+	`UPIQRCode` varbinary(255),
 	`walletAmount` INT(10) DEFAULT '0',
 	`UPIID` varchar(100),
 	`Active` INT(1) NOT NULL DEFAULT '1',
@@ -193,8 +193,8 @@ CREATE TABLE `SMSAPISetups` (
 	`environment` varchar(200) NOT NULL,
 	`method` varchar(200) NOT NULL,
 	`userID` varchar(200),
-	`password` BINARY(200),
-	`accessCode` BINARY(200),
+	`password` varbinary(255),
+	`accessCode` varbinary(255),
 	`param1` varchar(255),
 	`value1` varchar(255),
 	`param2` varchar(255),
@@ -222,3 +222,23 @@ CREATE TABLE `APP_ENV` (
 	`envName` varchar(255) NOT NULL ,
   PRIMARY KEY (`u_ID`)
 );
+
+DROP TABLE IF EXISTS `SMSTemplates`;
+CREATE TABLE `SMSTemplates` (
+	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
+	`templateName` varchar(255) NOT NULL UNIQUE,
+	`message` varchar(1000),
+	`languageID` varchar(255) NOT NULL,
+  `Active` INT(1) NOT NULL DEFAULT '1',
+	`Deleted` INT(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`u_ID`)
+);
+
+DROP TABLE IF EXISTS urlcodemap;
+CREATE TABLE `urlcodemap` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `encoded` VARCHAR(128) NOT NULL,
+  `decoded` VARCHAR(128) NOT NULL,
+  UNIQUE KEY urlcodemapUIdx1(encoded),
+  PRIMARY KEY (`id`)  
+) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

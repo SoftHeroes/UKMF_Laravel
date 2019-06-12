@@ -92,7 +92,7 @@ proc_Call:BEGIN
   -- Email format valdation block : END
 
   -- Phone Number valdation block : START
-  ELSEIF(  !isnumeric(p_PhoneNumber) OR LENGTH(p_PhoneNumber) != 10 ) THEN
+  ELSEIF(  !isNumeric(p_PhoneNumber) OR LENGTH(p_PhoneNumber) != 10 ) THEN
     BEGIN
         SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00002' AND `language` = p_Language;
         LEAVE proc_Call;
@@ -102,7 +102,7 @@ proc_Call:BEGIN
 	
   -- Plan ID valdation block : START
   SET RowCount = ( SELECT 1 FROM `customerplan` WHERE u_ID = p_PlanID);
-  IF(  RowCount = 0 ) THEN
+  IF(  RowCount = 0 OR RowCount IS NULL ) THEN
     BEGIN
         SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00021' AND `language` = p_Language;
         LEAVE proc_Call;
@@ -144,7 +144,7 @@ proc_Call:BEGIN
       `PlanID`
     ) 
     VALUES (
-      SHA1(p_Password),
+      AES_ENCRYPT(p_Password,CAST(p_PhoneNumber as CHAR(10)) ),
       p_FirstName,
       p_MiddleName,
       p_LastName,
@@ -163,5 +163,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_signup('Test123!','Test123!','FName',null,'LName','Suffddbhacm@UKMF.com','1245789563',1,'English');
+call USP_signup('Test123!','Test123!','FName',null,'LName','Suffddbhacm@UKMF.com','1245789563',2,'English');
 */

@@ -1,16 +1,18 @@
 DROP procedure IF EXISTS `USP_login`;
 
 DELIMITER $$
+
 CREATE PROCEDURE `USP_login` ( IN p_Username VARCHAR(255),IN p_Password VARCHAR(255) ,IN p_Language VARCHAR(255) )
 proc_Call:BEGIN
 	DECLARE RowCount INT DEFAULT 0;
+  DECLARE CustomerPhoneNumber VARCHAR(10);
   DECLARE ErrorNumber INT;
   DECLARE ErrorMessage VARCHAR(1000);
-    
+  
   DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
       GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,ErrorMessage = MESSAGE_TEXT;
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
       ROLLBACK;
     END;
 
@@ -41,15 +43,28 @@ proc_Call:BEGIN
     END;
   END IF;
 	-- Input check block : END
-    
+  
+  
   -- Credentials validation block : START
-	SET RowCount = ( SELECT 1 FROM `Customer` WHERE (emailID = p_Username OR phoneNumber = p_Username) AND password = SHA1(p_Password) );
-    
+-- 	SET PhoneNumber = ( SELECT phoneNumber FROM `Customer` WHERE emailID = p_Username OR phoneNumber = CAST(p_Username AS CHAR(10)) );
+
+  SET CustomerPhoneNumber = (SELECT phoneNumber FROM `Customer` WHERE emailID = p_Username OR phoneNumber = p_Username);
+
+  IF( CustomerPhoneNumber IS NULL OR TRIM(CustomerPhoneNumber) = '' ) THEN
+    BEGIN
+       SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
+      LEAVE proc_Call;
+    END;
+  END IF;
+
+  SET RowCount = ( SELECT 1 FROM `Customer` WHERE phoneNumber = CustomerPhoneNumber AND password = AES_ENCRYPT(p_Password,CustomerPhoneNumber) );
+
   IF(RowCount > 0 ) THEN 
     SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00006' AND `language` = p_Language;
   ELSE
     SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
   END IF;
+
   -- Credentials validation block : END
 END$$
 
