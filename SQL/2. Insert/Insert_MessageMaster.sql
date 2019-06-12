@@ -53,7 +53,7 @@ WHERE NOT EXISTS (
 INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
 SELECT * FROM (SELECT 'ERR00008','YES','Invalid username/password.','1.0.0','English') AS tmp
 WHERE NOT EXISTS (
-    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00008' AND  `Message` = 'Invalid username/password'
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00008' AND  `Message` = 'Invalid username/password.'
 ) LIMIT 1;
 
 INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
@@ -132,6 +132,12 @@ INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `languag
 SELECT * FROM (SELECT 'ERR00021','YES','Invalid Plan ID.','1.0.0','English') AS tmp
 WHERE NOT EXISTS (
     SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00021' AND  `Message` = 'Invalid Plan ID.'
+) LIMIT 1;
+
+INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00022','YES','Source cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `messagemaster` WHERE `Code` = 'ERR00022' AND  `Message` = 'Source cannot be empty.'
 ) LIMIT 1;
 
 INSERT INTO `messagemaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)

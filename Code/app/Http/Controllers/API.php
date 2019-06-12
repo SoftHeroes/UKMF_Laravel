@@ -16,11 +16,12 @@ class API extends Controller
 
     public function login(Request $request)
     {
+        
         $response =  DB::select("call USP_login('".$request->input("username")."',
                                                 '".$request->input('password')."',
                                                 '".$request->input('source')."',
                                                 '".$request->input("language")."');");
-
+                                                
         return response()->json($response[0]);
     }
 
@@ -37,6 +38,6 @@ class API extends Controller
                                                     '".$request->input("planID")."',
                                                     '".$request->input("language")."',
                                                     '".$request->input("source")."');");
-        return response()->json($response[0]);
+        return $response;
     }
 }
