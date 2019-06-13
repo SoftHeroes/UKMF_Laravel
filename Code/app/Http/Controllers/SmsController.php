@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\MessageMaster;
-require_once app_path() . '/Helpers/API/APICall.php';
+
+require_once app_path() . '/Helpers/APICall.php';
+require_once app_path() . '/Helpers/Logger.php';
 
 class SmsController extends Controller
 {
@@ -28,7 +30,7 @@ class SmsController extends Controller
         {
             $APIExecuteResponse = json_decode(APIExecute($APIdata[0]->Method,$APIdata[0]->URL,null), true);
             
-            if( $APIExecuteResponse['status'] == '200')
+            if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
             {
                 $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->OTP." as OTP FROM messagemaster WHERE Code = 'ERR00030' AND language = '$language'") );
             }
@@ -36,7 +38,9 @@ class SmsController extends Controller
             {
                 $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->OTP." as OTP FROM messagemaster WHERE Code = 'ERR00031' AND language = '$language' ") );
             }
-            echo 'fr';
+            
+            Log_SMSAPISetupActivityLogs($APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
+
             return response()->json($response[0]);
         }
     }

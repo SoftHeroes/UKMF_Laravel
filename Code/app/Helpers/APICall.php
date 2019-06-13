@@ -1,9 +1,5 @@
 <?php
-// namespace App\Helpers\API;
 
-// class APICall extends Facade
-// {
-    // public 
     function APIExecute($Method,$URL,$fields)
     {
         $curl = curl_init();
@@ -56,5 +52,4 @@
             return $response;
         }
     }
-// }
 ?>
