@@ -8,11 +8,14 @@ use App\MessageMaster;
 
 require_once app_path() . '/Helpers/APICall.php';
 require_once app_path() . '/Helpers/Logger.php';
+require_once app_path() . '/Helpers/Maths.php';
 
 class SmsController extends Controller
 {
     public function sentSMS(Request $request)
     {
+        date_default_timezone_set('Asia/Kolkata');
+
         $source = $request->input("source");
         $templateName = $request->input("templateName");
         $phoneNumber = $request->input("phoneNumber");
@@ -28,6 +31,7 @@ class SmsController extends Controller
         }
         else
         {
+            $SMSAPIRequestTime = date('Y-m-d h:i:s', time());
             $APIExecuteResponse = json_decode(APIExecute($APIdata[0]->Method,$APIdata[0]->URL,null), true);
             
             if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
@@ -38,8 +42,8 @@ class SmsController extends Controller
             {
                 $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->OTP." as OTP FROM messagemaster WHERE Code = 'ERR00031' AND language = '$language' ") );
             }
-            
-            Log_SMSAPISetupActivityLogs($APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
+
+            Log_SMSAPISetupActivityLogs($SMSAPIRequestTime,$phoneNumber,$APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
 
             return response()->json($response[0]);
         }

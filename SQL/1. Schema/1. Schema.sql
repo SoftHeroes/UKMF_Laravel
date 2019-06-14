@@ -126,6 +126,9 @@ CREATE TABLE `ThirdPartyAPISetupActivityLog` (
 	`serviceID` INT(10) NOT NULL,
 	`ResponseCode` varchar(200),
 	`ResponseMessage` varchar(200),
+	`requestTime` DATETIME NOT NULL,
+	`responseTime` DATETIME NOT NULL,
+	`timeTaken` FLOAT NOT NULL,
 	`request` varchar(5000) NOT NULL,
 	`response` varchar(5000),
 	PRIMARY KEY (`u_ID`)
@@ -179,6 +182,10 @@ CREATE TABLE `SMSAPISetupActivityLogs` (
 	`serviceID` INT(10) NOT NULL,
 	`ResponseCode` varchar(200),
 	`ResponseMessage` varchar(200),
+  `sendTo` varchar(10),
+  `requestTime` DATETIME NOT NULL,
+	`responseTime` DATETIME NOT NULL,
+  `timeTaken` FLOAT NOT NULL,
 	`request` varchar(5000) NOT NULL,
 	`response` varchar(5000),
 	PRIMARY KEY (`u_ID`)
