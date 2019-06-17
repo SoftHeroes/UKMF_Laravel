@@ -32,17 +32,17 @@ proc_Call:BEGIN
   -- Input check block : START
   IF(  p_Username IS NULL OR TRIM(p_Username) = '' ) THEN
     BEGIN
-    SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00010' AND `language` = p_Language;
+    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00010' AND `language` = p_Language;
     LEAVE proc_Call;
     END;
   ELSEIF ( p_Password IS NULL OR TRIM(p_Password) = '' ) THEN
     BEGIN
-      SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
   ELSEIF ( p_Source IS NULL OR TRIM(p_Source) = '' ) THEN
     BEGIN
-      SELECT * FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
 
