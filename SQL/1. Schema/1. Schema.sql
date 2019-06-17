@@ -238,7 +238,7 @@ CREATE TABLE `APP_ENV` (
 DROP TABLE IF EXISTS `SMSTemplates`;
 CREATE TABLE `SMSTemplates` (
 	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
-	`templateName` varchar(255) NOT NULL UNIQUE,
+	`templateName` varchar(255) NOT NULL ,
 	`message` varchar(1000),
 	`languageID` varchar(255) NOT NULL,
   `Active` INT(1) NOT NULL DEFAULT '1',

@@ -126,12 +126,12 @@ proc_Call:BEGIN
                (CASE WHEN `param6` IS NULL THEN '' ELSE CONCAT(TRIM(`param6`),'=',TRIM(`value6`),'&') END ),
                (CASE WHEN `param7` IS NULL THEN '' ELSE CONCAT(TRIM(`param7`),'=',TRIM(`value7`),'&') END ),
                (CASE WHEN `receiverTag` IS NULL THEN '' ELSE CONCAT(TRIM(`receiverTag`),'=',TRIM(p_PhoneNumber),'&') END ),
-               (CASE WHEN `messageTag` IS NULL THEN '' ELSE CONCAT(TRIM(`messageTag`),'=',TRIM(getSMSTemplate(p_TemplateName,p_Language,OTP))) END )
+               (CASE WHEN `messageTag` IS NULL THEN '' ELSE CONCAT(TRIM(`messageTag`),'=',TRIM(getSMSTemplate(p_TemplateName,p_Language,OTP,p_PhoneNumber))) END )
          )  AS op_URL, 
          `method`,
          `userID`,
-         AES_DECRYPT(`op_Password`,APIName),
-         AES_DECRYPT(`op_AccessCode`,APIName),
+         AES_DECRYPT(`password`,APIName),
+         AES_DECRYPT(`accessCode`,APIName),
          `responseStatusTag`,
          `responseMessageTag`,
          `APIName`,
