@@ -20,7 +20,7 @@ class API extends Controller
     public function login(Request $request)
     {
         date_default_timezone_set('Asia/Kolkata');
-        $RequestTime = date('Y-m-d h:i:s.U', time());
+        $RequestTime = date('Y-m-d h:i:s.u', time());
 
 
         $response =  DB::select("call USP_login('".$request->input("username")."',
@@ -49,7 +49,7 @@ class API extends Controller
     public function signup(Request $request)
     {
         date_default_timezone_set('Asia/Kolkata');
-        $RequestTime = date('Y-m-d h:i:s.U', time());
+        $RequestTime = date('Y-m-d h:i:s.u', time());
 
         $response =  DB::select("call USP_signup   ('".$request->input("password")."',
                                                     '".$request->input("confirmPassword")."',
