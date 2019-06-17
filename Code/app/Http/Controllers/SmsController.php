@@ -31,7 +31,7 @@ class SmsController extends Controller
         }
         else
         {
-            $SMSAPIRequestTime = date('Y-m-d h:i:s', time());
+            $SMSAPIRequestTime = date('Y-m-d h:i:s.U', time());
             $APIExecuteResponse = json_decode(APIExecute($APIdata[0]->Method,$APIdata[0]->URL,null), true);
             
             if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
