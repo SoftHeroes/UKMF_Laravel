@@ -6,6 +6,7 @@ INJECTED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:2:1-21
 INJECTED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:2:1-21:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\097a46a27a72ad7d5e2760ce91f79e39\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\706e3f239ad1f754d2fe3b03a40bebe2\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.volley:volley:1.1.1] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\73d5cc383a9dff2cd35352f5b5a85a68\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\95cb00cb22723ade0f25b63383e0578a\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\d458480f175a39fa2212a1f3f9c78d53\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\3a67c630bc53e3c9097c5f33376f2679\AndroidManifest.xml:17:1-22:12
@@ -48,10 +49,16 @@ INJECTED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:2:1-21
 		INJECTED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:2:11-69
+uses-permission#android.permission.INTERNET
+ADDED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:4:5-67
+	android:name
+		ADDED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:4:22-64
 application
 ADDED from C:\wamp64\www\UKMF\Android\app\src\main\AndroidManifest.xml:5:5-19:19
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\706e3f239ad1f754d2fe3b03a40bebe2\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\706e3f239ad1f754d2fe3b03a40bebe2\AndroidManifest.xml:9:5-20
+MERGED from [com.android.volley:volley:1.1.1] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\73d5cc383a9dff2cd35352f5b5a85a68\AndroidManifest.xml:9:5-20
+MERGED from [com.android.volley:volley:1.1.1] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\73d5cc383a9dff2cd35352f5b5a85a68\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support:support-compat:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\d6a509a952ea792a9092f71be9de9cd1\AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:support-compat:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\d6a509a952ea792a9092f71be9de9cd1\AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\170fe7a4ec448fac063287839902b5aa\AndroidManifest.xml:22:5-23:19
@@ -92,6 +99,8 @@ MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\SH\.gradle\caches
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\097a46a27a72ad7d5e2760ce91f79e39\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\706e3f239ad1f754d2fe3b03a40bebe2\AndroidManifest.xml:5:5-7:41
 MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\706e3f239ad1f754d2fe3b03a40bebe2\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.volley:volley:1.1.1] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\73d5cc383a9dff2cd35352f5b5a85a68\AndroidManifest.xml:7:5-43
+MERGED from [com.android.volley:volley:1.1.1] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\73d5cc383a9dff2cd35352f5b5a85a68\AndroidManifest.xml:7:5-43
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\95cb00cb22723ade0f25b63383e0578a\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\95cb00cb22723ade0f25b63383e0578a\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\SH\.gradle\caches\transforms-2\files-2.1\d458480f175a39fa2212a1f3f9c78d53\AndroidManifest.xml:20:5-44
