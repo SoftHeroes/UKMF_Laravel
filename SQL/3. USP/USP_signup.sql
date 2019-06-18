@@ -1,3 +1,4 @@
+
 DROP procedure IF EXISTS `USP_signup`;
 
 DELIMITER $$
@@ -81,11 +82,18 @@ proc_Call:BEGIN
           SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00013' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
-    ELSEIF (p_Source IS NULL OR TRIM(p_Source) = '') THEN
-      BEGIN
-          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
-          LEAVE proc_Call;
-      END;
+  ELSEIF(  LENGTH(p_Password) < 8 ) THEN
+    BEGIN
+        SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00032' AND `language` = p_Language;
+        LEAVE proc_Call;
+    END;
+  ELSEIF (p_Source IS NULL OR TRIM(p_Source) = '') THEN
+    BEGIN
+        SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00022' AND `language` = p_Language;
+        LEAVE proc_Call;
+    END;
+
+
   END IF;
 	-- Input check block : END
 
@@ -169,5 +177,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_signup('Test123!','Test123!','FName',null,'LName','Suffddbhacm@UKMF.com','1245789563',1,'English',null);
+call USP_signup('Test123!','Test123!','FName',null,'LName','singhsapna144@gmail.com','9630054749',1,'English',null);
 */
