@@ -6,7 +6,7 @@ require_once app_path() . '/Helpers/Maths.php';
     {
 
         date_default_timezone_set('Asia/Kolkata');
-        $SMSAPIresponseTime = date('Y-m-d h:i:s.U', time());
+        $SMSAPIresponseTime = date('Y-m-d h:i:s.u', time());
         $TimeTaken = millisecsBetween($SMSAPIresponseTime,$SMSAPIRequestTime);
 
         DB::table('SMSAPISetupActivityLogs')->insert(
@@ -28,7 +28,8 @@ require_once app_path() . '/Helpers/Maths.php';
     {
 
         date_default_timezone_set('Asia/Kolkata');
-        $ResponseTime = date('Y-m-d h:i:s.U', time());
+        echo '';
+        $ResponseTime = date('Y-m-d h:i:s.u', time());
         $TimeTaken = millisecsBetween($ResponseTime,$RequestTime);
 
         echo '';
