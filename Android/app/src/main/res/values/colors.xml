@@ -3,4 +3,13 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="AppColorPrimary">#AFCA09</color>
+    <color name="AppColorLight">#E4FD50</color>
+    <color name="AppNormalDark">#7B9900</color>
+
+    <color name="AppDarkModeColor">#121212</color>
+    <color name="Link">#01579B</color>
+
+
 </resources>
