@@ -71,6 +71,10 @@ CREATE TABLE `ActivityLog` (
 	`request` varchar(5000),
 	`response` varchar(5000),
 	`expectation` varchar(1000),
+  `customerPhone` INT(10),
+  `customerEmailid` varchar(100),
+  `customerUUID` varchar(100)
+
 	PRIMARY KEY (`u_ID`)
 );
 
@@ -163,6 +167,7 @@ CREATE TABLE `Customer` (
 	`UPIID` varchar(100),
 	`Active` INT(1) NOT NULL DEFAULT '1',
 	`Deleted` INT(1) NOT NULL DEFAULT '0',
+  `UUID` varchar(100) NOT NULL,
 	PRIMARY KEY (`u_ID`)
 );
 
