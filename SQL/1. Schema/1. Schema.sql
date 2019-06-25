@@ -73,8 +73,7 @@ CREATE TABLE `ActivityLog` (
 	`expectation` varchar(1000),
   `customerPhone` INT(10),
   `customerEmailid` varchar(100),
-  `customerUUID` varchar(100)
-
+  `customerUUID` varchar(100),
 	PRIMARY KEY (`u_ID`)
 );
 
