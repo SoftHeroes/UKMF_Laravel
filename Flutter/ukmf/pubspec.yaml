@@ -1,4 +1,4 @@
-name: first_app
+name: ukmf
 description: A new Flutter project.
 
 # The following defines the version and build number for your application.
@@ -41,8 +41,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+  - assets/Pizza.jpg
+  - assets/eggsalad.webp
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
