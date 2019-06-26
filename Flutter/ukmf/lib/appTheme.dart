@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  MaterialColor myPrimaryGreen = const MaterialColor(0xFFB0CA0A, const {
+  final double appTextFontSize, appTextWordSpacing, appTextLetterSpacing;
+
+  Color appTextColor = Colors.black;
+
+  MaterialColor myPrimaryMaterialColor = const MaterialColor(0xFFB0CA0A, const {
     50: const Color(0xFFDFE99D),
     100: const Color(0xFFCFDF6C),
     200: const Color(0xFFC7D953),
@@ -13,4 +17,18 @@ class AppTheme {
     800: const Color(0xFF697906),
     900: const Color(0xFF586505)
   });
+
+  TextStyle appTextStyle;
+
+  AppTheme(
+      {this.appTextFontSize = 18,
+      this.appTextWordSpacing = 2,
+      this.appTextLetterSpacing = 0,
+      this.appTextColor}) {
+    appTextStyle = TextStyle(
+        fontSize: appTextFontSize,
+        wordSpacing: appTextWordSpacing,
+        letterSpacing: appTextLetterSpacing,
+        color: appTextColor);
+  }
 }

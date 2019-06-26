@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'appTheme.dart';
+
 class DropDownList extends StatefulWidget {
   final List listValues;
   final String dropDownDefaultValue;
@@ -11,10 +13,12 @@ class DropDownList extends StatefulWidget {
 
 class _DropDownListState extends State<DropDownList> {
   dynamic dropdownValue;
+  dynamic dropDownValues;
 
   @override
   void initState() {
     dropdownValue = widget.dropDownDefaultValue;
+    dropDownValues = widget.listValues;
     super.initState();
   }
 
@@ -27,10 +31,13 @@ class _DropDownListState extends State<DropDownList> {
           dropdownValue = newValue;
         });
       },
-      items: widget.listValues.map<DropdownMenuItem<String>>((dynamic value) {
+      items: dropDownValues.map<DropdownMenuItem<String>>((dynamic value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(
+            value,
+            style: AppTheme().appTextStyle,
+          ),
         );
       }).toList(),
     );
