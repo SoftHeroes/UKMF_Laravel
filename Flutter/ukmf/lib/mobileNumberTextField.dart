@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ukmf/appTheme.dart';
 
 class MobileNumberTextField extends StatelessWidget {
@@ -10,6 +11,12 @@ class MobileNumberTextField extends StatelessWidget {
     return Container(
       width: widthLength,
       child: TextFormField(
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(10),
+        ],
+        buildCounter: (BuildContext context,
+                {int currentLength, int maxLength, bool isFocused}) =>
+            null,
         style: AppTheme(appTextLetterSpacing: 2).appTextStyle,
         keyboardType: TextInputType.numberWithOptions(),
         decoration: InputDecoration(
