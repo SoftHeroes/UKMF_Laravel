@@ -11,7 +11,7 @@ proc_Call:BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
       GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,ErrorMessage = MESSAGE_TEXT;
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `messagemaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `messagemaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
       ROLLBACK;
     END;
 
@@ -65,7 +65,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
   IF(RowCount > 0 ) THEN 
     SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `messagemaster` WHERE `Code` = 'ERR00006' AND `language` = p_Language;
   ELSE
-    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,CustomerUUID,`CustomerEmail`,`CustomerPhoneNumber`, ErrorMessage FROM `messagemaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
+    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,CustomerUUID,`CustomerEmail`,`CustomerPhoneNumber`, ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `messagemaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
   END IF;
   -- Credentials validation block : END
 END$$
