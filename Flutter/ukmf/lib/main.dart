@@ -1,7 +1,7 @@
 import './appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'mobileNumberVerification.dart';
+import './mobileNumberVerification/mobileNumberVerification.dart';
 
 main() => runApp(MyApp());
 

@@ -1,5 +1,6 @@
+import '../appTheme.dart';
+
 import 'package:flutter/material.dart';
-import './appTheme.dart';
 
 class ReferralCode extends StatefulWidget {
   _ReferralCodeState createState() => _ReferralCodeState();
