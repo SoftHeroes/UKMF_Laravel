@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ukmf/appTheme.dart';
 import 'package:ukmf/dropdownlist.dart';
+import 'package:ukmf/referralCode.dart';
 
 import 'mobileNumberTextField.dart';
 
@@ -45,20 +46,14 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(100.0, 33.0, 0, 0),
-            child: Text(
-              'Got a referral code ?',
-              style: AppTheme(isLink: true).appTextStyle,
-            ),
-          ),
+          ReferralCode(),
           Expanded(
-            child: Align(
+            child: Stack(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                constraints:
-                    BoxConstraints(minHeight: 50, minWidth: double.maxFinite),
-                child: MaterialButton(
+              children: <Widget>[
+                MaterialButton(
+                  minWidth: double.infinity,
+                  height: 50.0,
                   animationDuration: Duration(seconds: 10),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
@@ -73,7 +68,11 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                   ),
                   color: AppTheme().myPrimaryMaterialColor.shade800,
                 ),
-              ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(50.0, 0, 0, 60.0),
+                  child: CheckBoxIAgree(),
+                )
+              ],
             ),
           )
         ],
@@ -87,21 +86,29 @@ class CheckBoxIAgree extends StatefulWidget {
 }
 
 class _CheckBoxIAgreeState extends State<CheckBoxIAgree> {
+  double _textSize = 14.0;
+  bool checkBoxValue = false;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Checkbox(
-          onChanged: (bool value) {},
-          value: false,
+          onChanged: (bool value) {
+            setState(() {
+              checkBoxValue = !checkBoxValue;
+            });
+          },
+          value: checkBoxValue,
         ),
         Text(
-          'I agree to',
-          style: AppTheme().appTextStyle,
+          'I agree to ',
+          style: AppTheme(appTextFontSize: _textSize).appTextStyle,
         ),
         Text(
-          'I agree to',
-          style: AppTheme(isLink: true).appTextStyle,
+          'Terms & Conditions',
+          style:
+              AppTheme(isLink: true, appTextFontSize: _textSize).appTextStyle,
         )
       ],
     );

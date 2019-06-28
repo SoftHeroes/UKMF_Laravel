@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'appTheme.dart';
 
 class DropDownList extends StatefulWidget {
@@ -25,6 +24,7 @@ class _DropDownListState extends State<DropDownList> {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
+      key: GlobalKey(),
       value: dropdownValue,
       onChanged: (String newValue) {
         setState(() {
