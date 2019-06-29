@@ -1,11 +1,11 @@
-import 'dart:convert';
+import 'package:async_loader/async_loader.dart';
 
 import '../appTheme.dart';
 import '../setup.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import 'mySchedule.dart';
 
@@ -36,6 +36,9 @@ class PostRequest {
 }
 
 class GetOTPButton extends StatelessWidget {
+  final GlobalKey<AsyncLoaderState> _asyncKey =
+      new GlobalKey<AsyncLoaderState>();
+
   GetOTPButton({
     Key key,
     @required GlobalKey<FormState> formKey,
@@ -45,20 +48,31 @@ class GetOTPButton extends StatelessWidget {
   final GlobalKey<FormState> _formKey;
   final Setup setupRef = Setup();
 
-  Future<String> getDate({Map requestBody}) async {
-    // http.Response response = await http.get(Uri.encodeFull(setupRef.testLink),
-    //     headers: {"Accept": "application/json"});
-
-    http.Response response =
-        await http.post(Uri.encodeFull(setupRef.server + setupRef.smsSent),
-            // headers: {"Content-Type": "application/json"},
-            body: requestBody);
-
-    print(jsonDecode(response.body));
+  getResponse({Map requestBody}) async {
+    // return Future.delayed(Duration(seconds: 50));
+    return post(setupRef.server + setupRef.smsSent, body: requestBody);
   }
 
   @override
   Widget build(BuildContext context) {
+    PostRequest newRequest;
+    var _asyncLoader = new AsyncLoader(
+      key: _asyncKey,
+      initState: () async => await getResponse(requestBody: newRequest.toMap()),
+      renderLoad: () => new CircularProgressIndicator(),
+      renderError: ([error]) => Text(
+            'Get OTP',
+            style: AppTheme(appTextColor: Colors.white).appTextStyle,
+          ),
+      renderSuccess: ({data}) {
+        print('It end!');
+        return Text(
+          'Get OTP',
+          style: AppTheme(appTextColor: Colors.white).appTextStyle,
+        );
+      },
+    );
+
     return Consumer<MyScheduler>(
       builder: (context, scheduler, _) => MaterialButton(
             disabledColor: Colors.grey,
@@ -69,18 +83,18 @@ class GetOTPButton extends StatelessWidget {
                 ? null
                 : () {
                     if (_formKey.currentState.validate()) {
-                      PostRequest newRequest = new PostRequest(
+                      newRequest = new PostRequest(
                           source: "Android",
                           templateName: "OTP",
                           phoneNumber: "9074200979",
                           language: "English");
-                      getDate(requestBody: newRequest.toMap());
+                      _asyncKey.currentState
+                          .reloadState()
+                          .whenComplete(() => print('finished reload'));
+                      // getResponse(requestBody: newRequest.toMap());
                     }
                   },
-            child: Text(
-              'Get OTP',
-              style: AppTheme(appTextColor: Colors.white).appTextStyle,
-            ),
+            child: _asyncLoader,
             color: AppTheme().myPrimaryMaterialColor.shade800,
           ),
     );
