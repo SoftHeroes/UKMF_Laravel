@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../appTheme.dart';
 import '../setup.dart';
 
@@ -34,6 +36,13 @@ class PostRequest {
 }
 
 class GetOTPButton extends StatelessWidget {
+  GetOTPButton({
+    Key key,
+    @required GlobalKey<FormState> formKey,
+  })  : _formKey = formKey,
+        super(key: key);
+
+  final GlobalKey<FormState> _formKey;
   final Setup setupRef = Setup();
 
   Future<String> getDate({Map requestBody}) async {
@@ -45,7 +54,7 @@ class GetOTPButton extends StatelessWidget {
             // headers: {"Content-Type": "application/json"},
             body: requestBody);
 
-    print(response.body);
+    print(jsonDecode(response.body));
   }
 
   @override
@@ -59,21 +68,15 @@ class GetOTPButton extends StatelessWidget {
             onPressed: !scheduler.isIAgree
                 ? null
                 : () {
-                    PostRequest newRequest = new PostRequest(
-                        source: "Android",
-                        templateName: "OTP",
-                        phoneNumber: "9074200979",
-                        language: "English");
-                    getDate(requestBody: newRequest.toMap());
-                  }
-            // () {
-            //   if (_formKey.currentState.validate()) {
-            //     // If the form is valid, display a Snackbar.
-            //     Scaffold.of(context).showSnackBar(
-            //         SnackBar(content: Text('Processing Data')));
-            //   }
-            // }
-            ,
+                    if (_formKey.currentState.validate()) {
+                      PostRequest newRequest = new PostRequest(
+                          source: "Android",
+                          templateName: "OTP",
+                          phoneNumber: "9074200979",
+                          language: "English");
+                      getDate(requestBody: newRequest.toMap());
+                    }
+                  },
             child: Text(
               'Get OTP',
               style: AppTheme(appTextColor: Colors.white).appTextStyle,
