@@ -16,8 +16,7 @@ proc_Call:BEGIN
   DECLARE ErrorNumber INT;
   DECLARE op_ErrorMessage VARCHAR(1000);
   DECLARE op_URL VARCHAR(5000) DEFAULT '';
-  DECLARE op_Method VARCHAR(255);
-  DECLARE op_UserID varchar(255);
+  DECLARE op_Method VARCHAR(255);  DECLARE op_UserID varchar(255);
   DECLARE op_Password varchar(255);
   DECLARE op_AccessCode varchar(255);
   DECLARE op_ResponseStatusTag varchar(255);
@@ -35,23 +34,23 @@ proc_Call:BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
       GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,op_ErrorMessage = MESSAGE_TEXT;
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00000' AND `language` = p_Language;
       ROLLBACK;
     END;
 
 
-  SET op_Environment  = (SELECT envName FROM app_env LIMIT 1); -- Getting op_Environment value
+  SET op_Environment  = (SELECT envName FROM `APP_ENV` LIMIT 1); -- Getting op_Environment value
   
 
   -- Language check block : START
   IF ( p_Language IS NULL OR TRIM(p_Language) = '' ) THEN
   BEGIN
-    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00012' AND `language` = 'English';
+    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00012' AND `language` = 'English';
     LEAVE proc_Call;
   END;
-  ELSEIF NOT EXISTS (select 1 from languagelookup where language = p_Language) THEN
+  ELSEIF NOT EXISTS (select 1 from languageLookup where language = p_Language) THEN
     BEGIN
-      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00009' AND `language` = 'English';
+      SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00009' AND `language` = 'English';
       LEAVE proc_Call;
     END;
   END IF;
@@ -60,22 +59,22 @@ proc_Call:BEGIN
   -- Input check block : START
   IF(  p_Source IS NULL OR TRIM(p_Source) = '' ) THEN
       BEGIN
-          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00011' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF(  p_PhoneNumber IS NULL OR TRIM(p_PhoneNumber) = '' ) THEN
       BEGIN
-          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00019' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00019' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
 --   ELSEIF(  p_APIName IS NULL OR TRIM(p_APIName) = '' ) THEN
 --       BEGIN
---           SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00026' AND `language` = p_Language;
+--           SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00026' AND `language` = p_Language;
 --           LEAVE proc_Call;
 --       END;
   ELSEIF(  p_TemplateName IS NULL OR TRIM(p_TemplateName) = '' ) THEN
       BEGIN
-          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00023' AND `language` = p_Language;
+          SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00023' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   END IF;
@@ -85,7 +84,7 @@ proc_Call:BEGIN
   -- Phone Number valdation block : START
   IF(  !isNumeric(p_PhoneNumber) OR LENGTH(p_PhoneNumber) != 10 ) THEN
     BEGIN
-        SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00002' AND `language` = p_Language;
+        SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00002' AND `language` = p_Language;
         LEAVE proc_Call;
     END;
   END IF;
@@ -95,17 +94,17 @@ proc_Call:BEGIN
 --   SET RowCount = ( SELECT 1 FROM `SMSAPISetups` WHERE `APIName` = p_APIName AND `op_Environment` = op_Environment AND `Active` = 1 AND `Deleted` = 0 );
 --   IF( RowCount IS NULL) THEN
 --     BEGIN
---         SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00027' AND `language` = p_Language;
+--         SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00027' AND `language` = p_Language;
 --         LEAVE proc_Call;
 --     END;
 --   END IF;
   -- API validation : END
 
   -- Getting Template and validation : START
-  SET RowCount = ( SELECT 1 FROM `smsTemplates` WHERE `templateName` = p_TemplateName AND `languageID` = p_Language AND `Active` = 1 AND `Deleted` = 0 );
+  SET RowCount = ( SELECT 1 FROM `SMSTemplates` WHERE `templateName` = p_TemplateName AND `languageID` = p_Language AND `Active` = 1 AND `Deleted` = 0 );
   IF( RowCount IS NULL) THEN
     BEGIN
-        SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00025' AND `language` = p_Language;
+        SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00025' AND `language` = p_Language;
         LEAVE proc_Call;
     END;
   END IF;
@@ -140,7 +139,7 @@ proc_Call:BEGIN
   FROM `SMSAPISetups` WHERE /*`APIName` = p_APIName AND */ `op_Environment` = op_Environment AND `Active` = 1 AND `Deleted` = 0;
     
 
-  SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `messagemaster` WHERE `Code` = 'ERR00028' AND `language` = p_Language;
+  SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP FROM `MessageMaster` WHERE `Code` = 'ERR00028' AND `language` = p_Language;
   -- op_URL Generation block : START
 
 END$$

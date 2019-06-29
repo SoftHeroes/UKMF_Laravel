@@ -1,8 +1,10 @@
 <?php
 function millisecsBetween($dateOne, $dateTwo, $abs = true) {
     
+
     $startTime = new DateTime($dateOne);
     $endDate = new DateTime($dateTwo);
+
     $interval = $startTime->diff($endDate);
     $totalMiliseconds = 0;
     $totalMiliseconds += $interval->m * 2630000000;

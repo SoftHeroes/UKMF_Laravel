@@ -15,9 +15,9 @@ CREATE FUNCTION getSMSTemplate (
     DECLARE InvaildUpdateAttempts INT(11);
     DECLARE LockTime INT(10);
 
-    SELECT `message` INTO SMSMessage FROM `smsTemplates` WHERE `templateName` = p_TemplateName AND `languageID` = p_Language AND `Active` = 1 AND `Deleted` = 0 ;
-    SELECT `firstName`,`PlanID` INTO CustomerFirstName,CustomerPlanID FROM `customer` WHERE phoneNumber = p_PhoneNumber;
-    SELECT `InvaildUpdateAttemptsAllowed`,`userLockTime` INTO InvaildUpdateAttempts,LockTime FROM `customerplan` WHERE u_ID = CustomerPlanID;
+    SELECT `message` INTO SMSMessage FROM `SMSTemplates` WHERE `templateName` = p_TemplateName AND `languageID` = p_Language AND `Active` = 1 AND `Deleted` = 0 ;
+    SELECT `firstName`,`PlanID` INTO CustomerFirstName,CustomerPlanID FROM `Customer` WHERE phoneNumber = p_PhoneNumber;
+    SELECT `InvaildUpdateAttemptsAllowed`,`userLockTime` INTO InvaildUpdateAttempts,LockTime FROM `CustomerPlan` WHERE u_ID = CustomerPlanID;
 
 
     SET SMSMessage = replace(SMSMessage,'<OTP>', CASE WHEN p_OTP IS NULL THEN '' ELSE p_OTP END );

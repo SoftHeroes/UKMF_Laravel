@@ -56,7 +56,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
-                  new GetOTPButton(formKey: _formKey),
+                  GetOTPButton(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(50.0, 0, 0, 60.0),
                     child: CheckBoxIAgree(),

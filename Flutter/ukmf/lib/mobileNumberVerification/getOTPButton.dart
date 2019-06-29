@@ -1,18 +1,52 @@
 import '../appTheme.dart';
+import '../setup.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 import 'mySchedule.dart';
 
-class GetOTPButton extends StatelessWidget {
-  const GetOTPButton({
-    Key key,
-    @required GlobalKey<FormState> formKey,
-  })  : _formKey = formKey,
-        super(key: key);
+class PostRequest {
+  final String source, templateName, phoneNumber, language;
 
-  final GlobalKey<FormState> _formKey;
+  PostRequest(
+      {this.source, this.templateName, this.phoneNumber, this.language});
+
+  factory PostRequest.fromJson(Map<String, dynamic> json) {
+    return PostRequest(
+      source: json['source'],
+      templateName: json['templateName'],
+      phoneNumber: json['phoneNumber'],
+      language: json['language'],
+    );
+  }
+
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map["source"] = source;
+    map["templateName"] = templateName;
+    map["phoneNumber"] = phoneNumber;
+    map["language"] = language;
+
+    return map;
+  }
+}
+
+class GetOTPButton extends StatelessWidget {
+  final Setup setupRef = Setup();
+
+  Future<String> getDate({Map requestBody}) async {
+    // http.Response response = await http.get(Uri.encodeFull(setupRef.testLink),
+    //     headers: {"Accept": "application/json"});
+
+    http.Response response =
+        await http.post(Uri.encodeFull(setupRef.server + setupRef.smsSent),
+            // headers: {"Content-Type": "application/json"},
+            body: requestBody);
+
+    print(response.body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +59,21 @@ class GetOTPButton extends StatelessWidget {
             onPressed: !scheduler.isIAgree
                 ? null
                 : () {
-                    if (_formKey.currentState.validate()) {
-                      // If the form is valid, display a Snackbar.
-                      Scaffold.of(context).showSnackBar(
-                          SnackBar(content: Text('Processing Data')));
-                    }
-                  },
+                    PostRequest newRequest = new PostRequest(
+                        source: "Android",
+                        templateName: "OTP",
+                        phoneNumber: "9074200979",
+                        language: "English");
+                    getDate(requestBody: newRequest.toMap());
+                  }
+            // () {
+            //   if (_formKey.currentState.validate()) {
+            //     // If the form is valid, display a Snackbar.
+            //     Scaffold.of(context).showSnackBar(
+            //         SnackBar(content: Text('Processing Data')));
+            //   }
+            // }
+            ,
             child: Text(
               'Get OTP',
               style: AppTheme(appTextColor: Colors.white).appTextStyle,
