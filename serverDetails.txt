@@ -1,0 +1,12 @@
+[Host]
+host : sapnasingh.in/cpanel
+user : sapnasingh
+pass : spna@1563365000
+
+[DB]
+server : gains.linuxbigapps.com
+user   : sapnasin_master
+pwd    : {gPFe@3~{sQz
+url    : http://sapnasingh.in/tunnel.php
+
+[FTP]
