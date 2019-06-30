@@ -3,7 +3,7 @@ import '../appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'mySchedule.dart';
+import 'mobileNumberVerificationScheduler.dart';
 
 class CheckBoxIAgree extends StatefulWidget {
   _CheckBoxIAgreeState createState() => _CheckBoxIAgreeState();
@@ -14,12 +14,14 @@ class _CheckBoxIAgreeState extends State<CheckBoxIAgree> {
 
   @override
   Widget build(BuildContext context) {
-    final schedule = Provider.of<MyScheduler>(context);
+    final mobileNumberVerificationScheduler =
+        Provider.of<MobileNumberVerificationScheduler>(context);
     return Row(
       children: <Widget>[
         Checkbox(
-          onChanged: (value) => schedule.isIAgree = value,
-          value: schedule.isIAgree,
+          onChanged: (value) =>
+              mobileNumberVerificationScheduler.isIAgree = value,
+          value: mobileNumberVerificationScheduler.isIAgree,
         ),
         Text(
           'I agree to ',

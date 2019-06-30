@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'dropdownlist.dart';
-import 'mySchedule.dart';
+import 'mobileNumberVerificationScheduler.dart';
 import 'referralCode.dart';
 import 'checkBoxIAgree.dart';
 import 'getOTPButton.dart';
@@ -20,39 +20,39 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(24.0, 64.0, 0, 0),
-            child: Row(
-              children: <Widget>[
-                DropDownList(
-                  [
-                    '+91',
-                    '+12',
-                    '+98',
-                    '+45',
-                    '+65',
-                    '+68',
-                    '+55',
-                    '+56',
-                    '+57',
-                    '+58'
-                  ],
-                  dropDownDefaultValue: '+91',
-                ),
-                SizedBox(
-                  width: 20.0,
-                ),
-                MobileNumberTextField()
-              ],
+      child: ChangeNotifierProvider(
+        builder: (context) => MobileNumberVerificationScheduler(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(24.0, 64.0, 0, 0),
+              child: Row(
+                children: <Widget>[
+                  DropDownList(
+                    [
+                      '+91',
+                      '+12',
+                      '+98',
+                      '+45',
+                      '+65',
+                      '+68',
+                      '+55',
+                      '+56',
+                      '+57',
+                      '+58'
+                    ],
+                    dropDownDefaultValue: '+91',
+                  ),
+                  SizedBox(
+                    width: 20.0,
+                  ),
+                  MobileNumberTextField()
+                ],
+              ),
             ),
-          ),
-          ReferralCode(),
-          Expanded(
-            child: ChangeNotifierProvider(
-              builder: (context) => MyScheduler(),
+            ReferralCode(),
+            Expanded(
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: <Widget>[
@@ -63,9 +63,9 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                   )
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

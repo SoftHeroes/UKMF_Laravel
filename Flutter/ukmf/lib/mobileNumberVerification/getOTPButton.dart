@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
 
-import 'mySchedule.dart';
+import 'mobileNumberVerificationScheduler.dart';
 
 class PostRequest {
   final String source, templateName, phoneNumber, language;
@@ -73,20 +73,22 @@ class GetOTPButton extends StatelessWidget {
       },
     );
 
-    return Consumer<MyScheduler>(
-      builder: (context, scheduler, _) => MaterialButton(
+    return Consumer<MobileNumberVerificationScheduler>(
+      builder: (context, mobileNumberVerificationScheduler, _) =>
+          MaterialButton(
             disabledColor: Colors.grey,
             minWidth: double.infinity,
             height: 50.0,
             animationDuration: Duration(seconds: 10),
-            onPressed: !scheduler.isIAgree
+            onPressed: !mobileNumberVerificationScheduler.isIAgree
                 ? null
                 : () {
                     if (_formKey.currentState.validate()) {
                       newRequest = new PostRequest(
                           source: "Android",
                           templateName: "OTP",
-                          phoneNumber: "9074200979",
+                          phoneNumber:
+                              mobileNumberVerificationScheduler.mobileNumber,
                           language: "English");
                       _asyncKey.currentState
                           .reloadState()

@@ -1,7 +1,11 @@
+import 'package:provider/provider.dart';
+
 import '../appTheme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'mobileNumberVerificationScheduler.dart';
 
 class MobileNumberTextField extends StatelessWidget {
   final double widthLength;
@@ -9,6 +13,8 @@ class MobileNumberTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mobileNumberVerificationScheduler =
+        Provider.of<MobileNumberVerificationScheduler>(context);
     return Container(
       width: widthLength,
       child: TextFormField(
@@ -26,6 +32,7 @@ class MobileNumberTextField extends StatelessWidget {
           suffixIcon: Icon(Icons.phone),
         ),
         validator: (String value) {
+          mobileNumberVerificationScheduler.mobileNumber = value;
           return value.length != 10 ? 'Invalide Mobile Number.' : null;
         },
       ),
