@@ -10,3 +10,7 @@ pwd    : {gPFe@3~{sQz
 url    : http://sapnasingh.in/tunnel.php
 
 [FTP]
+Host   : sapnasingh.in (gains.linuxbigapps.com)
+user   : sapnasingh
+pass   : spna@1563365000
+Encryp : TLS/SSL Explicit encryption
