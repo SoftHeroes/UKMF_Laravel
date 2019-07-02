@@ -40,7 +40,11 @@ class API extends Controller
             $RequestTime,
             json_encode(json_decode($request->instance()->getContent())),
             json_encode($response[0]),
-            $response[0]->ErrorMessage
+            $response[0]->ErrorMessage,
+            $response[0]->CustomerPhoneNumber,
+            $response[0]->CustomerEmail,
+            $response[0]->CustomerUUID
+
         );
 
         return response()->json($response[0]);
@@ -60,7 +64,11 @@ class API extends Controller
                                                     '".$request->input("phoneNumber")."',
                                                     '".$request->input("planID")."',
                                                     '".$request->input("language")."',
-                                                    '".$request->input("source")."');");
+                                                    '".$request->input("source")."',
+                                                    '".$request->input("CustomerPhoneNumber")."',
+                                                    '".$request->input("CustomerEmail")."',
+                                                    '".$request->input("CustomerUUID")."');");
+                                                    
 
         Log_APIActivityLog(
             Route::getFacadeRoot()->current()->uri(),
@@ -74,7 +82,11 @@ class API extends Controller
             $RequestTime,
             json_encode(json_decode($request->instance()->getContent())),
             json_encode($response[0]),
-            $response[0]->ErrorMessage
+            $response[0]->ErrorMessage,
+            $response[0]->CustomerPhoneNumber,
+            $response[0]->CustomerEmail,
+            $response[0]->CustomerUUID
+            
         );
                             
         return response()->json($response[0]);

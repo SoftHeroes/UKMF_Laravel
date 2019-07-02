@@ -25,7 +25,7 @@ require_once app_path() . '/Helpers/Maths.php';
         );
     }
 
-    function Log_APIActivityLog($Service,$Method,$ErrorFound,$ResponseCode,$ResponseMessage,$Version,$Source,$Language,$RequestTime,$Request,$Response,$Expectation)
+    function Log_APIActivityLog($Service,$Method,$ErrorFound,$ResponseCode,$ResponseMessage,$Version,$Source,$Language,$RequestTime,$Request,$Response,$Expectation,$CustomerPhone,$CustomerEmailid,$CustomerUUID)
     {
 
         date_default_timezone_set('Asia/Kolkata');     
@@ -48,7 +48,10 @@ require_once app_path() . '/Helpers/Maths.php';
                 'timeTaken' => $TimeTaken,
                 'request' => $Request,
                 'response' => $Response,
-                'expectation' => $Expectation
+                'expectation' => $Expectation,
+                'customerPhone' => $CustomerPhone,
+                'customerEmailid' =>$CustomerEmailid,
+                'customerUUID' =>$CustomerUUID
             ]
         );
     }

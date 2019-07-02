@@ -26,7 +26,6 @@ class SmsController extends Controller
         if($APIdata[0]->ErrorFound == 'YES')
         {
             $response = array("Code" => $APIdata[0]->Code,"ErrorFound" => $APIdata[0]->ErrorFound,"Message" => $APIdata[0]->Message,"version" => $APIdata[0]->version,"language" => $APIdata[0]->language,"ErrorMessage" => $APIdata[0]->ErrorMessage);
-            return response()->json($response);
         }
         else
         {
@@ -43,8 +42,9 @@ class SmsController extends Controller
             }
 
             Log_SMSAPISetupActivityLogs($SMSAPIRequestTime,$phoneNumber,$APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
-
-            return response()->json($response[0]);
         }
+
+        
+        return response()->json($response[0]);
     }
 }

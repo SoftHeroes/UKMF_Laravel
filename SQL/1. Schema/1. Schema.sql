@@ -1,4 +1,3 @@
-
 DROP TABLE IF EXISTS `UserInformation`;
 CREATE TABLE `UserInformation` (
 	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
@@ -69,9 +68,9 @@ CREATE TABLE `ActivityLog` (
 	`responseTime` DATETIME NOT NULL,
 	`timeTaken` INT(10) NOT NULL,
 	`request` varchar(5000),
-	`response` varchar(5000),
+	`response` varchar(5000),F
 	`expectation` varchar(1000),
-  `customerPhone` INT(10),
+  `customerPhone` varchar(10),
   `customerEmailid` varchar(100),
   `customerUUID` varchar(100),
 	PRIMARY KEY (`u_ID`)
