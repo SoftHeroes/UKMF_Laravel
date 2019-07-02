@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   final double appTextFontSize, appTextWordSpacing, appTextLetterSpacing;
+  final FontWeight appfontWeight;
   final bool isLink;
 
   Color appTextLink = Color(0xFF01579B);
@@ -27,7 +28,8 @@ class AppTheme {
       this.appTextWordSpacing = 2,
       this.appTextLetterSpacing = 0,
       this.appTextColor,
-      this.isLink = false}) {
+      this.isLink = false,
+      this.appfontWeight = FontWeight.normal}) {
     if (isLink) {
       appTextColor = appTextLink;
     }
@@ -36,6 +38,7 @@ class AppTheme {
         fontSize: appTextFontSize,
         wordSpacing: appTextWordSpacing,
         letterSpacing: appTextLetterSpacing,
-        color: appTextColor);
+        color: appTextColor,
+        fontWeight: appfontWeight);
   }
 }
