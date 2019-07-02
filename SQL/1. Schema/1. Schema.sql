@@ -68,7 +68,7 @@ CREATE TABLE `ActivityLog` (
 	`responseTime` DATETIME NOT NULL,
 	`timeTaken` INT(10) NOT NULL,
 	`request` varchar(5000),
-	`response` varchar(5000),F
+	`response` varchar(5000),
 	`expectation` varchar(1000),
   `customerPhone` varchar(10),
   `customerEmailid` varchar(100),
