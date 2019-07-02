@@ -1,8 +1,7 @@
-import 'package:async_loader/async_loader.dart';
-
 import '../appTheme.dart';
 import '../setup.dart';
 
+import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
