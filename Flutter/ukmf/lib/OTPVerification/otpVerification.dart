@@ -50,19 +50,7 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
             SizedBox(
               height: 60.0,
             ),
-            OTPLoader(),
-            Expanded(
-              child: Stack(
-                alignment: Alignment.bottomCenter,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text(
-                      'SUBMIT',
-                    ),
-                  )
-                ],
-              ),
-            )
+            OTPLoader()
           ],
         ),
       ),

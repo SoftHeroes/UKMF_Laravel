@@ -1,5 +1,9 @@
-import 'dart:math';
+import 'dart:async';
+import 'dart:io';
 
+import '../appTheme.dart';
+
+// import 'dart:math';
 import 'package:flutter/material.dart';
 
 class OTPLoader extends StatefulWidget {
@@ -11,129 +15,106 @@ class OTPLoader extends StatefulWidget {
 class _OTPLoaderState extends State<OTPLoader>
     with SingleTickerProviderStateMixin {
   AnimationController controller;
-  Animation<double> animation_rotation;
-  Animation<double> animation_radius_in;
-  Animation<double> animation_radius_out;
+  Animation<double> animationRotation;
+  Animation<double> animationTimeCounter;
 
-  final double initialRadius = 30.0;
-  double radius = 0.0;
+  final double initialRadius = 55.0;
+  int initialTimerCount = 30, timerCount = 30;
+
+  Timer _timer;
 
   @override
   void initState() {
     super.initState();
 
     controller =
-        AnimationController(vsync: this, duration: Duration(seconds: 5));
+        AnimationController(vsync: this, duration: Duration(seconds: 30));
 
-    animation_rotation = Tween<double>(begin: 0.0, end: 1.0).animate(
+    animationRotation = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: controller,
             curve: Interval(0.0, 1.0, curve: Curves.linear)));
 
-    animation_radius_in = Tween<double>(begin: 1.0, end: 0.0).animate(
+    animationTimeCounter = Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
             parent: controller,
-            curve: Interval(0.75, 1.0, curve: Curves.elasticIn)));
-
-    animation_radius_out = Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-            parent: controller,
-            curve: Interval(0.0, 0.25, curve: Curves.elasticOut)));
-
-    controller.addListener(() {
-      setState(() {
-        if (controller.value >= 0.75 && controller.value <= 1.0) {
-          radius = animation_radius_in.value * initialRadius;
-        } else if (controller.value >= 0.0 && controller.value <= 0.25) {
-          radius = animation_radius_out.value * initialRadius;
-        }
-      });
-    });
+            curve: Interval(0.0, 1.0, curve: Curves.linear)));
 
     controller.repeat();
   }
 
+/* TODO : Correct Timer part
+  Upload all update contain in server
+*/
+
+  void startTimer() {
+    _timer = new Timer.periodic(
+      Duration(seconds: 1),
+      (Timer timer) => setState(
+            () {
+              setState(() {
+                if (timerCount >= 0) {
+                  timerCount = timerCount - 1;
+                } else {
+                  timer.cancel();
+                  timerCount = initialTimerCount;
+                }
+              });
+            },
+          ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    startTimer();
+
+    // print("timerCount $timerCount");
     return Container(
       width: 100,
       height: 100,
       child: Center(
-        child: RotationTransition(
-          turns: animation_rotation,
-          child: Stack(
-            children: <Widget>[
-              Dot(
-                radius: radius,
-                color: Colors.black12,
-              ),
-              Transform.translate(
-                offset: Offset(cos(pi / 4) * radius, sin(pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.redAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(2 * pi / 4) * radius, sin(2 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.greenAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(3 * pi / 4) * radius, sin(3 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.blueAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(4 * pi / 4) * radius, sin(4 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.pinkAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(5 * pi / 4) * radius, sin(5 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.orangeAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(6 * pi / 4) * radius, sin(6 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.deepOrangeAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(7 * pi / 4) * radius, sin(7 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.limeAccent,
-                ),
-              ),
-              Transform.translate(
-                offset:
-                    Offset(cos(8 * pi / 4) * radius, sin(8 * pi / 4) * radius),
-                child: Dot(
-                  radius: 5,
-                  color: Colors.redAccent,
-                ),
-              )
-            ],
-          ),
+        child: Column(
+          children: <Widget>[
+            RotationTransition(turns: animationRotation, child: LoadingIcon()),
+            Text(timerCount.toString()),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class LoadingIcon extends StatelessWidget {
+  final double radiusOfRing;
+  final double radiusOfDot;
+  LoadingIcon({this.radiusOfRing = 55.0, this.radiusOfDot = 22.0});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Container(
+          width: radiusOfRing,
+          height: radiusOfRing,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(width: 8, color: Colors.black12)),
+        ),
+        Container(
+          width: radiusOfDot,
+          height: radiusOfDot,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: AppTheme().myPrimaryMaterialColor.shade700),
+        )
+      ],
     );
   }
 }
