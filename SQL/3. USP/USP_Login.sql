@@ -55,7 +55,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
 
   IF( CustomerPhoneNumber IS NULL OR TRIM(CustomerPhoneNumber) = '' ) THEN
     BEGIN
-       SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,CustomerEmail,CustomerPhoneNumber FROM `MessageMaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
+       SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `MessageMaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
       LEAVE proc_Call;
     END;
   END IF;
@@ -65,7 +65,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
   IF(RowCount > 0 ) THEN 
     SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `MessageMaster` WHERE `Code` = 'ERR00006' AND `language` = p_Language;
   ELSE
-    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,CustomerUUID,`CustomerEmail`,`CustomerPhoneNumber`, ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `MessageMaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
+    SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,ErrorMessage,CustomerUUID,CustomerEmail,CustomerPhoneNumber FROM `MessageMaster` WHERE `Code` = 'ERR00008' AND `language` = p_Language;
   END IF;
   -- Credentials validation block : END
 END$$
