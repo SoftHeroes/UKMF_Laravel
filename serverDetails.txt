@@ -21,6 +21,7 @@ Encryp : TLS/SSL Explicit encryption
 host : ukmf.in/cpanel
 user : ukmfworld@gmail.com
 pass : ergK*nzViQx8heb
+Admin password (ukmf.in): D$U5d#Anf!SaRu4
 Customer Id: 20329779
 
 [Office Details]
