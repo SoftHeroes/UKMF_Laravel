@@ -14,3 +14,29 @@ Host   : sapnasingh.in (gains.linuxbigapps.com)
 user   : sapnasingh
 pass   : spna@1563365000
 Encryp : TLS/SSL Explicit encryption
+
+---------------------------------------------------------------------------------------------------------------------------
+
+[HOSTGATOR]
+host : ukmf.in/cpanel
+user : ukmfworld@gmail.com
+pass : ergK*nzViQx8heb
+Customer Id: 20329779
+
+[Office Details]
+Address 	: Shop No. 101 first floor plot no Z-16 in front of Chittor Complex MP Nagar Zone-1 Bhopal.Besides Miracle Hospital.
+Pin code 	: 462023
+GST Number 	: 23AABCU4182D1ZO
+Mobile 		: 9869374644
+
+[DB]
+server : gains.linuxbigapps.com
+user   : sapnasin_master
+pwd    : {gPFe@3~{sQz
+url    : http://sapnasingh.in/tunnel.php
+
+[FTP]
+Host   : sapnasingh.in (gains.linuxbigapps.com)
+user   : sapnasingh
+pass   : spna@1563365000
+Encryp : TLS/SSL Explicit encryption
