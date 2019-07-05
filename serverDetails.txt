@@ -23,6 +23,11 @@ user : ukmfworld@gmail.com
 pass : ergK*nzViQx8heb
 Customer Id: 20329779
 
+[Domain : ukmf.in]
+User : ukmfir9u
+Admin password : D$U5d#Anf!SaRu4
+
+
 [Office Details]
 Address 	: Shop No. 101 first floor plot no Z-16 in front of Chittor Complex MP Nagar Zone-1 Bhopal.Besides Miracle Hospital.
 Pin code 	: 462023
