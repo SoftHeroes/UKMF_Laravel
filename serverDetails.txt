@@ -45,3 +45,7 @@ Host   : sapnasingh.in (gains.linuxbigapps.com)
 user   : sapnasingh
 pass   : spna@1563365000
 Encryp : TLS/SSL Explicit encryption
+
+
+ns1.md-in-92.webhostbox.net
+ns2.md-in-92.webhostbox.net
