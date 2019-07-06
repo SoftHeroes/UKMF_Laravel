@@ -1,21 +1,22 @@
 WEBMAIL  Id and passwords
-1,sapna@ukmf.in
-;I^VSI8K=%l~
 
-2,hr
-awO;3(41J~NA
+1. sapna@ukmf.in
+password : ;I^VSI8K=%l~
 
-3,subham@ukmf.in
-I{Afw]G[{=,+
+2. hr@ukmf.in
+password : awO;3(41J~NA
 
-4,abhimr@ukmf.in
-cwgXnm+N{8[0
+3. subham@ukmf.in
+password : I{Afw]G[{=,+
 
-5,ziyaakhtar.mrk@ukmf.in
-IJH+}!6Tw5rG
+4. abhimr@ukmf.in
+password : cwgXnm+N{8[0
 
-6,ajay_mrk@ukmf.in
-}}pD)nh~znL7
+5. ziyaakhtar.mrk@ukmf.in
+password : IJH+}!6Tw5rG
 
-7pradeepgurjar@ukmf.in
-Ishu@ishu123
+6. ajay_mrk@ukmf.in
+password : }}pD)nh~znL7
+
+7. pradeepgurjar@ukmf.in
+password : Ishu@ishu123
