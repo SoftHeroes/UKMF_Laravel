@@ -1,15 +1,11 @@
-import 'dart:ui';
+import '../appTheme.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
-
-import '../appTheme.dart';
-
-import 'dart:async';
-
-// import 'dart:math';
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:ui';
 
 import 'otpVerificationScheduler.dart';
 
@@ -25,7 +21,7 @@ class _OTPLoaderState extends State<OTPLoader>
   Animation<double> animationRotation;
 
   final double initialRadius = 55.0;
-  int initialTimerCount = 30, timerCount = 0;
+  int initialTimerCount = 60, timerCount = 0;
 
   bool isCanResentOTP = true, isShowingLoader = true;
 
@@ -41,7 +37,6 @@ class _OTPLoaderState extends State<OTPLoader>
             CurvedAnimation(
                 parent: controller,
                 curve: Interval(0.0, 1.0, curve: Curves.linear)));
-
     super.initState();
   }
 
@@ -51,74 +46,72 @@ class _OTPLoaderState extends State<OTPLoader>
   Upload all update contain in server
 */
 
-  void startTimer(var otpVerificationSchedulerProviderRef) {
-    Timer.periodic(
-      Duration(seconds: 1),
-      (Timer timer) => setState(
-            () {
-              if (timerCount >= 1) {
-                isCanResentOTP = false;
-                otpVerificationSchedulerProviderRef.isCanResendOTP =
-                    isCanResentOTP;
-                timerCount = timerCount - 1;
-                controller.repeat();
-              } else {
-                isShowingLoader = false;
-                otpVerificationSchedulerProviderRef.isShowingLoader =
-                    isShowingLoader;
-                timerCount = initialTimerCount;
-                timer.cancel();
-                controller.stop();
-                isCanResentOTP = true;
-                otpVerificationSchedulerProviderRef.isCanResendOTP =
-                    isCanResentOTP;
-              }
-            },
-          ),
-    );
-  }
-
-  Widget showLoader(var otpVerificationSchedulerProviderRef) {
-    Widget returnValue;
-
-    if (otpVerificationSchedulerProviderRef.isShowingLoader) {
-      if (isCanResentOTP) {
-        startTimer(otpVerificationSchedulerProviderRef);
-      }
-
-      returnValue = Stack(
-        children: <Widget>[
-          RotationTransition(turns: animationRotation, child: LoadingIcon()),
-          Transform.translate(
-            offset: Offset(timerCount > 9 ? 17 : 22, 17),
-            child: Text(
-              timerCount.toString(),
-              style: AppTheme(appTextColor: Colors.grey, appTextFontSize: 18)
-                  .appTextStyle,
-            ),
-          ),
-        ],
-      );
-    } else {
-      returnValue = Container();
-    }
-
-    return returnValue;
-  }
-
-  loadingObject(BuildContext context) {}
-
   @override
   Widget build(BuildContext context) {
-    final otpVerificationScheduler =
-        Provider.of<OTPVerificationScheduler>(context);
-    // print("timerCount $timerCount");
-    return Container(
-      padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
-      width: 100,
-      height: 100,
-      child: showLoader(otpVerificationScheduler),
-    );
+    void startTimer(var otpVerificationSchedulerRef) {
+      Timer.periodic(
+        Duration(seconds: 1),
+        (Timer timer) => setState(
+              () {
+                if (timerCount >= 1) {
+                  isCanResentOTP = false;
+                  otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+                  timerCount = timerCount - 1;
+                  controller.repeat();
+                } else {
+                  isShowingLoader = false;
+                  otpVerificationSchedulerRef.isShowingLoader = isShowingLoader;
+                  timerCount = initialTimerCount;
+                  timer.cancel();
+                  controller.stop();
+                  isCanResentOTP = true;
+                  otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+                }
+              },
+            ),
+      );
+    }
+
+    Widget showLoader(var otpVerificationSchedulerRef) {
+      print('i am here');
+      Widget returnValue;
+
+      if (otpVerificationSchedulerRef.isShowingLoader) {
+        if (otpVerificationSchedulerRef.isCanResendOTP) {
+          timerCount = initialTimerCount;
+          startTimer(otpVerificationSchedulerRef);
+        }
+
+        returnValue = Stack(
+          children: <Widget>[
+            RotationTransition(turns: animationRotation, child: LoadingIcon()),
+            Transform.translate(
+              offset: Offset(timerCount > 9 ? 17 : 22, 17),
+              child: Text(
+                timerCount.toString(),
+                style: AppTheme(appTextColor: Colors.grey, appTextFontSize: 18)
+                    .appTextStyle,
+              ),
+            ),
+          ],
+        );
+      } else {
+        returnValue = Container();
+      }
+
+      return returnValue;
+    }
+
+    return Consumer<OTPVerificationScheduler>(
+        builder: (context, otpVerificationScheduler, _) {
+      print('i am in builder ');
+      return Container(
+        padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
+        width: 100,
+        height: 100,
+        child: showLoader(otpVerificationScheduler),
+      );
+    });
   }
 }
 

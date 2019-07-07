@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 class OTPVerificationScheduler with ChangeNotifier {
-  bool _isCanResendOTP = false;
+  bool _isCanResendOTP = true;
   bool _isShowingLoader = true;
 
   bool get isCanResendOTP => _isCanResendOTP;

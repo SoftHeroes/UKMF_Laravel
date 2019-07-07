@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import '../setup.dart';
 import '../appTheme.dart';
 
@@ -40,56 +43,75 @@ class ResendOTP extends StatelessWidget {
 
   final Setup setupRef = Setup();
 
-  getResponse({Map requestBody}) async {
-    // return Future.delayed(Duration(seconds: 50));
-    return post(setupRef.server + setupRef.smsSent, body: requestBody);
-  }
-
   @override
   Widget build(BuildContext context) {
     PostRequest newRequest;
-    var _asyncLoader = new AsyncLoader(
-      key: _asyncKey,
-      initState: () async => await getResponse(requestBody: newRequest.toMap()),
-      renderLoad: () => new CircularProgressIndicator(),
-      renderError: ([error]) => Text(
-            'Resend OTP',
-            style:
-                AppTheme(isLink: true, appTextColor: Colors.grey).appTextStyle,
-          ),
-      renderSuccess: ({data}) {
-        print('It end!');
-        return Text(
-          'Resend OTP',
-          style:
-              AppTheme(isLink: false, appTextColor: Colors.grey).appTextStyle,
-        );
-      },
-    );
 
     return Consumer<OTPVerificationScheduler>(
-      builder: (context, otpVerificationScheduler, _) => Padding(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 60.0),
-            child: GestureDetector(
-              onTap: () {
-                if (otpVerificationScheduler.isCanResendOTP) {
-                  _asyncKey.currentState
-                      .reloadState()
-                      .whenComplete(() => print('finished reload'));
-                  otpVerificationScheduler.isShowingLoader = true;
-                }
-              },
-              child: _asyncLoader,
-              // Text(
-              //   'Resend OTP',
-              //   style: AppTheme(
-              //           isLink: otpVerificationScheduler.isCanResendOTP,
-              //           appTextColor: Colors.grey)
-              //       .appTextStyle,
-              // )
-              // ,
-            ),
+      builder: (context, otpVerificationSchedulerConsumerRef, _) {
+        getResponse({Map requestBody}) async {
+          var resposne =
+              await post(setupRef.server + setupRef.smsSent, body: requestBody);
+
+          if (resposne.statusCode == HttpStatus.ok) {
+            json.decode(resposne.body);
+            if (json.decode(resposne.body)["ErrorFound"] == "NO") {
+              otpVerificationSchedulerConsumerRef.isShowingLoader = true;
+            }
+          }
+
+          return resposne;
+        }
+
+        var _asyncLoader = new AsyncLoader(
+          key: _asyncKey,
+          initState: () async => getResponse(requestBody: newRequest.toMap()),
+          renderLoad: () => new CircularProgressIndicator(),
+          renderError: ([error]) => Text(
+                'Resend OTP',
+                style: AppTheme(
+                        isLink:
+                            otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                        appTextColor: Colors.grey)
+                    .appTextStyle,
+              ),
+          renderSuccess: ({data}) => Text(
+                'Resend OTP',
+                style: AppTheme(
+                        isLink:
+                            otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                        appTextColor: Colors.grey)
+                    .appTextStyle,
+              ),
+        );
+
+        return Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 60.0),
+          child: GestureDetector(
+            onTap: () {
+              if (otpVerificationSchedulerConsumerRef.isCanResendOTP) {
+                newRequest = new PostRequest(
+                    source: "Android",
+                    templateName: "OTP",
+                    phoneNumber: "9074200979",
+                    language: "English");
+                _asyncKey.currentState
+                    .reloadState()
+                    .whenComplete(() => print('finished reload'));
+              }
+            },
+            child: _asyncLoader,
+            // Text(
+            //   'Resend OTP',
+            //   style: AppTheme(
+            //           isLink: otpVerificationScheduler.isCanResendOTP,
+            //           appTextColor: Colors.grey)
+            //       .appTextStyle,
+            // )
+            // ,
           ),
+        );
+      },
     );
   }
 }
