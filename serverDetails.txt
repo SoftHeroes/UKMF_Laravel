@@ -34,11 +34,8 @@ Pin code 	: 462023
 GST Number 	: 23AABCU4182D1ZO
 Mobile 		: 9869374644
 
-[DB]
-server : md-in-92.webhostbox.net
-user   : sapnasin_master
-pwd    : {gPFe@3~{sQz
-url    : http://ukmf.in/Code/tunnel.php
+[DB Server details]
+HostName : md-in-92.webhostbox.net
 
 [FTP]
 Host   : sapnasingh.in (gains.linuxbigapps.com)
@@ -52,5 +49,7 @@ ns2.md-in-92.webhostbox.net
 
 
 [DB User]
-user : ukmfir9u_root
-pass : f7sGRA34thehAem
+user 		: ukmfir9u_root
+pass 		: f7sGRA34thehAem
+access DB 	: ukmfir9u_ukmfMaster 
+url    		: http://ukmf.in/Code/tunnel.php
