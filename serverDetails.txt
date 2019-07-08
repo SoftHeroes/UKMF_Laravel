@@ -35,10 +35,10 @@ GST Number 	: 23AABCU4182D1ZO
 Mobile 		: 9869374644
 
 [DB]
-server : gains.linuxbigapps.com
+server : md-in-92.webhostbox.net
 user   : sapnasin_master
 pwd    : {gPFe@3~{sQz
-url    : http://sapnasingh.in/tunnel.php
+url    : http://ukmf.in/Code/tunnel.php
 
 [FTP]
 Host   : sapnasingh.in (gains.linuxbigapps.com)
@@ -49,3 +49,8 @@ Encryp : TLS/SSL Explicit encryption
 
 ns1.md-in-92.webhostbox.net
 ns2.md-in-92.webhostbox.net
+
+
+[DB User]
+user : ukmfir9u_root
+pass : f7sGRA34thehAem
