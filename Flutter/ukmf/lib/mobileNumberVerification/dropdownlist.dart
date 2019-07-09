@@ -1,7 +1,7 @@
 import '../../appTheme.dart';
 
 import 'package:flutter/material.dart';
-import '../userDetailsProvider.dart';
+import 'mobileNumberVerificationScheduler.dart';
 import 'package:provider/provider.dart';
 
 class DropDownList extends StatefulWidget {
@@ -26,14 +26,15 @@ class _DropDownListState extends State<DropDownList> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UserDetailsProvider>(
-      builder: (context, userDetailsProvider, _) => DropdownButton<String>(
+    return Consumer<MobileNumberVerificationScheduler>(
+      builder: (context, mobileNumberVerificationScheduler, _) =>
+          DropdownButton<String>(
             key: GlobalKey(),
             value: dropdownValue,
             onChanged: (String newValue) {
               setState(() {
                 dropdownValue = newValue;
-                userDetailsProvider.countryCode = newValue;
+                mobileNumberVerificationScheduler.countryCode = newValue;
               });
             },
             items:

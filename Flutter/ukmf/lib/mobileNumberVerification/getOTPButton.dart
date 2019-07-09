@@ -90,34 +90,29 @@ class GetOTPButton extends StatelessWidget {
 
     return Consumer<MobileNumberVerificationScheduler>(
       builder: (context, mobileNumberVerificationScheduler, _) =>
-          Consumer<UserDetailsProvider>(
-            builder: (context, userDetailsProvider, _) => MaterialButton(
-                  disabledColor: Colors.grey,
-                  minWidth: double.infinity,
-                  height: 50.0,
-                  animationDuration: Duration(seconds: 10),
-                  onPressed: !mobileNumberVerificationScheduler.isIAgree
-                      ? null
-                      : () {
-                          if (_formKey.currentState.validate()) {
-                            newRequest = new PostRequest(
-                                source: "Android",
-                                templateName: "OTP",
-                                phoneNumber: mobileNumberVerificationScheduler
-                                    .mobileNumber,
-                                language: "English");
-
-                            userDetailsProvider.mobileNumber =
-                                mobileNumberVerificationScheduler.mobileNumber;
-                            _asyncKey.currentState
-                                .reloadState()
-                                .whenComplete(() => print('finished reload'));
-                            // getResponse(requestBody: newRequest.toMap());
-                          }
-                        },
-                  child: _asyncLoader,
-                  color: AppTheme().myPrimaryMaterialColor.shade800,
-                ),
+          MaterialButton(
+            disabledColor: Colors.grey,
+            minWidth: double.infinity,
+            height: 50.0,
+            animationDuration: Duration(seconds: 10),
+            onPressed: !mobileNumberVerificationScheduler.isIAgree
+                ? null
+                : () {
+                    if (_formKey.currentState.validate()) {
+                      newRequest = new PostRequest(
+                          source: "Android",
+                          templateName: "OTP",
+                          phoneNumber:
+                              mobileNumberVerificationScheduler.mobileNumber,
+                          language: "English");
+                      _asyncKey.currentState
+                          .reloadState()
+                          .whenComplete(() => print('finished reload'));
+                      // getResponse(requestBody: newRequest.toMap());
+                    }
+                  },
+            child: _asyncLoader,
+            color: AppTheme().myPrimaryMaterialColor.shade800,
           ),
     );
   }
