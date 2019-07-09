@@ -1,6 +1,6 @@
-import '../appTheme.dart';
+import '../../appTheme.dart';
 
-import 'package:ukmf/OTPVerification/resendOTP.dart';
+import 'package:ukmf/AppLoad/OTPVerification/resendOTP.dart';
 import 'package:flutter/material.dart';
 
 class PostRequest {
@@ -30,6 +30,9 @@ class PostRequest {
 }
 
 class SutmitOTP extends StatelessWidget {
+  final String mobileNumber, otp;
+  SutmitOTP({this.mobileNumber = '', this.otp = ''});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(

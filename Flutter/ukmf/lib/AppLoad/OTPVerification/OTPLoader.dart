@@ -1,4 +1,4 @@
-import '../appTheme.dart';
+import '../../appTheme.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
@@ -21,14 +21,12 @@ class _OTPLoaderState extends State<OTPLoader>
   Animation<double> animationRotation;
 
   final double initialRadius = 55.0;
-  int initialTimerCount = 60, timerCount = 0;
+  int initialTimerCount = 60, timerCount = -1;
 
   bool isCanResentOTP = true, isShowingLoader = true;
 
   @override
   void initState() {
-    timerCount = initialTimerCount;
-
     controller = AnimationController(
         vsync: this, duration: Duration(seconds: initialTimerCount));
 
@@ -61,7 +59,7 @@ class _OTPLoaderState extends State<OTPLoader>
                 } else {
                   isShowingLoader = false;
                   otpVerificationSchedulerRef.isShowingLoader = isShowingLoader;
-                  timerCount = initialTimerCount;
+                  timerCount = -1;
                   timer.cancel();
                   controller.stop();
                   isCanResentOTP = true;
@@ -77,7 +75,8 @@ class _OTPLoaderState extends State<OTPLoader>
       Widget returnValue;
 
       if (otpVerificationSchedulerRef.isShowingLoader) {
-        if (otpVerificationSchedulerRef.isCanResendOTP) {
+        if (otpVerificationSchedulerRef.isCanResendOTP && timerCount == -1) {
+          print('i am here 2');
           timerCount = initialTimerCount;
           startTimer(otpVerificationSchedulerRef);
         }
