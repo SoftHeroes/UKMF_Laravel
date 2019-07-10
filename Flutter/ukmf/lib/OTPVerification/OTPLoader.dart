@@ -1,4 +1,4 @@
-import '../../appTheme.dart';
+import '../appTheme.dart';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/painting.dart';
@@ -53,17 +53,32 @@ class _OTPLoaderState extends State<OTPLoader>
               () {
                 if (timerCount >= 1) {
                   isCanResentOTP = false;
-                  otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+
+                  if (otpVerificationSchedulerRef.isCanResendOTP !=
+                      isCanResentOTP) {
+                    otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+                  }
+
                   timerCount = timerCount - 1;
                   controller.repeat();
                 } else {
                   isShowingLoader = false;
-                  otpVerificationSchedulerRef.isShowingLoader = isShowingLoader;
+
+                  if (otpVerificationSchedulerRef.isShowingLoader !=
+                      isShowingLoader) {
+                    otpVerificationSchedulerRef.isShowingLoader =
+                        isShowingLoader;
+                  }
+
                   timerCount = -1;
                   timer.cancel();
                   controller.stop();
                   isCanResentOTP = true;
-                  otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+
+                  if (otpVerificationSchedulerRef.isCanResendOTP !=
+                      isCanResentOTP) {
+                    otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+                  }
                 }
               },
             ),
@@ -71,12 +86,12 @@ class _OTPLoaderState extends State<OTPLoader>
     }
 
     Widget showLoader(var otpVerificationSchedulerRef) {
-      print('i am here');
+      // print('i am here');
       Widget returnValue;
 
       if (otpVerificationSchedulerRef.isShowingLoader) {
         if (otpVerificationSchedulerRef.isCanResendOTP && timerCount == -1) {
-          print('i am here 2');
+          // print('i am here 2');
           timerCount = initialTimerCount;
           startTimer(otpVerificationSchedulerRef);
         }
@@ -103,7 +118,7 @@ class _OTPLoaderState extends State<OTPLoader>
 
     return Consumer<OTPVerificationScheduler>(
         builder: (context, otpVerificationScheduler, _) {
-      print('i am in builder ');
+      // print('i am in builder ');
       return Container(
         padding: EdgeInsets.fromLTRB(25, 0, 0, 0),
         width: 100,

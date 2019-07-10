@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 class MobileNumberVerificationScheduler with ChangeNotifier {
   bool _isIAgree = false;
   String _mobileNumber = "";
-  String _countryCode = "";
+  String _countryCode = "+91";
 
   bool get isIAgree => _isIAgree;
   String get mobileNumber => _mobileNumber;

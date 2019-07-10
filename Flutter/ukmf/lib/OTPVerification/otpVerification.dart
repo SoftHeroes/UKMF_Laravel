@@ -1,7 +1,6 @@
 import 'package:provider/provider.dart';
-import 'package:ukmf/AppLoad/userDetailsProvider.dart';
 
-import '../../appTheme.dart';
+import '../appTheme.dart';
 
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -13,12 +12,13 @@ import 'otpVerificationScheduler.dart';
 import 'submitOTPButton.dart';
 
 class OTPVerificationForm extends StatefulWidget {
-  final String mobileNumber, otp;
+  final String mobileNumber, otp, countryCode;
 
   OTPVerificationForm({
     Key key,
-    this.mobileNumber,
-    this.otp,
+    this.countryCode = '',
+    this.mobileNumber = '',
+    this.otp = '',
   }) : super(key: key);
 
   _OTPVerificationFormState createState() => _OTPVerificationFormState();
@@ -30,7 +30,7 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Verify ' + widget.mobileNumber + ' ' + widget.mobileNumber,
+          'Verify ' + widget.countryCode + ' ' + widget.mobileNumber,
           style: AppTheme(appTextColor: Colors.white).appTextStyle,
         ),
         backgroundColor: AppTheme().myPrimaryMaterialColor.shade500,
@@ -45,9 +45,9 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
           ),
         ),
       ),
-      body: Form(
-        child: ChangeNotifierProvider(
-          builder: (context) => OTPVerificationScheduler(),
+      body: ChangeNotifierProvider(
+        builder: (context) => OTPVerificationScheduler(),
+        child: Form(
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -70,7 +70,10 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
                 height: 60.0,
               ),
               OTPLoader(),
-              SutmitOTP()
+              SutmitOTP(
+                otp: widget.otp,
+                mobileNumber: widget.mobileNumber,
+              )
             ],
           ),
         ),

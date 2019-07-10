@@ -1,4 +1,4 @@
-import '../../appTheme.dart';
+import '../appTheme.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +17,10 @@ class OTPValue extends StatelessWidget {
       for (var i = 0; i < count; i++) {
         SingleOTPValue temp = SingleOTPValue(nextFocusNode);
         nextFocusNode = temp.myfocus;
+
+        if (i == count - 1) {
+          FocusScope.of(context).requestFocus(temp.myfocus);
+        }
         list.add(temp);
 
         if (i != count - 1)
@@ -48,6 +52,24 @@ class SingleOTPValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void onChange() {
+      if (_textFieldController.text.length > 0 &&
+          _myfocus.hasFocus &&
+          nexttextFocusNode != null) {
+        FocusScope.of(context).requestFocus(nexttextFocusNode);
+        _textFieldController.removeListener(onChange);
+      }
+    }
+
+    void onTap() {
+      if (_myfocus.hasFocus) {
+        // _textFieldController.clear();
+      }
+    }
+
+    _textFieldController.addListener(onChange);
+    _myfocus.addListener(onTap);
+
     List<BoxShadow> getBoxShadow() {
       List<BoxShadow> returnBoxShadow = new List<BoxShadow>();
 
@@ -62,32 +84,17 @@ class SingleOTPValue extends StatelessWidget {
       return returnBoxShadow;
     }
 
-    @override
-    void initState() {
-      _myfocus.addListener(() {
-        if (_myfocus.hasFocus) _textFieldController.clear();
-      });
-    }
-
     return Container(
       // margin: EdgeInsets.all(30.0),
       padding: EdgeInsets.fromLTRB(6.5, 0, 0, 0),
       width: 39,
       height: 52,
       child: Transform(
-        child: TextField(
+        child: TextFormField(
           controller: _textFieldController,
           focusNode: _myfocus,
           autofocus: true,
           keyboardType: TextInputType.number,
-          onChanged: (String value) {
-            // TextSelection.collapsed(offset: 0);
-            print('I am Here');
-            initState();
-            if (nexttextFocusNode != null) {
-              FocusScope.of(context).requestFocus(nexttextFocusNode);
-            }
-          },
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: '0',
@@ -114,5 +121,9 @@ class SingleOTPValue extends StatelessWidget {
               width: 2.5, color: AppTheme().myPrimaryMaterialColor.shade200),
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
     );
+  }
+
+  void dispose() {
+    _myfocus.dispose();
   }
 }

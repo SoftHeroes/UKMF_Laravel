@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../../setup.dart';
-import '../../appTheme.dart';
+import '../setup.dart';
+import '../appTheme.dart';
 
 import 'package:async_loader/async_loader.dart';
 import 'package:http/http.dart';
@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'otpVerificationScheduler.dart';
-
-import '../userDetailsProvider.dart';
 
 class PostRequest {
   final String source, templateName, phoneNumber, language;
@@ -40,6 +38,10 @@ class PostRequest {
 }
 
 class ResendOTP extends StatelessWidget {
+  final String otp, mobileNumber;
+
+  ResendOTP({this.otp = '', this.mobileNumber = ''});
+
   final GlobalKey<AsyncLoaderState> _asyncKey =
       new GlobalKey<AsyncLoaderState>();
   final Setup setupRef = Setup();
@@ -49,70 +51,73 @@ class ResendOTP extends StatelessWidget {
     PostRequest newRequest;
 
     return Consumer<OTPVerificationScheduler>(
-      builder: (context, otpVerificationSchedulerConsumerRef, _) =>
-          Consumer<UserDetailsProvider>(
-            builder: (context, userDetailsProvider, _) {
-              getResponse({Map requestBody}) async {
-                var resposne = await post(setupRef.server + setupRef.smsSent,
-                    body: requestBody);
+      builder: (context, otpVerificationSchedulerConsumerRef, _) {
+        getResponse({Map requestBody}) async {
+          var resposne =
+              await post(setupRef.server + setupRef.smsSent, body: requestBody);
 
-                if (resposne.statusCode == HttpStatus.ok) {
-                  json.decode(resposne.body);
-                  if (json.decode(resposne.body)["ErrorFound"] == "NO") {
-                    otpVerificationSchedulerConsumerRef.isShowingLoader = true;
-                    userDetailsProvider.otp = json.decode(resposne.body)["OTP"];
-                  }
+          if (resposne.statusCode == HttpStatus.ok) {
+            json.decode(resposne.body);
+            if (json.decode(resposne.body)["ErrorFound"] == "NO") {
+              otpVerificationSchedulerConsumerRef.isShowingLoader = true;
+              otpVerificationSchedulerConsumerRef.otp =
+                  json.decode(resposne.body)["OTP"];
+            }
+          }
+
+          return resposne;
+        }
+
+        var _asyncLoader = new AsyncLoader(
+          key: _asyncKey,
+          initState: () async => getResponse(requestBody: newRequest.toMap()),
+          renderLoad: () => new CircularProgressIndicator(),
+          renderError: ([error]) => Text(
+                'Resend OTP',
+                style: AppTheme(
+                        isLink:
+                            otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                        appTextColor: Colors.grey)
+                    .appTextStyle,
+              ),
+          renderSuccess: ({data}) => Text(
+                'Resend OTP',
+                style: AppTheme(
+                        isLink:
+                            otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                        appTextColor: Colors.grey)
+                    .appTextStyle,
+              ),
+        );
+
+        return Padding(
+          padding: EdgeInsets.fromLTRB(0, 0, 0, 60.0),
+          child: GestureDetector(
+            onTap: () {
+              if (otpVerificationSchedulerConsumerRef.isCanResendOTP) {
+                if (otpVerificationSchedulerConsumerRef.mobileNumber == '') {
+                  otpVerificationSchedulerConsumerRef.mobileNumber =
+                      mobileNumber;
+                }
+                if (otpVerificationSchedulerConsumerRef.otp == '') {
+                  otpVerificationSchedulerConsumerRef.otp = otp;
                 }
 
-                return resposne;
+                newRequest = new PostRequest(
+                    source: "Android",
+                    templateName: "OTP",
+                    phoneNumber:
+                        otpVerificationSchedulerConsumerRef.mobileNumber,
+                    language: "English");
+                _asyncKey.currentState
+                    .reloadState()
+                    .whenComplete(() => print('finished reload'));
               }
-
-              var _asyncLoader = new AsyncLoader(
-                key: _asyncKey,
-                initState: () async =>
-                    getResponse(requestBody: newRequest.toMap()),
-                renderLoad: () => new CircularProgressIndicator(),
-                renderError: ([error]) => Text(
-                      'Resend OTP',
-                      style: AppTheme(
-                              isLink: otpVerificationSchedulerConsumerRef
-                                  .isCanResendOTP,
-                              appTextColor: Colors.grey)
-                          .appTextStyle,
-                    ),
-                renderSuccess: ({data}) => Text(
-                      'Resend OTP',
-                      style: AppTheme(
-                              isLink: otpVerificationSchedulerConsumerRef
-                                  .isCanResendOTP,
-                              appTextColor: Colors.grey)
-                          .appTextStyle,
-                    ),
-              );
-
-              return Consumer<UserDetailsProvider>(
-                builder: (context, userDetailsProvider, _) => Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 60.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          if (otpVerificationSchedulerConsumerRef
-                              .isCanResendOTP) {
-                            newRequest = new PostRequest(
-                                source: "Android",
-                                templateName: "OTP",
-                                phoneNumber: userDetailsProvider.mobileNumber,
-                                language: "English");
-                            _asyncKey.currentState
-                                .reloadState()
-                                .whenComplete(() => print('finished reload'));
-                          }
-                        },
-                        child: _asyncLoader,
-                      ),
-                    ),
-              );
             },
+            child: _asyncLoader,
           ),
+        );
+      },
     );
   }
 }

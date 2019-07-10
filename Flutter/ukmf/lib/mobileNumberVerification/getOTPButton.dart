@@ -1,7 +1,5 @@
-import 'package:ukmf/AppLoad/userDetailsProvider.dart';
-
-import '../../appTheme.dart';
-import '../../setup.dart';
+import '../appTheme.dart';
+import '../setup.dart';
 
 import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +8,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:ukmf/AppLoad/OTPVerification/otpVerification.dart';
+import 'package:ukmf/OTPVerification/otpVerification.dart';
 import 'mobileNumberVerificationScheduler.dart';
 
 class PostRequest {
@@ -55,6 +53,7 @@ class GetOTPButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostRequest newRequest;
+    String countryCode = '';
 
     getResponse({Map requestBody, BuildContext context}) async {
       var resposne =
@@ -63,8 +62,16 @@ class GetOTPButton extends StatelessWidget {
       if (resposne.statusCode == HttpStatus.ok) {
         json.decode(resposne.body);
         if (json.decode(resposne.body)["ErrorFound"] == "NO") {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => OTPVerificationForm()));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => OTPVerificationForm(
+                    mobileNumber: requestBody["phoneNumber"],
+                    otp: json.decode(resposne.body)["OTP"],
+                    countryCode: countryCode,
+                  ),
+            ),
+          );
         }
       }
       return resposne;
@@ -80,7 +87,7 @@ class GetOTPButton extends StatelessWidget {
             style: AppTheme(appTextColor: Colors.white).appTextStyle,
           ),
       renderSuccess: ({data}) {
-        print('It end!');
+        // print('It end!');
         return Text(
           'Get OTP',
           style: AppTheme(appTextColor: Colors.white).appTextStyle,
@@ -105,6 +112,10 @@ class GetOTPButton extends StatelessWidget {
                           phoneNumber:
                               mobileNumberVerificationScheduler.mobileNumber,
                           language: "English");
+
+                      countryCode =
+                          mobileNumberVerificationScheduler.countryCode;
+
                       _asyncKey.currentState
                           .reloadState()
                           .whenComplete(() => print('finished reload'));
