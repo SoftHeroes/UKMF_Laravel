@@ -31,14 +31,19 @@ class SmsController extends Controller
         {
             $SMSAPIRequestTime = date('Y-m-d h:i:s.u', time());
             $APIExecuteResponse = json_decode(APIExecute($APIdata[0]->Method,$APIdata[0]->URL,null), true);
-            
-            if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
+
+            if($APIdata[0]->ErrorMessage == null )
             {
-                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->OTP." as OTP FROM MessageMaster WHERE Code = 'ERR00030' AND language = '$language'") );
+                $APIdata[0]->ErrorMessage = 'null';
+            }
+
+            if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
+            {   
+                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP FROM MessageMaster WHERE Code = 'ERR00030' AND language = '$language'") );
             }
             else
             {
-                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->OTP." as OTP FROM MessageMaster WHERE Code = 'ERR00031' AND language = '$language' ") );
+                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP FROM MessageMaster WHERE Code = 'ERR00031' AND language = '$language' ") );
             }
 
             Log_SMSAPISetupActivityLogs($SMSAPIRequestTime,$phoneNumber,$APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
