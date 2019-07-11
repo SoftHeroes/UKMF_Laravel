@@ -41,6 +41,7 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
+              isSumbitedOnce = false;
             },
           ),
         ),

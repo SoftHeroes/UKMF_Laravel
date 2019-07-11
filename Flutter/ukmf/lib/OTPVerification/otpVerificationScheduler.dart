@@ -7,6 +7,7 @@ class OTPVerificationScheduler with ChangeNotifier {
   String _mobileNumber = '';
   String _countryCode = '';
   String _otp = '';
+  String _enterOTP = '';
 
   bool get isCanResendOTP => _isCanResendOTP;
   bool get isShowingLoader => _isShowingLoader;
@@ -14,6 +15,7 @@ class OTPVerificationScheduler with ChangeNotifier {
   String get mobileNumber => _mobileNumber;
   String get countryCode => _countryCode;
   String get otp => _otp;
+  String get enterOTP => _enterOTP;
 
   set mobileNumber(String newValue) {
     _mobileNumber = newValue;
@@ -27,6 +29,11 @@ class OTPVerificationScheduler with ChangeNotifier {
 
   set otp(String newValue) {
     _otp = newValue;
+    notifyListeners();
+  }
+
+  set enterOTP(String newValue) {
+    _enterOTP = newValue;
     notifyListeners();
   }
 

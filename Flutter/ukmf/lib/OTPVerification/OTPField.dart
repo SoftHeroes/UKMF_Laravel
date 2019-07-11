@@ -3,6 +3,8 @@ import '../appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+bool isSumbitedOnce = false;
+
 class OTPValue extends StatelessWidget {
   final double spacing;
   final int count;
@@ -18,7 +20,7 @@ class OTPValue extends StatelessWidget {
         SingleOTPValue temp = SingleOTPValue(nextFocusNode);
         nextFocusNode = temp.myfocus;
 
-        if (i == count - 1) {
+        if (i == count - 1 && !isSumbitedOnce) {
           FocusScope.of(context).requestFocus(temp.myfocus);
         }
         list.add(temp);
@@ -37,13 +39,10 @@ class OTPValue extends StatelessWidget {
   }
 }
 
-@immutable
-class SingleOTPValue extends StatelessWidget {
+class SingleOTPValue extends StatefulWidget {
   static const double _textSize = 32;
-  final FocusNode nexttextFocusNode, _myfocus = FocusNode();
 
-  final TextEditingController _textFieldController =
-      new TextEditingController();
+  final FocusNode nexttextFocusNode, _myfocus = FocusNode();
   SingleOTPValue(this.nexttextFocusNode);
 
   FocusNode get myfocus {
@@ -51,24 +50,35 @@ class SingleOTPValue extends StatelessWidget {
   }
 
   @override
+  _SingleOTPValueState createState() => _SingleOTPValueState();
+}
+
+class _SingleOTPValueState extends State<SingleOTPValue> {
+  final TextEditingController _textFieldController =
+      new TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     void onChange() {
-      if (_textFieldController.text.length > 0 &&
-          _myfocus.hasFocus &&
-          nexttextFocusNode != null) {
-        FocusScope.of(context).requestFocus(nexttextFocusNode);
-        _textFieldController.removeListener(onChange);
+      if (!isSumbitedOnce &&
+          _textFieldController.text.length > 0 &&
+          widget._myfocus.hasFocus &&
+          widget.nexttextFocusNode != null) {
+        print('on change');
+        FocusScope.of(context).requestFocus(widget.nexttextFocusNode);
       }
     }
 
     void onTap() {
-      if (_myfocus.hasFocus) {
-        // _textFieldController.clear();
+      if (widget._myfocus.hasFocus && !isSumbitedOnce) {
+        print('on tap else');
+        FocusScope.of(context).requestFocus(widget.myfocus);
+        _textFieldController.clear();
       }
     }
 
+    widget._myfocus.addListener(onTap);
     _textFieldController.addListener(onChange);
-    _myfocus.addListener(onTap);
 
     List<BoxShadow> getBoxShadow() {
       List<BoxShadow> returnBoxShadow = new List<BoxShadow>();
@@ -92,7 +102,7 @@ class SingleOTPValue extends StatelessWidget {
       child: Transform(
         child: TextFormField(
           controller: _textFieldController,
-          focusNode: _myfocus,
+          focusNode: widget._myfocus,
           autofocus: true,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
@@ -100,7 +110,7 @@ class SingleOTPValue extends StatelessWidget {
             hintText: '0',
             hintStyle: AppTheme(
                     appfontWeight: FontWeight.bold,
-                    appTextFontSize: _textSize,
+                    appTextFontSize: SingleOTPValue._textSize,
                     appTextColor: Colors.grey)
                 .appTextStyle,
           ),
@@ -108,9 +118,13 @@ class SingleOTPValue extends StatelessWidget {
             LengthLimitingTextInputFormatter(1),
           ],
           style: AppTheme(
-            appTextFontSize: _textSize,
+            appTextFontSize: SingleOTPValue._textSize,
             appfontWeight: FontWeight.bold,
           ).appTextStyle,
+          onFieldSubmitted: (String value) {
+            print('Sumbited called ');
+            isSumbitedOnce = true;
+          },
         ),
         transform: Matrix4.translationValues(0, 9, 0),
       ),
@@ -121,9 +135,5 @@ class SingleOTPValue extends StatelessWidget {
               width: 2.5, color: AppTheme().myPrimaryMaterialColor.shade200),
           borderRadius: BorderRadius.all(Radius.circular(5.0))),
     );
-  }
-
-  void dispose() {
-    _myfocus.dispose();
   }
 }

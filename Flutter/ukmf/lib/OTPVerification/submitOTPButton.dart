@@ -29,6 +29,7 @@ class SutmitOTP extends StatelessWidget {
                   if (otpVerificationScheduler.mobileNumber == '') {
                     otpVerificationScheduler.mobileNumber = mobileNumber;
                   }
+
                   print('Current otp ${otpVerificationScheduler.otp}');
                 },
               ),
