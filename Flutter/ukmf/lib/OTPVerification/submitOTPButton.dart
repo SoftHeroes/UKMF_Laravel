@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:ukmf/OTPVerification/otpVerificationScheduler.dart';
+import 'package:ukmf/signUp/signup.dart';
 
 import '../appTheme.dart';
 
@@ -31,6 +32,12 @@ class SutmitOTP extends StatelessWidget {
                   }
 
                   print('Current otp ${otpVerificationScheduler.otp}');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignUp(),
+                    ),
+                  );
                 },
               ),
               ResendOTP()

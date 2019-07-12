@@ -8,7 +8,7 @@ import 'mobileNumberVerificationScheduler.dart';
 
 class MobileNumberTextField extends StatelessWidget {
   final double widthLength;
-  MobileNumberTextField({this.widthLength = 270.0});
+  MobileNumberTextField({this.widthLength = 250.0});
 
   @override
   Widget build(BuildContext context) {
