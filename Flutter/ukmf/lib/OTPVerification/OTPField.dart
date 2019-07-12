@@ -41,6 +41,7 @@ class OTPValue extends StatelessWidget {
 
 class SingleOTPValue extends StatefulWidget {
   static const double _textSize = 32;
+  String textValue = '';
 
   final FocusNode nexttextFocusNode, _myfocus = FocusNode();
   SingleOTPValue(this.nexttextFocusNode);
@@ -65,6 +66,8 @@ class _SingleOTPValueState extends State<SingleOTPValue> {
           widget._myfocus.hasFocus &&
           widget.nexttextFocusNode != null) {
         print('on change');
+
+        widget.textValue = _textFieldController.text;
         FocusScope.of(context).requestFocus(widget.nexttextFocusNode);
       }
     }
