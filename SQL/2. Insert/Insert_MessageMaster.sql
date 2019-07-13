@@ -199,3 +199,9 @@ SELECT * FROM (SELECT 'ERR00032','YES','Password length should be greater than e
 WHERE NOT EXISTS (
     SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00032' AND  `Message` = 'Password length should be greater than eight.'
 ) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00033','YES','Invalid Source.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00033' AND  `Message` = 'Invalid Source.'
+) LIMIT 1;

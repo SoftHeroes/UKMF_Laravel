@@ -257,3 +257,26 @@ CREATE TABLE `urlcodemap` (
   UNIQUE KEY urlcodemapUIdx1(encoded),
   PRIMARY KEY (`id`)  
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `loginSetup`;
+CREATE TABLE `loginSetup` (
+	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
+  `source` varchar(100),
+  `OTPExpiryTime` INT (2),
+  `resendOTPAttempts` INT (2),
+  `OTPAttempts` INT (2),
+  `userLockTiming` INT (2),
+  `Active` INT(1) NOT NULL DEFAULT '1',
+	`Deleted` INT(1) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`u_ID`)
+);
+
+DROP TABLE IF EXISTS `lookUp`;
+CREATE TABLE `lookUp` (
+  `code` INT(10) NOT NULL,
+  `name` VARCHAR(1000) NOT NULL,
+  `languageID` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+	PRIMARY KEY (`code`,`name`)
+);
