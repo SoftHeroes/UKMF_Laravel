@@ -9,3 +9,5 @@ BEGIN
 SET LangCode = (SELECT u_ID FROM languageLookup WHERE `language` = val);
  return LangCode;
 END
+
+  -- SELECT getLanguageID('English')
