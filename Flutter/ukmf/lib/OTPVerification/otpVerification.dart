@@ -6,8 +6,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 
-import 'OTPField.dart';
 import 'OTPLoader.dart';
+import 'OTPField.dart';
 import 'otpVerificationScheduler.dart';
 import 'submitOTPButton.dart';
 
@@ -25,6 +25,8 @@ class OTPVerificationForm extends StatefulWidget {
 }
 
 class _OTPVerificationFormState extends State<OTPVerificationForm> {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +43,6 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
             icon: Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
-              isSumbitedOnce = false;
             },
           ),
         ),
@@ -49,6 +50,7 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
       body: ChangeNotifierProvider(
         builder: (context) => OTPVerificationScheduler(),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -64,8 +66,8 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
               SizedBox(
                 height: 60.0,
               ),
-              OTPValue(
-                count: 6,
+              OTPField(
+                formKey: _formKey,
               ),
               SizedBox(
                 height: 60.0,
@@ -74,6 +76,7 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
               SutmitOTP(
                 otp: widget.otp,
                 mobileNumber: widget.mobileNumber,
+                formKey: _formKey,
               )
             ],
           ),

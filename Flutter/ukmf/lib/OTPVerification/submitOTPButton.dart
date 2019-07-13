@@ -5,12 +5,19 @@ import 'package:ukmf/signUp/signup.dart';
 import '../appTheme.dart';
 
 import 'resendOTP.dart';
-import 'OTPField.dart';
 import 'package:flutter/material.dart';
 
 class SutmitOTP extends StatelessWidget {
   final String mobileNumber, otp;
-  SutmitOTP({this.mobileNumber = '', this.otp = ''});
+
+  final GlobalKey<FormState> _formKey;
+  SutmitOTP(
+      {Key key,
+      @required GlobalKey<FormState> formKey,
+      this.mobileNumber = '',
+      this.otp = ''})
+      : _formKey = formKey,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +32,25 @@ class SutmitOTP extends StatelessWidget {
             child: Text('Submit OTP',
                 style: AppTheme(appTextColor: Colors.white).appTextStyle),
             onPressed: () {
-              if (otpVerificationScheduler.otp == '') {
-                otpVerificationScheduler.otp = otp;
-              }
-              if (otpVerificationScheduler.mobileNumber == '') {
-                otpVerificationScheduler.mobileNumber = mobileNumber;
-              }
-
               print('Current otp ${otpVerificationScheduler.otp}');
-              print('Enter otp ${getEnterOTP()}');
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SignUp(),
-                ),
-              );
+              print('Enter otp ${otpVerificationScheduler.enterOTP}');
+              if (_formKey.currentState.validate()) {
+                if (otpVerificationScheduler.otp == '') {
+                  otpVerificationScheduler.otp = otp;
+                }
+                if (otpVerificationScheduler.mobileNumber == '') {
+                  otpVerificationScheduler.mobileNumber = mobileNumber;
+                }
+
+                if (otpVerificationScheduler.enterOTP ==
+                    otpVerificationScheduler.otp)
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignUp(),
+                    ),
+                  );
+              }
             },
           ),
           ResendOTP()
