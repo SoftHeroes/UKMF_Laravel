@@ -40,11 +40,11 @@ class SmsController extends Controller
 
             if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
             {   
-                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP, ".$APIdata[0]->OTPExpiryTime." as OTPExpiryTime,".$APIdata[0]->resendOTPAttempts." as resendOTPAttempts,".$APIdata[0]->OTPAttempts." as OTPAttempts,".$APIdata[0]->userLockTiming." as userLockTiming FROM MessageMaster WHERE Code = 'ERR00030' AND language = '$language'") );
+                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,"."'".$APIdata[0]->AlreadyRegisteredUser."'"." as AlreadyRegisteredUser,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP, ".$APIdata[0]->OTPExpiryTime." as OTPExpiryTime,".$APIdata[0]->resendOTPAttempts." as resendOTPAttempts,".$APIdata[0]->OTPAttempts." as OTPAttempts,".$APIdata[0]->userLockTiming." as userLockTiming FROM MessageMaster WHERE Code = 'ERR00030' AND language = '$language'") );
             }
             else
             {
-                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP, ".$APIdata[0]->OTPExpiryTime." as OTPExpiryTime,".$APIdata[0]->resendOTPAttempts." as resendOTPAttempts,".$APIdata[0]->OTPAttempts." as OTPAttempts,".$APIdata[0]->userLockTiming." as userLockTiming FROM MessageMaster WHERE Code = 'ERR00031' AND language = '$language' ") );
+                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,"."'".$APIdata[0]->AlreadyRegisteredUser."'"." as AlreadyRegisteredUser,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP, ".$APIdata[0]->OTPExpiryTime." as OTPExpiryTime,".$APIdata[0]->resendOTPAttempts." as resendOTPAttempts,".$APIdata[0]->OTPAttempts." as OTPAttempts,".$APIdata[0]->userLockTiming." as userLockTiming FROM MessageMaster WHERE Code = 'ERR00031' AND language = '$language' ") );
             }
 
             Log_SMSAPISetupActivityLogs($RequestTime,$phoneNumber,$APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
