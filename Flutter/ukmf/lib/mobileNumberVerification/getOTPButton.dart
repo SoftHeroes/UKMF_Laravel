@@ -5,6 +5,7 @@ import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
+import 'package:toast/toast.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -66,10 +67,10 @@ class GetOTPButton extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => OTPVerificationForm(
-                    mobileNumber: requestBody["phoneNumber"],
-                    otp: json.decode(resposne.body)["OTP"],
-                    countryCode: countryCode,
-                  ),
+                mobileNumber: requestBody["phoneNumber"],
+                otp: json.decode(resposne.body)["OTP"],
+                countryCode: countryCode,
+              ),
             ),
           );
         }
@@ -82,12 +83,20 @@ class GetOTPButton extends StatelessWidget {
       initState: () async =>
           getResponse(requestBody: newRequest.toMap(), context: context),
       renderLoad: () => new CircularProgressIndicator(),
-      renderError: ([error]) => Text(
-            'Get OTP',
-            style: AppTheme(appTextColor: Colors.white).appTextStyle,
-          ),
+      renderError: ([error]) {
+        return Text(
+          'Get OTP',
+          style: AppTheme(appTextColor: Colors.white).appTextStyle,
+        );
+      },
       renderSuccess: ({data}) {
-        // print('It end!');
+        Response resposne = data;
+
+        if (resposne.statusCode != HttpStatus.ok ||
+            json.decode(resposne.body)["ErrorFound"] == "YES") {
+          Toast.show("unable to send message", context,
+              duration: 1, gravity: Toast.BOTTOM);
+        }
         return Text(
           'Get OTP',
           style: AppTheme(appTextColor: Colors.white).appTextStyle,
@@ -98,33 +107,32 @@ class GetOTPButton extends StatelessWidget {
     return Consumer<MobileNumberVerificationScheduler>(
       builder: (context, mobileNumberVerificationScheduler, _) =>
           MaterialButton(
-            disabledColor: Colors.grey,
-            minWidth: double.infinity,
-            height: 50.0,
-            animationDuration: Duration(seconds: 10),
-            onPressed: !mobileNumberVerificationScheduler.isIAgree
-                ? null
-                : () {
-                    if (_formKey.currentState.validate()) {
-                      newRequest = new PostRequest(
-                          source: "Android",
-                          templateName: "OTP",
-                          phoneNumber:
-                              mobileNumberVerificationScheduler.mobileNumber,
-                          language: "English");
+        disabledColor: Colors.grey,
+        minWidth: double.infinity,
+        height: 50.0,
+        animationDuration: Duration(seconds: 10),
+        onPressed: !mobileNumberVerificationScheduler.isIAgree
+            ? null
+            : () {
+                if (_formKey.currentState.validate()) {
+                  newRequest = new PostRequest(
+                      source: "Android",
+                      templateName: "OTP",
+                      phoneNumber:
+                          mobileNumberVerificationScheduler.mobileNumber,
+                      language: "English");
 
-                      countryCode =
-                          mobileNumberVerificationScheduler.countryCode;
+                  countryCode = mobileNumberVerificationScheduler.countryCode;
 
-                      _asyncKey.currentState
-                          .reloadState()
-                          .whenComplete(() => print('finished reload'));
-                      // getResponse(requestBody: newRequest.toMap());
-                    }
-                  },
-            child: _asyncLoader,
-            color: AppTheme().myPrimaryMaterialColor.shade800,
-          ),
+                  _asyncKey.currentState
+                      .reloadState()
+                      .whenComplete(() => print('finished reload'));
+                  // getResponse(requestBody: newRequest.toMap());
+                }
+              },
+        child: _asyncLoader,
+        color: AppTheme().myPrimaryMaterialColor.shade800,
+      ),
     );
   }
 }

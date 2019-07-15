@@ -7,6 +7,7 @@ import '../appTheme.dart';
 import 'package:async_loader/async_loader.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 import 'package:provider/provider.dart';
 import 'otpVerificationScheduler.dart';
@@ -72,22 +73,25 @@ class ResendOTP extends StatelessWidget {
           key: _asyncKey,
           initState: () async => getResponse(requestBody: newRequest.toMap()),
           renderLoad: () => new CircularProgressIndicator(),
-          renderError: ([error]) => Text(
-                'Resend OTP',
-                style: AppTheme(
-                        isLink:
-                            otpVerificationSchedulerConsumerRef.isCanResendOTP,
-                        appTextColor: Colors.grey)
-                    .appTextStyle,
-              ),
+          renderError: ([error]) {
+            Toast.show("unable to send message", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            return Text(
+              'Resend OTP',
+              style: AppTheme(
+                      isLink:
+                          otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                      appTextColor: Colors.grey)
+                  .appTextStyle,
+            );
+          },
           renderSuccess: ({data}) => Text(
-                'Resend OTP',
-                style: AppTheme(
-                        isLink:
-                            otpVerificationSchedulerConsumerRef.isCanResendOTP,
-                        appTextColor: Colors.grey)
-                    .appTextStyle,
-              ),
+            'Resend OTP',
+            style: AppTheme(
+                    isLink: otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                    appTextColor: Colors.grey)
+                .appTextStyle,
+          ),
         );
 
         return Padding(
