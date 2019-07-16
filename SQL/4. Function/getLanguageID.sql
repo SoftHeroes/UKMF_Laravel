@@ -1,5 +1,7 @@
 ﻿DROP FUNCTION IF EXISTS getLanguageID;
-  
+
+DELIMITER $$
+
 CREATE FUNCTION getLanguageID(val varchar(1024))
   RETURNS INT(10)
   DETERMINISTIC
@@ -8,6 +10,7 @@ BEGIN
 
 SET LangCode = (SELECT u_ID FROM languageLookup WHERE `language` = val);
  return LangCode;
-END
+END$$
 
+DELIMITER ;
   -- SELECT getLanguageID('English')
