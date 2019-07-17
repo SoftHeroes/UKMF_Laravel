@@ -74,6 +74,8 @@ class ResendOTP extends StatelessWidget {
           initState: () async => getResponse(requestBody: newRequest.toMap()),
           renderLoad: () => new CircularProgressIndicator(),
           renderError: ([error]) {
+            Toast.show("unable to send message", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
             return Text(
               'Resend OTP',
               style: AppTheme(
@@ -83,24 +85,13 @@ class ResendOTP extends StatelessWidget {
                   .appTextStyle,
             );
           },
-          renderSuccess: ({data}) {
-            Response resposne = data;
-
-            if (resposne.statusCode != HttpStatus.ok ||
-                json.decode(resposne.body)["ErrorFound"] == "YES") {
-              Toast.show("unable to send message", context,
-                  duration: 1, gravity: Toast.BOTTOM);
-            }
-
-            return Text(
-              'Resend OTP',
-              style: AppTheme(
-                      isLink:
-                          otpVerificationSchedulerConsumerRef.isCanResendOTP,
-                      appTextColor: Colors.grey)
-                  .appTextStyle,
-            );
-          },
+          renderSuccess: ({data}) => Text(
+            'Resend OTP',
+            style: AppTheme(
+                    isLink: otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                    appTextColor: Colors.grey)
+                .appTextStyle,
+          ),
         );
 
         return Padding(

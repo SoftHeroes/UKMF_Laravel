@@ -1,31 +1,38 @@
 import 'package:flutter/widgets.dart';
+import 'package:ukmf/signUp/passwordFields.dart';
+import 'package:ukmf/signUp/signupButton.dart';
 
 import '../appTheme.dart';
 
 import 'package:flutter/material.dart';
 
+import 'emailField.dart';
+import 'nameFields.dart';
+
 class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Sign up'),
-          backgroundColor: AppTheme().myPrimaryMaterialColor.shade500,
-          leading: Padding(
-            padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
-            child: IconButton(
-              alignment: Alignment.centerLeft,
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        title: Text('Sign up'),
+        backgroundColor: AppTheme().myPrimaryMaterialColor.shade500,
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(10.0, 0, 0, 0),
+          child: IconButton(
+            alignment: Alignment.centerLeft,
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
-        body: Column(
+      ),
+      body: Form(
+        child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 80, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
               child: Text(
                 'Enter your details for Registration',
                 style: AppTheme(appTextColor: Colors.black).appTextStyle,
@@ -38,63 +45,30 @@ class SignUp extends StatelessWidget {
               width: 300,
               child: Column(
                 children: <Widget>[
-                  TextFormField(
-                      style: AppTheme(appTextLetterSpacing: 2).appTextStyle,
-                      decoration: InputDecoration(
-                        hintStyle:
-                            AppTheme(appTextColor: Colors.grey).appTextStyle,
-                        hintText: 'Full Name',
-                      )),
+                  FirstName(),
                   SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
-                  TextFormField(
-                      style: AppTheme(appTextLetterSpacing: 2).appTextStyle,
-                      decoration: InputDecoration(
-                        hintStyle:
-                            AppTheme(appTextColor: Colors.grey).appTextStyle,
-                        hintText: 'Email',
-                      )),
+                  LastName(),
                   SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
-                  TextFormField(
-                      style: AppTheme(appTextLetterSpacing: 2).appTextStyle,
-                      decoration: InputDecoration(
-                        hintStyle:
-                            AppTheme(appTextColor: Colors.grey).appTextStyle,
-                        hintText: 'Password',
-                      )),
+                  EmailField(),
                   SizedBox(
-                    height: 50,
+                    height: 30,
                   ),
-                  TextFormField(
-                      style: AppTheme(appTextLetterSpacing: 2).appTextStyle,
-                      decoration: InputDecoration(
-                        hintStyle:
-                            AppTheme(appTextColor: Colors.grey).appTextStyle,
-                        hintText: 'Confirm Password',
-                      ))
+                  PasswordField(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  ConfirmPasswordField()
                 ],
               ),
             ),
-            Expanded(
-              child:
-                  Stack(alignment: Alignment.bottomCenter, children: <Widget>[
-                MaterialButton(
-                  disabledColor: Colors.grey,
-                  minWidth: double.infinity,
-                  height: 50.0,
-                  onPressed: () {},
-                  color: AppTheme().myPrimaryMaterialColor.shade800,
-                  child: Text(
-                    'Sign Up',
-                    style: AppTheme(appTextColor: Colors.white).appTextStyle,
-                  ),
-                ),
-              ]),
-            )
+            SignupBotton()
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
