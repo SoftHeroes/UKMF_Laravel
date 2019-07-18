@@ -1,8 +1,8 @@
 import '../appTheme.dart';
 import 'package:flutter/material.dart';
 
-class SignupBotton extends StatelessWidget {
-  const SignupBotton({
+class SignupButton extends StatelessWidget {
+  const SignupButton({
     Key key,
   }) : super(key: key);
 

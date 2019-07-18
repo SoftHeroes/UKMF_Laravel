@@ -53,3 +53,8 @@ user 		: ukmfir9u_root
 pass 		: f7sGRA34thehAem
 access DB 	: ukmfir9u_ukmfMaster 
 url    		: http://ukmf.in/Code/tunnel.php
+
+[DB User]
+user 		: ukmfir9u_CPuser
+pass 		: inPhLRaQKe3wPMX
+access DB 	: ukmfir9u_CardMaster 

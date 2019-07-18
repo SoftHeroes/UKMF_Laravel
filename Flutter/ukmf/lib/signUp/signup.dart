@@ -65,7 +65,7 @@ class SignUp extends StatelessWidget {
                 ],
               ),
             ),
-            SignupBotton()
+            SignupButton()
           ],
         ),
       ),

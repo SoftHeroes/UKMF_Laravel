@@ -1,4 +1,5 @@
 import 'package:ukmf/signUp/signup.dart';
+import 'package:ukmf/signUp/signup_test.dart';
 
 import './appTheme.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: AppTheme().myPrimaryMaterialColor),
-      home: SignUp(),
+      home: SignUpTest(),
       // home: MobileNumberVerification(),
     );
   }
