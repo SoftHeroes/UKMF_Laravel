@@ -14,6 +14,12 @@ class EmailField extends StatelessWidget {
         hintStyle: AppTheme(appTextColor: Colors.grey).appTextStyle,
         hintText: 'Email',
       ),
+      validator: (String textValue) {
+        if (textValue.length == 0)
+          return "EMail ID cannot be empty.";
+        else
+          return null;
+      },
     );
   }
 }

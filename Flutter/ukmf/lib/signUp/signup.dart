@@ -10,10 +10,12 @@ import 'emailField.dart';
 import 'nameFields.dart';
 
 class SignUp extends StatelessWidget {
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
       appBar: AppBar(
         title: Text('Sign up'),
         backgroundColor: AppTheme().myPrimaryMaterialColor.shade500,
@@ -28,46 +30,59 @@ class SignUp extends StatelessWidget {
           ),
         ),
       ),
-      body: Form(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-              child: Text(
-                'Enter your details for Registration',
-                style: AppTheme(appTextColor: Colors.black).appTextStyle,
+      body: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight - 50,
+                ),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
+                  width: viewportConstraints.maxWidth,
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: Text(
+                          'Enter your details for Registration',
+                          style:
+                              AppTheme(appTextColor: Colors.black).appTextStyle,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      FirstName(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      LastName(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      EmailField(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      PasswordField(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      ConfirmPasswordField(),
+                      SizedBox(
+                        height: 150,
+                      ),
+                      SignupButton(formKey: _formKey)
+                      // SignupButton()
+                    ],
+                  ),
+                ),
               ),
             ),
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              width: 300,
-              child: Column(
-                children: <Widget>[
-                  FirstName(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  LastName(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  EmailField(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  PasswordField(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  ConfirmPasswordField()
-                ],
-              ),
-            ),
-            SignupButton()
-          ],
-        ),
+          );
+        },
       ),
     );
   }

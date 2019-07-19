@@ -15,6 +15,12 @@ class FirstName extends StatelessWidget {
         hintStyle: AppTheme(appTextColor: Colors.grey).appTextStyle,
         hintText: 'First Name',
       ),
+      validator: (String textValue) {
+        if (textValue.length == 0)
+          return "First Name cannot be empty.";
+        else
+          return null;
+      },
     );
   }
 }
@@ -32,6 +38,12 @@ class LastName extends StatelessWidget {
         hintStyle: AppTheme(appTextColor: Colors.grey).appTextStyle,
         hintText: 'Last Name',
       ),
+      validator: (String textValue) {
+        if (textValue.length == 0)
+          return "Last Name cannot be empty.";
+        else
+          return null;
+      },
     );
   }
 }

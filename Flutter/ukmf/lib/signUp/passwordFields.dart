@@ -16,6 +16,12 @@ class ConfirmPasswordField extends StatelessWidget {
         hintStyle: AppTheme(appTextColor: Colors.grey).appTextStyle,
         hintText: 'Confirm Password',
       ),
+      validator: (String textValue) {
+        if (textValue.length == 0)
+          return "Confirm Password cannot be empty.";
+        else
+          return null;
+      },
     );
   }
 }
@@ -34,6 +40,12 @@ class PasswordField extends StatelessWidget {
         hintStyle: AppTheme(appTextColor: Colors.grey).appTextStyle,
         hintText: 'Password',
       ),
+      validator: (String textValue) {
+        if (textValue.length == 0)
+          return "Password cannot be empty.";
+        else
+          return null;
+      },
     );
   }
 }
