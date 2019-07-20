@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class OTPVerificationScheduler with ChangeNotifier {
+class SignUpScheduler with ChangeNotifier {
   String _password;
   String get password => _password;
   set password(String newValue) {
@@ -19,13 +19,6 @@ class OTPVerificationScheduler with ChangeNotifier {
   String get firstName => _firstName;
   set firstName(String newValue) {
     _firstName = newValue;
-    notifyListeners();
-  }
-
-  String _middleName;
-  String get middleName => _middleName;
-  set middleName(String newValue) {
-    _middleName = newValue;
     notifyListeners();
   }
 
@@ -50,24 +43,17 @@ class OTPVerificationScheduler with ChangeNotifier {
     notifyListeners();
   }
 
-  String _planID;
+  String _planID = '1';
   String get planID => _planID;
   set planID(String newValue) {
     _planID = newValue;
     notifyListeners();
   }
 
-  String _language;
+  String _language = "";
   String get language => _language;
   set language(String newValue) {
     _language = newValue;
-    notifyListeners();
-  }
-
-  String _source;
-  String get source => _source;
-  set source(String newValue) {
-    _source = newValue;
     notifyListeners();
   }
 }

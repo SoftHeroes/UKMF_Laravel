@@ -13,8 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: AppTheme().myPrimaryMaterialColor),
-      home: SignUp(),
-      // home: MobileNumberVerification(),
+      // home: SignUp(),
+      home: MobileNumberVerification(),
     );
   }
 }

@@ -1,16 +1,19 @@
-import 'package:flutter/widgets.dart';
-import 'package:ukmf/signUp/passwordFields.dart';
-import 'package:ukmf/signUp/signupButton.dart';
-
 import '../appTheme.dart';
 
+import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
+import 'package:ukmf/signUp/passwordFields.dart';
+import 'package:ukmf/signUp/signupButton.dart';
 import 'package:flutter/material.dart';
 
 import 'emailField.dart';
 import 'nameFields.dart';
+import 'signupScheduler.dart';
 
 class SignUp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+  final String phoneNumber;
+  SignUp({this.phoneNumber = "9074200979"});
 
   @override
   Widget build(BuildContext context) {
@@ -34,49 +37,55 @@ class SignUp extends StatelessWidget {
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return Form(
             key: _formKey,
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: viewportConstraints.maxHeight - 50,
-                ),
-                child: Container(
-                  padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
-                  width: viewportConstraints.maxWidth,
-                  child: Column(
-                    children: <Widget>[
-                      Center(
-                        child: Text(
-                          'Enter your details for Registration',
-                          style:
-                              AppTheme(appTextColor: Colors.black).appTextStyle,
+            child: ChangeNotifierProvider(
+              builder: (context) => SignUpScheduler(),
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: viewportConstraints.maxHeight - 50,
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
+                    width: viewportConstraints.maxWidth,
+                    child: Column(
+                      children: <Widget>[
+                        Center(
+                          child: Text(
+                            'Enter your details for Registration',
+                            style: AppTheme(appTextColor: Colors.black)
+                                .appTextStyle,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      FirstName(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      LastName(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      EmailField(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      PasswordField(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      ConfirmPasswordField(),
-                      SizedBox(
-                        height: 150,
-                      ),
-                      SignupButton(formKey: _formKey)
-                      // SignupButton()
-                    ],
+                        SizedBox(
+                          height: 50,
+                        ),
+                        FirstName(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        LastName(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        EmailField(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        PasswordField(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        ConfirmPasswordField(),
+                        SizedBox(
+                          height: 150,
+                        ),
+                        SignupButton(
+                          formKey: _formKey,
+                          mobileNumber: phoneNumber,
+                        )
+                        // SignupButton()
+                      ],
+                    ),
                   ),
                 ),
               ),
