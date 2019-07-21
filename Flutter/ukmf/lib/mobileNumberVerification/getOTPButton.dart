@@ -82,7 +82,7 @@ class GetOTPButton extends StatelessWidget {
       key: _asyncKey,
       initState: () async =>
           getResponse(requestBody: newRequest.toMap(), context: context),
-      renderLoad: () => new CircularProgressIndicator(),
+      renderLoad: () => CircularProgressIndicator(),
       renderError: ([error]) {
         return Text(
           'Get OTP',
@@ -116,11 +116,11 @@ class GetOTPButton extends StatelessWidget {
             : () {
                 if (_formKey.currentState.validate()) {
                   newRequest = new PostRequest(
-                      source: "Android",
+                      source: setupRef.source,
                       templateName: "OTP",
                       phoneNumber:
                           mobileNumberVerificationScheduler.mobileNumber,
-                      language: "English");
+                      language: setupRef.language);
 
                   countryCode = mobileNumberVerificationScheduler.countryCode;
 

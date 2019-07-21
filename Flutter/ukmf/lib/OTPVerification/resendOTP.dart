@@ -117,11 +117,11 @@ class ResendOTP extends StatelessWidget {
                 }
 
                 newRequest = new PostRequest(
-                    source: "Android",
+                    source: setupRef.source,
                     templateName: "OTP",
                     phoneNumber:
                         otpVerificationSchedulerConsumerRef.mobileNumber,
-                    language: "English");
+                    language: setupRef.language);
                 _asyncKey.currentState
                     .reloadState()
                     .whenComplete(() => print('finished reload'));
