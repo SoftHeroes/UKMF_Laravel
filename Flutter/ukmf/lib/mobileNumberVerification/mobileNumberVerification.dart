@@ -79,7 +79,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
     var pagelist = new List<Widget>();
     pagelist.add(form);
 
-    if (mobileNumberVerificationScheduler.saving) {
+    if (mobileNumberVerificationScheduler.isGettingOTP) {
       var modal = new Stack(
         children: [
           new Opacity(
@@ -95,8 +95,7 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
     }
     Response response = mobileNumberVerificationScheduler.response;
     mobileNumberVerificationScheduler.response = null;
-    if (mobileNumberVerificationScheduler.isGetOTPCalled && response != null) {
-      mobileNumberVerificationScheduler.isGetOTPCalled = false;
+    if (response != null) {
       if (response.statusCode == HttpStatus.ok) {
         if (json.decode(response.body)["ErrorFound"] == "NO") {
           print('call to new page');
