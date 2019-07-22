@@ -2,32 +2,25 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 
 class MobileNumberVerificationScheduler with ChangeNotifier {
-  bool _saving = false;
+  bool _isGettingOTP = false;
   bool _isIAgree = false;
-  bool _isGetOTPCalled = false;
   String _mobileNumber = "";
   String _countryCode = "+91";
   Response _response;
 
-  bool get saving => _saving;
+  bool get isGettingOTP => _isGettingOTP;
   bool get isIAgree => _isIAgree;
-  bool get isGetOTPCalled => _isGetOTPCalled;
   String get mobileNumber => _mobileNumber;
   String get countryCode => _countryCode;
   Response get response => _response;
 
-  set saving(bool newValue) {
-    _saving = newValue;
+  set isGettingOTP(bool newValue) {
+    _isGettingOTP = newValue;
     notifyListeners();
   }
 
   set mobileNumber(String newValue) {
     _mobileNumber = newValue;
-    notifyListeners();
-  }
-
-  set isGetOTPCalled(bool newValue) {
-    _isGetOTPCalled = newValue;
     notifyListeners();
   }
 

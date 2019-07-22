@@ -56,11 +56,10 @@ class GetOTPButton extends StatelessWidget {
         MobileNumberVerificationScheduler mobileNumberVerificationScheduler,
         {Map requestBody,
         BuildContext context}) async {
-      mobileNumberVerificationScheduler.isGetOTPCalled = true;
-      mobileNumberVerificationScheduler.saving = true;
+      mobileNumberVerificationScheduler.isGettingOTP = true;
       var resposne =
           await post(setupRef.server + setupRef.smsSent, body: requestBody);
-      mobileNumberVerificationScheduler.saving = false;
+      mobileNumberVerificationScheduler.isGettingOTP = false;
       mobileNumberVerificationScheduler.response = resposne;
     }
 
