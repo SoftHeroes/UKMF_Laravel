@@ -39,9 +39,6 @@ class PostRequest {
 }
 
 class GetOTPButton extends StatelessWidget {
-  final GlobalKey<AsyncLoaderState> _asyncKey =
-      new GlobalKey<AsyncLoaderState>();
-
   GetOTPButton({
     Key key,
     @required GlobalKey<FormState> formKey,
@@ -54,55 +51,18 @@ class GetOTPButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PostRequest newRequest;
-    String countryCode = '';
 
-    getResponse({Map requestBody, BuildContext context}) async {
+    getResponse(
+        MobileNumberVerificationScheduler mobileNumberVerificationScheduler,
+        {Map requestBody,
+        BuildContext context}) async {
+      mobileNumberVerificationScheduler.isGetOTPCalled = true;
+      mobileNumberVerificationScheduler.saving = true;
       var resposne =
           await post(setupRef.server + setupRef.smsSent, body: requestBody);
-
-      if (resposne.statusCode == HttpStatus.ok) {
-        json.decode(resposne.body);
-        if (json.decode(resposne.body)["ErrorFound"] == "NO") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OTPVerificationForm(
-                mobileNumber: requestBody["phoneNumber"],
-                otp: json.decode(resposne.body)["OTP"],
-                countryCode: countryCode,
-              ),
-            ),
-          );
-        }
-      }
-      return resposne;
+      mobileNumberVerificationScheduler.saving = false;
+      mobileNumberVerificationScheduler.response = resposne;
     }
-
-    var _asyncLoader = new AsyncLoader(
-      key: _asyncKey,
-      initState: () async =>
-          getResponse(requestBody: newRequest.toMap(), context: context),
-      renderLoad: () => CircularProgressIndicator(),
-      renderError: ([error]) {
-        return Text(
-          'Get OTP',
-          style: AppTheme(appTextColor: Colors.white).appTextStyle,
-        );
-      },
-      renderSuccess: ({data}) {
-        Response resposne = data;
-
-        if (resposne.statusCode != HttpStatus.ok ||
-            json.decode(resposne.body)["ErrorFound"] == "YES") {
-          Toast.show("unable to send message", context,
-              duration: 1, gravity: Toast.BOTTOM);
-        }
-        return Text(
-          'Get OTP',
-          style: AppTheme(appTextColor: Colors.white).appTextStyle,
-        );
-      },
-    );
 
     return Consumer<MobileNumberVerificationScheduler>(
       builder: (context, mobileNumberVerificationScheduler, _) =>
@@ -122,15 +82,14 @@ class GetOTPButton extends StatelessWidget {
                           mobileNumberVerificationScheduler.mobileNumber,
                       language: setupRef.language);
 
-                  countryCode = mobileNumberVerificationScheduler.countryCode;
-
-                  _asyncKey.currentState
-                      .reloadState()
-                      .whenComplete(() => print('finished reload'));
-                  // getResponse(requestBody: newRequest.toMap());
+                  getResponse(mobileNumberVerificationScheduler,
+                      requestBody: newRequest.toMap());
                 }
               },
-        child: _asyncLoader,
+        child: Text(
+          'Get OTP',
+          style: AppTheme(appTextColor: Colors.white).appTextStyle,
+        ),
         color: AppTheme().myPrimaryMaterialColor.shade800,
       ),
     );
