@@ -76,19 +76,18 @@ class SignupButton extends StatelessWidget {
     final Setup setupRef = Setup();
     PostRequest newRequest;
 
+    getResponse(SignUpScheduler signUpScheduler, {Map requestBody}) async {
+      print(setupRef.server + setupRef.signupCustomer);
+
+      signUpScheduler.isSigningUp = true;
+      var response = await post(setupRef.server + setupRef.signupCustomer,
+          body: requestBody);
+      signUpScheduler.isSigningUp = false;
+
+      signUpScheduler.response = response;
+    }
+
     return Consumer<SignUpScheduler>(builder: (context, signUpScheduler, _) {
-      getResponse({Map requestBody}) async {
-        print(setupRef.server + setupRef.signupCustomer);
-        var resposne = await post(setupRef.server + setupRef.signupCustomer,
-            body: requestBody);
-
-        if (resposne.statusCode == HttpStatus.ok) {
-          return resposne;
-        }
-
-        return resposne;
-      }
-
       return Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
@@ -109,18 +108,7 @@ class SignupButton extends StatelessWidget {
                   confirmPassword: signUpScheduler.confirmPassword,
                 );
 
-                Response resposne =
-                    await getResponse(requestBody: newRequest.toMap());
-
-                if (resposne.statusCode != HttpStatus.ok ||
-                    json.decode(resposne.body)["ErrorFound"] == "YES") {
-                  Toast.show("unable to sign up message", context,
-                      duration: 1, gravity: Toast.BOTTOM);
-                }
-
-                // _asyncKey.currentState
-                //     .reloadState()
-                //     .whenComplete(() => print('finished reload'));
+                getResponse(signUpScheduler, requestBody: newRequest.toMap());
               }
             },
             color: AppTheme().myPrimaryMaterialColor.shade800,

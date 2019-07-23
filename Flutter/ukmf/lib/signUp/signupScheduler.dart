@@ -1,6 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart';
 
 class SignUpScheduler with ChangeNotifier {
+  bool _isSigningUp = false;
+  bool get isSigningUp => _isSigningUp;
+  set isSigningUp(bool newValue) {
+    _isSigningUp = newValue;
+    notifyListeners();
+  }
+
   String _password;
   String get password => _password;
   set password(String newValue) {
@@ -54,6 +62,13 @@ class SignUpScheduler with ChangeNotifier {
   String get language => _language;
   set language(String newValue) {
     _language = newValue;
+    notifyListeners();
+  }
+
+  Response _response;
+  Response get response => _response;
+  set response(Response newValue) {
+    _response = newValue;
     notifyListeners();
   }
 }

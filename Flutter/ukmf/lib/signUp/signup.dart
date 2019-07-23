@@ -1,19 +1,128 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:http/http.dart';
+import 'package:toast/toast.dart';
+
 import '../appTheme.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:ukmf/signUp/passwordFields.dart';
-import 'package:ukmf/signUp/signupButton.dart';
 import 'package:flutter/material.dart';
 
 import 'emailField.dart';
 import 'nameFields.dart';
+import 'passwordFields.dart';
+import 'signupButton.dart';
 import 'signupScheduler.dart';
 
 class SignUp extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final String phoneNumber;
   SignUp({this.phoneNumber = "9074200979"});
+
+  List<Widget> _buildForm(
+    BuildContext context,
+    SignUpScheduler signUpScheduler,
+    BoxConstraints viewportConstraints,
+  ) {
+    Form form = Form(
+      key: _formKey,
+      child: ChangeNotifierProvider(
+        builder: (context) => SignUpScheduler(),
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: viewportConstraints.maxHeight - 50,
+            ),
+            child: Container(
+              padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
+              width: viewportConstraints.maxWidth,
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: Text(
+                      'Enter your details for Registration',
+                      style: AppTheme(appTextColor: Colors.black).appTextStyle,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  FirstName(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  LastName(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  EmailField(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  PasswordField(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  ConfirmPasswordField(),
+                  SizedBox(
+                    height: 150,
+                  ),
+                  SignupButton(
+                    formKey: _formKey,
+                    mobileNumber: phoneNumber,
+                  )
+                  // SignupButton()
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    var pagelist = new List<Widget>();
+    pagelist.add(form);
+
+    if (signUpScheduler.isSigningUp) {
+      var modal = new Stack(
+        children: [
+          new Opacity(
+            opacity: 0.3,
+            child: const ModalBarrier(dismissible: false, color: Colors.grey),
+          ),
+          new Center(
+            child: new CircularProgressIndicator(),
+          ),
+        ],
+      );
+      pagelist.add(modal);
+    }
+    Response response = signUpScheduler.response;
+    signUpScheduler.response = null;
+    if (response != null) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          if (response.statusCode != HttpStatus.ok) {
+            Toast.show("Unable to send SMS", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          } else {
+            dynamic jsonData = json.decode(response.body);
+
+            if (jsonData["ErrorFound"] == "NO") {
+              print('Sign up succefull');
+            } else {
+              Toast.show("Unable to send SMS", context,
+                  duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            }
+          }
+        },
+      );
+    }
+
+    return pagelist;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,59 +144,12 @@ class SignUp extends StatelessWidget {
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return Form(
-            key: _formKey,
-            child: ChangeNotifierProvider(
-              builder: (context) => SignUpScheduler(),
-              child: SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight - 50,
-                  ),
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
-                    width: viewportConstraints.maxWidth,
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                          child: Text(
-                            'Enter your details for Registration',
-                            style: AppTheme(appTextColor: Colors.black)
-                                .appTextStyle,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        FirstName(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        LastName(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        EmailField(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        PasswordField(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        ConfirmPasswordField(),
-                        SizedBox(
-                          height: 150,
-                        ),
-                        SignupButton(
-                          formKey: _formKey,
-                          mobileNumber: phoneNumber,
-                        )
-                        // SignupButton()
-                      ],
-                    ),
-                  ),
-                ),
+          return ChangeNotifierProvider(
+            builder: (context) => SignUpScheduler(),
+            child: Consumer<SignUpScheduler>(
+              builder: (context, signUpScheduler, _) => Stack(
+                children:
+                    _buildForm(context, signUpScheduler, viewportConstraints),
               ),
             ),
           );
