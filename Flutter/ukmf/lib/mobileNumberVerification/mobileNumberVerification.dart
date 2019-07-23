@@ -1,13 +1,12 @@
-import 'dart:convert';
-
-import 'package:http/http.dart';
-import 'package:ukmf/OTPVerification/otpVerification.dart';
-
 import '../appTheme.dart';
 
+import 'dart:convert';
+import 'package:http/http.dart';
+import 'package:ukmf/OTPVerification/otpVerification.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
+import 'package:toast/toast.dart';
 
 import 'dropdownlist.dart';
 import 'mobileNumberVerificationScheduler.dart';
@@ -96,26 +95,33 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
     Response response = mobileNumberVerificationScheduler.response;
     mobileNumberVerificationScheduler.response = null;
     if (response != null) {
-      if (response.statusCode == HttpStatus.ok) {
-        if (json.decode(response.body)["ErrorFound"] == "NO") {
-          print('call to new page');
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          if (response.statusCode != HttpStatus.ok) {
+            Toast.show("Unable to send SMS", context,
+                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+          } else {
+            dynamic jsonData = json.decode(response.body);
 
-          WidgetsBinding.instance.addPostFrameCallback(
-            (_) => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OTPVerificationForm(
-                  mobileNumber: mobileNumberVerificationScheduler.mobileNumber,
-                  otp: json.decode(response.body)["OTP"],
-                  countryCode: mobileNumberVerificationScheduler.countryCode,
+            if (jsonData["ErrorFound"] == "NO") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OTPVerificationForm(
+                    mobileNumber:
+                        mobileNumberVerificationScheduler.mobileNumber,
+                    otp: jsonData["OTP"],
+                    countryCode: mobileNumberVerificationScheduler.countryCode,
+                  ),
                 ),
-              ),
-            ),
-          );
-
-          ;
-        }
-      }
+              );
+            } else {
+              Toast.show("Unable to send SMS", context,
+                  duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            }
+          }
+        },
+      );
     }
 
     return pagelist;

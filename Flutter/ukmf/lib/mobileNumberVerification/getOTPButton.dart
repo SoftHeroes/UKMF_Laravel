@@ -1,15 +1,9 @@
 import '../appTheme.dart';
 import '../setup.dart';
 
-import 'package:async_loader/async_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart';
-import 'package:toast/toast.dart';
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:ukmf/OTPVerification/otpVerification.dart';
 import 'mobileNumberVerificationScheduler.dart';
 
 class PostRequest {

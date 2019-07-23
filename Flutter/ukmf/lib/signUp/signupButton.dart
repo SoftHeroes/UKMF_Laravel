@@ -6,7 +6,6 @@ import '../setup.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
-import 'package:async_loader/async_loader.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -71,9 +70,6 @@ class SignupButton extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final String mobileNumber;
   SignupButton({this.formKey, this.mobileNumber = ""});
-
-  final GlobalKey<AsyncLoaderState> _asyncKey =
-      new GlobalKey<AsyncLoaderState>();
 
   @override
   Widget build(BuildContext context) {
