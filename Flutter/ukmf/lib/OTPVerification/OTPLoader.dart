@@ -50,38 +50,37 @@ class _OTPLoaderState extends State<OTPLoader>
       Timer.periodic(
         Duration(seconds: 1),
         (Timer timer) => setState(
-              () {
-                if (timerCount >= 1) {
-                  isCanResentOTP = false;
+          () {
+            if (timerCount >= 1) {
+              isCanResentOTP = false;
 
-                  if (otpVerificationSchedulerRef.isCanResendOTP !=
-                      isCanResentOTP) {
-                    otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
-                  }
+              if (otpVerificationSchedulerRef.isCanResendOTP !=
+                  isCanResentOTP) {
+                otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+              }
 
-                  timerCount = timerCount - 1;
-                  controller.repeat();
-                } else {
-                  isShowingLoader = false;
+              timerCount = timerCount - 1;
+              controller.repeat();
+            } else {
+              isShowingLoader = false;
 
-                  if (otpVerificationSchedulerRef.isShowingLoader !=
-                      isShowingLoader) {
-                    otpVerificationSchedulerRef.isShowingLoader =
-                        isShowingLoader;
-                  }
+              if (otpVerificationSchedulerRef.isShowingLoader !=
+                  isShowingLoader) {
+                otpVerificationSchedulerRef.isShowingLoader = isShowingLoader;
+              }
 
-                  timerCount = -1;
-                  timer.cancel();
-                  controller.stop();
-                  isCanResentOTP = true;
+              timerCount = -1;
+              timer.cancel();
+              controller.stop();
+              isCanResentOTP = true;
 
-                  if (otpVerificationSchedulerRef.isCanResendOTP !=
-                      isCanResentOTP) {
-                    otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
-                  }
-                }
-              },
-            ),
+              if (otpVerificationSchedulerRef.isCanResendOTP !=
+                  isCanResentOTP) {
+                otpVerificationSchedulerRef.isCanResendOTP = isCanResentOTP;
+              }
+            }
+          },
+        ),
       );
     }
 

@@ -1,11 +1,12 @@
-import 'package:provider/provider.dart';
-import 'package:ukmf/OTPVerification/otpVerificationScheduler.dart';
-import 'package:ukmf/signUp/signup.dart';
-
 import '../appTheme.dart';
 
-import 'resendOTP.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
+import 'package:ukmf/OTPVerification/otpVerificationScheduler.dart';
+import 'package:ukmf/signUp/signup.dart';
 import 'package:flutter/material.dart';
+
+import 'resendOTP.dart';
 
 class SutmitOTP extends StatelessWidget {
   final String mobileNumber, otp;
@@ -43,13 +44,17 @@ class SutmitOTP extends StatelessWidget {
                 }
 
                 if (otpVerificationScheduler.enterOTP ==
-                    otpVerificationScheduler.otp)
+                    otpVerificationScheduler.otp) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => SignUp(),
                     ),
                   );
+                } else {
+                  Toast.show("Invalid OTP.", context,
+                      duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                }
               }
             },
           ),
