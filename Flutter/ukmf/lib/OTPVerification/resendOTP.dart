@@ -45,45 +45,43 @@ class ResendOTP extends StatelessWidget {
     PostRequest newRequest;
 
     return Consumer<OTPVerificationScheduler>(
-      builder: (context, otpVerificationSchedulerConsumerRef, _) {
+      builder: (context, otpVerificationScheduler, _) {
         getResponse(OTPVerificationScheduler otpVerificationScheduler,
             {Map requestBody}) async {
           otpVerificationScheduler.isResendingOTP = true;
           var resposne =
               await post(setupRef.server + setupRef.smsSent, body: requestBody);
-          otpVerificationSchedulerConsumerRef.isResendingOTP = false;
-          otpVerificationSchedulerConsumerRef.response = resposne;
+          otpVerificationScheduler.isResendingOTP = false;
+          otpVerificationScheduler.isResendingOTPCompleted = true;
+          otpVerificationScheduler.response = resposne;
         }
 
         return Padding(
           padding: EdgeInsets.fromLTRB(0, 0, 0, 60.0),
           child: GestureDetector(
             onTap: () {
-              if (otpVerificationSchedulerConsumerRef.isCanResendOTP) {
-                if (otpVerificationSchedulerConsumerRef.mobileNumber == '') {
-                  otpVerificationSchedulerConsumerRef.mobileNumber =
-                      mobileNumber;
+              if (otpVerificationScheduler.isCanResendOTP) {
+                if (otpVerificationScheduler.mobileNumber == '') {
+                  otpVerificationScheduler.mobileNumber = mobileNumber;
                 }
-                if (otpVerificationSchedulerConsumerRef.otp == '') {
-                  otpVerificationSchedulerConsumerRef.otp = otp;
+                if (otpVerificationScheduler.otp == '') {
+                  otpVerificationScheduler.otp = otp;
                 }
 
                 newRequest = new PostRequest(
                     source: setupRef.source,
                     templateName: "OTP",
-                    phoneNumber:
-                        otpVerificationSchedulerConsumerRef.mobileNumber,
+                    phoneNumber: otpVerificationScheduler.mobileNumber,
                     language: setupRef.language);
 
-                getResponse(otpVerificationSchedulerConsumerRef,
+                getResponse(otpVerificationScheduler,
                     requestBody: newRequest.toMap());
               }
             },
             child: Text(
               'Resend OTP',
               style: AppTheme(
-                      isLink:
-                          otpVerificationSchedulerConsumerRef.isCanResendOTP,
+                      isLink: otpVerificationScheduler.isCanResendOTP,
                       appTextColor: Colors.grey)
                   .appTextStyle,
             ),

@@ -16,10 +16,16 @@ import 'passwordFields.dart';
 import 'signupButton.dart';
 import 'signupScheduler.dart';
 
-class SignUp extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+class SignUp extends StatefulWidget {
   final String phoneNumber;
   SignUp({this.phoneNumber = "9074200979"});
+
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  final _formKey = GlobalKey<FormState>();
 
   List<Widget> _buildForm(
     BuildContext context,
@@ -28,54 +34,51 @@ class SignUp extends StatelessWidget {
   ) {
     Form form = Form(
       key: _formKey,
-      child: ChangeNotifierProvider(
-        builder: (context) => SignUpScheduler(),
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight - 50,
-            ),
-            child: Container(
-              padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
-              width: viewportConstraints.maxWidth,
-              child: Column(
-                children: <Widget>[
-                  Center(
-                    child: Text(
-                      'Enter your details for Registration',
-                      style: AppTheme(appTextColor: Colors.black).appTextStyle,
-                    ),
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: viewportConstraints.maxHeight - 50,
+          ),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(50, 30, 50, 0),
+            width: viewportConstraints.maxWidth,
+            child: Column(
+              children: <Widget>[
+                Center(
+                  child: Text(
+                    'Enter your details for Registration',
+                    style: AppTheme(appTextColor: Colors.black).appTextStyle,
                   ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  FirstName(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  LastName(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  EmailField(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  PasswordField(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  ConfirmPasswordField(),
-                  SizedBox(
-                    height: 150,
-                  ),
-                  SignupButton(
-                    formKey: _formKey,
-                    mobileNumber: phoneNumber,
-                  )
-                  // SignupButton()
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                FirstName(),
+                SizedBox(
+                  height: 30,
+                ),
+                LastName(),
+                SizedBox(
+                  height: 30,
+                ),
+                EmailField(),
+                SizedBox(
+                  height: 30,
+                ),
+                PasswordField(),
+                SizedBox(
+                  height: 30,
+                ),
+                ConfirmPasswordField(),
+                SizedBox(
+                  height: 150,
+                ),
+                SignupButton(
+                  formKey: _formKey,
+                  mobileNumber: widget.phoneNumber,
+                )
+                // SignupButton()
+              ],
             ),
           ),
         ),
@@ -99,27 +102,35 @@ class SignUp extends StatelessWidget {
       );
       pagelist.add(modal);
     }
-    Response response = signUpScheduler.response;
-    signUpScheduler.response = null;
-    if (response != null) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          if (response.statusCode != HttpStatus.ok) {
-            Toast.show("Unable to send SMS", context,
-                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-          } else {
-            dynamic jsonData = json.decode(response.body);
 
-            if (jsonData["ErrorFound"] == "NO") {
-              print('Sign up succefull');
-            } else {
-              Toast.show("Unable to send SMS", context,
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        if (signUpScheduler.isSigningUpCompleted) {
+          signUpScheduler.isSigningUpCompleted = false;
+
+          Response response = signUpScheduler.response;
+          signUpScheduler.response = null;
+          if (response != null) {
+            if (response.statusCode != HttpStatus.ok) {
+              Toast.show("Unable to signup currently", context,
                   duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            } else {
+              dynamic jsonData = json.decode(response.body);
+
+              if (jsonData["ErrorFound"] == "NO") {
+                print('Sign up succefull');
+              } else if (jsonData["Code"] == "ERR00000") {
+                Toast.show("Unable to signup currently", context,
+                    duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+              } else {
+                Toast.show(jsonData["Message"], context,
+                    duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+              }
             }
           }
-        },
-      );
-    }
+        }
+      },
+    );
 
     return pagelist;
   }

@@ -9,6 +9,13 @@ class OTPVerificationScheduler with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isResendingOTPCompleted = false;
+  bool get isResendingOTPCompleted => _isResendingOTPCompleted;
+  set isResendingOTPCompleted(bool newValue) {
+    _isResendingOTPCompleted = newValue;
+    notifyListeners();
+  }
+
   bool _isCanResendOTP = true;
   bool get isCanResendOTP => _isCanResendOTP;
   set isCanResendOTP(bool newValue) {

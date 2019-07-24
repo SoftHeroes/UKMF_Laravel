@@ -9,6 +9,13 @@ class SignUpScheduler with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isSigningUpCompleted = false;
+  bool get isSigningUpCompleted => _isSigningUpCompleted;
+  set isSigningUpCompleted(bool newValue) {
+    _isSigningUpCompleted = newValue;
+    notifyListeners();
+  }
+
   String _password;
   String get password => _password;
   set password(String newValue) {

@@ -9,6 +9,13 @@ class MobileNumberVerificationScheduler with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isGettingOTPCompleted = false;
+  bool get isGettingOTPCompleted => _isGettingOTPCompleted;
+  set isGettingOTPCompleted(bool newValue) {
+    _isGettingOTPCompleted = newValue;
+    notifyListeners();
+  }
+
   bool _isIAgree = false;
   bool get isIAgree => _isIAgree;
   set isIAgree(bool newValue) {

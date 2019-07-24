@@ -41,6 +41,7 @@ class _OTPFieldState extends State<OTPField> {
       widget._formKey.currentState.validate();
     }
 
+    bool isfirstLoad = true;
     _textFieldController.addListener(onChange);
 
     return Consumer<OTPVerificationScheduler>(
@@ -82,8 +83,12 @@ class _OTPFieldState extends State<OTPField> {
                     appTextLetterSpacing: 15)
                 .appTextStyle,
             validator: (String newValue) {
-              print('validator called');
-              otpVerificationScheduler.enterOTP = newValue;
+              if (!isfirstLoad) {
+                print('validator called');
+                otpVerificationScheduler.enterOTP = newValue;
+              } else {
+                isfirstLoad = false;
+              }
               return null;
             },
           ),

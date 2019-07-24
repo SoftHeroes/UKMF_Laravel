@@ -1,10 +1,6 @@
-import 'package:toast/toast.dart';
-
 import '../appTheme.dart';
 import '../setup.dart';
 
-import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +36,6 @@ class PostRequest {
         password: json['password'],
         confirmPassword: json['confirmPassword'],
         firstName: json['firstName'],
-        middleName: json['middleName'],
         lastName: json['lastName'],
         emailID: json['emailID'],
         phoneNumber: json['phoneNumber'],
@@ -54,7 +49,6 @@ class PostRequest {
     map["password"] = password;
     map["confirmPassword"] = confirmPassword;
     map["firstName"] = firstName;
-    map["middleName"] = middleName;
     map["lastName"] = lastName;
     map["emailID"] = emailID;
     map["phoneNumber"] = phoneNumber;
@@ -76,18 +70,17 @@ class SignupButton extends StatelessWidget {
     final Setup setupRef = Setup();
     PostRequest newRequest;
 
-    getResponse(SignUpScheduler signUpScheduler, {Map requestBody}) async {
-      print(setupRef.server + setupRef.signupCustomer);
-
-      signUpScheduler.isSigningUp = true;
-      var response = await post(setupRef.server + setupRef.signupCustomer,
-          body: requestBody);
-      signUpScheduler.isSigningUp = false;
-
-      signUpScheduler.response = response;
-    }
-
     return Consumer<SignUpScheduler>(builder: (context, signUpScheduler, _) {
+      getResponse(SignUpScheduler signUpScheduler, {Map requestBody}) async {
+        signUpScheduler.isSigningUp = true;
+        var response = await post(setupRef.server + setupRef.signupCustomer,
+            body: requestBody);
+        signUpScheduler.isSigningUp = false;
+        signUpScheduler.isSigningUpCompleted = true;
+
+        signUpScheduler.response = response;
+      }
+
       return Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[

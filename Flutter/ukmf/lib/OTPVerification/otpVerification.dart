@@ -86,37 +86,41 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
       );
       pagelist.add(modal);
     }
-    Response response = otpVerificationScheduler.response;
-    otpVerificationScheduler.response = null;
-    if (response != null) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          if (response.statusCode != HttpStatus.ok) {
-            Toast.show("Unable to send SMS", context,
-                duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
-          } else {
-            dynamic jsonData = json.decode(response.body);
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        if (otpVerificationScheduler.isResendingOTPCompleted) {
+          otpVerificationScheduler.isResendingOTPCompleted = false;
+          Response response = otpVerificationScheduler.response;
+          otpVerificationScheduler.response = null;
 
-            if (jsonData["ErrorFound"] == "NO") {
-              otpVerificationScheduler.isShowingLoader = true;
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => OTPVerificationForm(
-                    mobileNumber: otpVerificationScheduler.mobileNumber,
-                    otp: jsonData["OTP"],
-                    countryCode: otpVerificationScheduler.countryCode,
-                  ),
-                ),
-              );
-            } else {
+          if (response != null) {
+            if (response.statusCode != HttpStatus.ok) {
               Toast.show("Unable to send SMS", context,
                   duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+            } else {
+              dynamic jsonData = json.decode(response.body);
+
+              if (jsonData["ErrorFound"] == "NO") {
+                otpVerificationScheduler.isShowingLoader = true;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OTPVerificationForm(
+                      mobileNumber: otpVerificationScheduler.mobileNumber,
+                      otp: jsonData["OTP"],
+                      countryCode: otpVerificationScheduler.countryCode,
+                    ),
+                  ),
+                );
+              } else {
+                Toast.show("Unable to send SMS", context,
+                    duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+              }
             }
           }
-        },
-      );
-    }
+        }
+      },
+    );
 
     return pagelist;
   }
