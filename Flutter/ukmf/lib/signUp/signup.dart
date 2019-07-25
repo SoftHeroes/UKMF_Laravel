@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 
 import '../appTheme.dart';
@@ -25,6 +26,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  _save(String user, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', user);
+    prefs.setString('password', password);
+  }
+
   final _formKey = GlobalKey<FormState>();
 
   List<Widget> _buildForm(
@@ -118,6 +125,8 @@ class _SignUpState extends State<SignUp> {
               dynamic jsonData = json.decode(response.body);
 
               if (jsonData["ErrorFound"] == "NO") {
+                _save(signUpScheduler.phoneNumber, signUpScheduler.password);
+
                 print('Sign up succefull');
               } else if (jsonData["Code"] == "ERR00000") {
                 Toast.show("Unable to signup currently", context,

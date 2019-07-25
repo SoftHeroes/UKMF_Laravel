@@ -24,6 +24,7 @@ dependencies:
   async_loader:
   cupertino_icons: ^0.1.2
   toast: ^0.1.3
+  shared_preferences: ^0.4.3
 
 dev_dependencies:
   flutter_test:
@@ -42,6 +43,7 @@ flutter:
   assets:
     - assets/Pizza.jpg
     - assets/eggsalad.webp
+    - assets/companyLogo.png
   #  - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
