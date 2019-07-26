@@ -3,7 +3,7 @@ import './appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'mobileNumberVerification/mobileNumberVerification.dart';
-import 'splashScreen/splashScreen.dart';
+import 'splashScreen.dart';
 
 main() => runApp(MyApp());
 
