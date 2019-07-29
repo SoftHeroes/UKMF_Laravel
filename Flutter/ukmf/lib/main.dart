@@ -3,7 +3,7 @@ import './appTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'mobileNumberVerification/mobileNumberVerification.dart';
-import 'splashScreen.dart';
+import 'mySplashScreen.dart';
 
 main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(primarySwatch: AppTheme().myPrimaryMaterialColor),
       // home: MobileNumberVerification(),
-      home: SplashScreen(),
+      home: MySplashScreen(),
     );
   }
 }
