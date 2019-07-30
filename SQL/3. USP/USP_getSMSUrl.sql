@@ -24,6 +24,7 @@ proc_Call:BEGIN
   DECLARE op_APIName varchar(255);
   DECLARE op_APIID INT(10);
   DECLARE op_AlreadyRegisteredUser varchar(10) DEFAULT 'NO';
+  DECLARE op_CustomerPassword varchar(255) DEFAULT NULL;
   DECLARE op_OTPExpiryTime INT (2);
   DECLARE op_resendOTPAttempts INT (2);
   DECLARE op_OTPAttempts INT (2);
@@ -38,7 +39,7 @@ proc_Call:BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
       GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,op_ErrorMessage = MESSAGE_TEXT;
-      SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00000' AND `language` = p_Language;
+      SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00000' AND `language` = p_Language;
       ROLLBACK;
     END;
 
@@ -49,12 +50,12 @@ proc_Call:BEGIN
   -- Language check block : START
   IF ( p_Language IS NULL OR TRIM(p_Language) = '' ) THEN
   BEGIN
-    SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00012' AND `language` = 'English';
+    SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00012' AND `language` = 'English';
     LEAVE proc_Call;
   END;
   ELSEIF NOT EXISTS (select 1 from languageLookup where language = p_Language) THEN
     BEGIN
-      SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00009' AND `language` = 'English';
+      SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00009' AND `language` = 'English';
       LEAVE proc_Call;
     END;
   END IF;
@@ -63,27 +64,27 @@ proc_Call:BEGIN
   -- Input check block : START
   IF(  p_Source IS NULL OR TRIM(p_Source) = '' ) THEN
       BEGIN
-          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00022' AND `language` = p_Language;
+          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00022' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   ELSEIF NOT EXISTS(  SELECT 1 FROM lookUp WHERE name = p_Source AND category = 'source' AND languageID =  getLanguageID(p_Language)  ) THEN
     BEGIN
-          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00033' AND `language` = p_Language;
+          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00033' AND `language` = p_Language;
           LEAVE proc_Call;
     END;
   ELSEIF(  p_PhoneNumber IS NULL OR TRIM(p_PhoneNumber) = '' ) THEN
       BEGIN
-          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00019' AND `language` = p_Language;
+          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00019' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
 --   ELSEIF(  p_APIName IS NULL OR TRIM(p_APIName) = '' ) THEN
 --       BEGIN
---           SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00026' AND `language` = p_Language;
+--           SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00026' AND `language` = p_Language;
 --           LEAVE proc_Call;
 --       END;
   ELSEIF(  p_TemplateName IS NULL OR TRIM(p_TemplateName) = '' ) THEN
       BEGIN
-          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00023' AND `language` = p_Language;
+          SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00023' AND `language` = p_Language;
           LEAVE proc_Call;
       END;
   END IF;
@@ -93,7 +94,7 @@ proc_Call:BEGIN
   -- Phone Number valdation block : START
   IF(  !isNumeric(p_PhoneNumber) OR LENGTH(p_PhoneNumber) != 10 ) THEN
     BEGIN
-        SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00002' AND `language` = p_Language;
+        SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00002' AND `language` = p_Language;
         LEAVE proc_Call;
     END;
   END IF;
@@ -103,7 +104,7 @@ proc_Call:BEGIN
 --   SET RowCount = ( SELECT 1 FROM `SMSAPISetups` WHERE `APIName` = p_APIName AND `op_Environment` = op_Environment AND `Active` = 1 AND `Deleted` = 0 );
 --   IF( RowCount IS NULL) THEN
 --     BEGIN
---         SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00027' AND `language` = p_Language;
+--         SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00027' AND `language` = p_Language;
 --         LEAVE proc_Call;
 --     END;
 --   END IF;
@@ -112,6 +113,7 @@ proc_Call:BEGIN
   IF EXISTS (SELECT 1 FROM `Customer` WHERE phoneNumber = p_PhoneNumber) THEN
     BEGIN
       SET op_AlreadyRegisteredUser = 'YES';
+      set op_CustomerPassword =  (SELECT AES_DECRYPT(password,p_PhoneNumber) FROM `Customer` WHERE phoneNumber = p_PhoneNumber);
     END;
   END IF;
 
@@ -121,7 +123,7 @@ proc_Call:BEGIN
   SET RowCount = ( SELECT 1 FROM `SMSTemplates` WHERE `templateName` = p_TemplateName AND `languageID` = p_Language AND `Active` = 1 AND `Deleted` = 0 );
   IF( RowCount IS NULL) THEN
     BEGIN
-        SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00025' AND `language` = p_Language;
+        SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00025' AND `language` = p_Language;
         LEAVE proc_Call;
     END;
   END IF;
@@ -165,7 +167,7 @@ proc_Call:BEGIN
   FROM `SMSAPISetups` WHERE /*`APIName` = p_APIName AND */ `op_Environment` = op_Environment AND `Active` = 1 AND `Deleted` = 0;
     
 
-  SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming FROM `MessageMaster`  WHERE `Code` = 'ERR00028' AND `language` = p_Language;
+  SELECT  `Code`,`ErrorFound`,`Message`,`version`,`language`,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM `MessageMaster`  WHERE `Code` = 'ERR00028' AND `language` = p_Language;
   -- op_URL Generation block : START
 
 END$$

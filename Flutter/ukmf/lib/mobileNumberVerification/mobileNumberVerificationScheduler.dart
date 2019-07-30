@@ -23,6 +23,13 @@ class MobileNumberVerificationScheduler with ChangeNotifier {
     notifyListeners();
   }
 
+  String _customerPassword = "";
+  String get customerPassword => _customerPassword;
+  set customerPassword(String newValue) {
+    _customerPassword = newValue;
+    notifyListeners();
+  }
+
   String _mobileNumber = "";
   String get mobileNumber => _mobileNumber;
   set mobileNumber(String newValue) {

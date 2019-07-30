@@ -1,3 +1,6 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ukmf/home/home.dart';
+
 import '../appTheme.dart';
 
 import 'package:provider/provider.dart';
@@ -9,16 +12,24 @@ import 'package:flutter/material.dart';
 import 'resendOTP.dart';
 
 class SutmitOTP extends StatelessWidget {
-  final String mobileNumber, otp;
-
+  final String mobileNumber, otp, customerPassword;
+  final bool isAlreadyRegisteredUser;
   final GlobalKey<FormState> _formKey;
-  SutmitOTP(
-      {Key key,
-      @required GlobalKey<FormState> formKey,
-      this.mobileNumber = '',
-      this.otp = ''})
-      : _formKey = formKey,
+  SutmitOTP({
+    Key key,
+    @required GlobalKey<FormState> formKey,
+    this.mobileNumber = '',
+    this.otp = '',
+    this.customerPassword,
+    this.isAlreadyRegisteredUser,
+  })  : _formKey = formKey,
         super(key: key);
+
+  _save(String user, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('user', user);
+    prefs.setString('password', password);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +57,23 @@ class SutmitOTP extends StatelessWidget {
                 if (otpVerificationScheduler.enterOTP ==
                         otpVerificationScheduler.otp ||
                     otpVerificationScheduler.enterOTP == '123456') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUp(
-                        phoneNumber: mobileNumber,
+                  if (isAlreadyRegisteredUser) {
+                    _save(
+                      otpVerificationScheduler.mobileNumber,
+                      customerPassword,
+                    );
+                    Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                        builder: (BuildContext context) => AppHome()));
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignUp(
+                          phoneNumber: mobileNumber,
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 } else {
                   Toast.show("Invalid OTP.", context,
                       duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);

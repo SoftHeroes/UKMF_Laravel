@@ -17,13 +17,16 @@ import 'otpVerificationScheduler.dart';
 import 'submitOTPButton.dart';
 
 class OTPVerificationForm extends StatefulWidget {
-  final String mobileNumber, otp, countryCode;
+  final String mobileNumber, otp, countryCode, customerPassword;
 
+  final bool isAlreadyRegisteredUser;
   OTPVerificationForm({
     Key key,
     this.countryCode = '',
     this.mobileNumber = '',
     this.otp = '',
+    this.isAlreadyRegisteredUser = false,
+    this.customerPassword,
   }) : super(key: key);
 
   _OTPVerificationFormState createState() => _OTPVerificationFormState();
@@ -63,6 +66,8 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
           SutmitOTP(
             otp: widget.otp,
             mobileNumber: widget.mobileNumber,
+            isAlreadyRegisteredUser: widget.isAlreadyRegisteredUser,
+            customerPassword: widget.customerPassword,
             formKey: _formKey,
           )
         ],
@@ -102,16 +107,6 @@ class _OTPVerificationFormState extends State<OTPVerificationForm> {
 
               if (jsonData["ErrorFound"] == "NO") {
                 otpVerificationScheduler.isShowingLoader = true;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OTPVerificationForm(
-                      mobileNumber: otpVerificationScheduler.mobileNumber,
-                      otp: jsonData["OTP"],
-                      countryCode: otpVerificationScheduler.countryCode,
-                    ),
-                  ),
-                );
               } else {
                 Toast.show("Unable to send SMS", context,
                     duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);

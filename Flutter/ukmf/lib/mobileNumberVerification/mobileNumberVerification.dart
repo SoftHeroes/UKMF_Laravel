@@ -117,6 +117,11 @@ class _MobileNumberVerificationState extends State<MobileNumberVerification> {
                       otp: jsonData["OTP"],
                       countryCode:
                           mobileNumberVerificationScheduler.countryCode,
+                      customerPassword: jsonData["CustomerPassword"],
+                      isAlreadyRegisteredUser:
+                          jsonData["AlreadyRegisteredUser"] == 'YES'
+                              ? true
+                              : false,
                     ),
                   ),
                 );
