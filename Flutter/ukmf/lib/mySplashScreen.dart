@@ -5,8 +5,37 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ukmf/appTheme.dart';
+import 'package:ukmf/mobileNumberVerification/mobileNumberVerification.dart';
 import 'package:ukmf/splashScreenScheduler.dart';
+
+import 'home/home.dart';
+import 'setup.dart';
+
+class PostRequest {
+  final String username, password, language, source;
+
+  PostRequest({this.username, this.password, this.language, this.source});
+
+  factory PostRequest.fromJson(Map<String, dynamic> json) {
+    return PostRequest(
+        username: json['username'],
+        password: json['password'],
+        language: json['language'],
+        source: json['source']);
+  }
+
+  Map toMap() {
+    var map = new Map<String, dynamic>();
+    map["username"] = username;
+    map["password"] = password;
+    map["language"] = language;
+    map["source"] = source;
+
+    return map;
+  }
+}
 
 class MySplashScreen extends StatefulWidget {
   @override
@@ -15,6 +44,9 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen> {
   bool _canSentAPI = false;
+  String _user, _password;
+  PostRequest newRequest;
+  final Setup setupRef = Setup();
 
   @override
   void initState() {
@@ -30,13 +62,54 @@ class _MySplashScreenState extends State<MySplashScreen> {
     );
   }
 
+  _read() async {
+    final prefs = await SharedPreferences.getInstance();
+    _user = prefs.getString('user') ?? null;
+    _password = prefs.getString('password') ?? null;
+
+    print('read: User : $_user Pass : $_password');
+  }
+
+  getResponse(SplashScreenScheduler splashScreenScheduler,
+      {Map requestBody}) async {
+    splashScreenScheduler.isLogin = true;
+    var response =
+        await post(setupRef.server + setupRef.loginCustomer, body: requestBody);
+    splashScreenScheduler.isLogin = false;
+    splashScreenScheduler.isLoginCompeted = true;
+
+    splashScreenScheduler.response = response;
+  }
+
   List<Widget> _buildForm(
     BuildContext context,
     SplashScreenScheduler splashScreenScheduler,
   ) {
-    if (_canSentAPI) {
-      print('I Am rebuild');
-    }
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        if (_canSentAPI) {
+          _canSentAPI = false;
+          print('I Am rebuild');
+
+          await _read();
+          if (_user == null || _password == null) {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) => MobileNumberVerification()));
+          } else {
+            newRequest = new PostRequest(
+                username: _user,
+                password: _password,
+                source: setupRef.source,
+                language: setupRef.language);
+
+            getResponse(
+              splashScreenScheduler,
+              requestBody: newRequest.toMap(),
+            );
+          }
+        }
+      },
+    );
 
     Column page = Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,10 +121,6 @@ class _MySplashScreenState extends State<MySplashScreen> {
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 150),
-                child: CircularProgressIndicator(),
-              ),
               Container(
                 height: 50,
                 color: AppTheme().myPrimaryMaterialColor.shade500,
@@ -92,14 +161,15 @@ class _MySplashScreenState extends State<MySplashScreen> {
 
           if (response != null) {
             if (response.statusCode != HttpStatus.ok) {
-              // Load Login Page
+              print('Load Login Page');
             } else {
               dynamic jsonData = json.decode(response.body);
 
               if (jsonData["ErrorFound"] == "NO") {
-                // Load home page
+                Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                    builder: (BuildContext context) => AppHome()));
               } else {
-                // Load login page
+                print('Load login page');
               }
             }
           }

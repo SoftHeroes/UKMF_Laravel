@@ -11,7 +11,6 @@ class PostRequest {
   final String password,
       confirmPassword,
       firstName,
-      middleName,
       lastName,
       emailID,
       phoneNumber,
@@ -23,7 +22,6 @@ class PostRequest {
       {this.password,
       this.confirmPassword,
       this.firstName,
-      this.middleName,
       this.lastName,
       this.emailID,
       this.phoneNumber,
@@ -63,13 +61,12 @@ class PostRequest {
 class SignupButton extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final String mobileNumber;
-  SignupButton({this.formKey, this.mobileNumber = ""});
+  SignupButton({this.formKey, this.mobileNumber});
 
   @override
   Widget build(BuildContext context) {
     final Setup setupRef = Setup();
     PostRequest newRequest;
-
     return Consumer<SignUpScheduler>(builder: (context, signUpScheduler, _) {
       getResponse(SignUpScheduler signUpScheduler, {Map requestBody}) async {
         signUpScheduler.isSigningUp = true;
@@ -90,10 +87,11 @@ class SignupButton extends StatelessWidget {
             height: 50.0,
             onPressed: () async {
               if (formKey.currentState.validate()) {
+                signUpScheduler.phoneNumber = mobileNumber;
                 newRequest = new PostRequest(
                   source: setupRef.source,
                   language: setupRef.language,
-                  phoneNumber: mobileNumber,
+                  phoneNumber: signUpScheduler.phoneNumber,
                   firstName: signUpScheduler.firstName,
                   lastName: signUpScheduler.lastName,
                   emailID: signUpScheduler.emailID,

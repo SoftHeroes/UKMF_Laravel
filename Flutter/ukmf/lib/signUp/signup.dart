@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:ukmf/home/home.dart';
 
 import '../appTheme.dart';
 
@@ -19,7 +20,7 @@ import 'signupScheduler.dart';
 
 class SignUp extends StatefulWidget {
   final String phoneNumber;
-  SignUp({this.phoneNumber = "9074200979"});
+  SignUp({this.phoneNumber});
 
   @override
   _SignUpState createState() => _SignUpState();
@@ -129,8 +130,8 @@ class _SignUpState extends State<SignUp> {
 
                 print('Sign up succefull');
               } else if (jsonData["Code"] == "ERR00000") {
-                Toast.show("Unable to signup currently", context,
-                    duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+                Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                    builder: (BuildContext context) => AppHome()));
               } else {
                 Toast.show(jsonData["Message"], context,
                     duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
