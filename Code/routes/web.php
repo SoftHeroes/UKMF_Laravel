@@ -12,5 +12,5 @@
 */
 
 Route::get('/admin', function () {
-    return view('blank');
+    return view('admin');
 });
