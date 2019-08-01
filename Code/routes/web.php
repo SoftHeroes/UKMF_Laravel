@@ -14,3 +14,7 @@
 Route::get('/admin', function () {
     return view('admin');
 });
+
+Route::post('/forgetPassword', 'login\LoginController@forgetPassword');
+
+Route::post('/forgetPassword', 'login\LoginController@forgetPassword');

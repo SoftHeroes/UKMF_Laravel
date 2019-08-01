@@ -19,7 +19,7 @@
         <h1>Pay7</h1>
       </div>
       <div class="login-box">
-        <form class="login-form" action="index.html">
+        <form class="login-form" action="{{URL::to('/login')}}" >
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN IN</h3>
           <div class="form-group">
             <label class="control-label">USERNAME</label>
@@ -38,11 +38,12 @@
             <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
           </div>
         </form>
-        <form class="forget-form" action="index.html">
+    <form class="forget-form" action="{{URL::to('/forgetPassword')}}" method="POST">
+          {{csrf_field()}}
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
           <div class="form-group">
             <label class="control-label">Mobile Number</label>
-            <input class="form-control phoneNumber" required="required" minlength=10 type="text" placeholder="Mobile Number">
+            <input class="form-control phoneNumber" name="phoneNumber" required="required" minlength=10 type="text" placeholder="Mobile Number">
           </div>
           <div class="form-group btn-container">
             <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>RESET</button>
