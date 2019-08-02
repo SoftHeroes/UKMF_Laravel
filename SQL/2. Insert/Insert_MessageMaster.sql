@@ -185,7 +185,7 @@ WHERE NOT EXISTS (
 INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
 SELECT * FROM (SELECT 'ERR00030','NO','Message sent successfully.','1.0.0','English') AS tmp
 WHERE NOT EXISTS (
-    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00030' AND  `Message` = 'Template return successfully.'
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00030' AND  `Message` = 'Message sent successfully.'
 ) LIMIT 1;
 
 INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
@@ -195,13 +195,49 @@ WHERE NOT EXISTS (
 ) LIMIT 1;
 
 INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
-SELECT * FROM (SELECT 'ERR00032','YES','Password length should be greater than eight.','1.0.0','English') AS tmp
+SELECT * FROM (SELECT 'ERR00032','YES','Password length should be at least eight character.','1.0.0','English') AS tmp
 WHERE NOT EXISTS (
-    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00032' AND  `Message` = 'Password length should be greater than eight.'
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00032' AND  `Message` = 'Password length should be at least eight character.'
 ) LIMIT 1;
 
 INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
 SELECT * FROM (SELECT 'ERR00033','YES','Invalid Source.','1.0.0','English') AS tmp
 WHERE NOT EXISTS (
     SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00033' AND  `Message` = 'Invalid Source.'
+) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00034','YES','Invalid User Policy.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00034' AND `Message` = 'Invalid User Policy.'
+) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00035','NO','User created successfully.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00035' AND  `Message` = 'User created successfully.'
+) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00036','YES','Password must contain at least 1 lowercase letter.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00036' AND  `Message` = 'Password must contain at least 1 lowercase letter.'
+) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00037','YES','Password must contain at least 1 uppercase letter.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00037' AND  `Message` = 'Password must contain at least 1 uppercase letter.'
+) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00038','YES','Password must contain at least 1 digit.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00038' AND  `Message` = 'Password must contain at least 1 digit.'
+) LIMIT 1;
+
+INSERT INTO `MessageMaster` (`Code`,`ErrorFound`, `Message`, `version`, `language`)
+SELECT * FROM (SELECT 'ERR00039','YES','Password must contain at least 1 special character form ( @,%,!,#,$,:,(,),{,},~,_ ).','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT `Code` FROM `MessageMaster` WHERE `Code` = 'ERR00039' AND  `Message` = 'Password must contain at least 1 special character form ( @,%,!,#,$,:,(,),{,},~,_ ).'
 ) LIMIT 1;
