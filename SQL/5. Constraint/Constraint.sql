@@ -1,18 +1,18 @@
 ALTER TABLE UserInformation 
 ADD CONSTRAINT UserInformation_fk0 FOREIGN KEY (UserPolicyID) 
-REFERENCES UserPolicy(u_ID) ON DELETE NO ACTION;
+REFERENCES UserPolicy(uniqueID) ON DELETE NO ACTION;
 
 ALTER TABLE Transaction 
 ADD CONSTRAINT Transaction_fk0 FOREIGN KEY (CustomerID) 
-REFERENCES Customer(u_ID) ON DELETE NO ACTION;
+REFERENCES Customer(uniqueID) ON DELETE NO ACTION;
 
 ALTER TABLE Customer 
 ADD CONSTRAINT Customer_fk0 FOREIGN KEY (PlanID) 
-REFERENCES CustomerPlan(u_ID) ON DELETE NO ACTION;
+REFERENCES CustomerPlan(uniqueID) ON DELETE NO ACTION;
 
 ALTER TABLE lookup
 ADD CONSTRAINT FK_lookup_language FOREIGN KEY (languageID)
-REFERENCES languageLookup (u_ID) ON DELETE NO ACTION;
+REFERENCES languageLookup (uniqueID) ON DELETE NO ACTION;
 
 ALTER TABLE SMSTemplates
 ADD CONSTRAINT FK_SMSTemplates_language FOREIGN KEY (language)
@@ -21,3 +21,7 @@ REFERENCES languageLookup (language) ON DELETE NO ACTION;
 ALTER TABLE messageMaster
 ADD CONSTRAINT FK_messageMaster_language FOREIGN KEY (language)
 REFERENCES languageLookup (language) ON DELETE NO ACTION;
+
+ALTER TABLE userotplog
+ADD CONSTRAINT FK_userOTPLog_userPhoneNumber FOREIGN KEY (userPhoneNumber)
+REFERENCES userinformation (phoneNumber) ON DELETE NO ACTION;

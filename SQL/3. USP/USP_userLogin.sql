@@ -54,7 +54,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
     
     
   -- Credentials validation block : START
-  SELECT phoneNumber,emailID INTO UserPhoneNumber,UserEmail FROM userInformation WHERE emailID = p_Username OR phoneNumber = p_Username OR UserEmail = p_Username OR UserPhoneNumber = p_Username;
+  SELECT phoneNumber,emailID INTO UserPhoneNumber,UserEmail FROM userInformation WHERE emailID = p_Username OR phoneNumber = p_Username ;
 
   IF( UserPhoneNumber IS NULL OR TRIM(UserPhoneNumber) = '' ) THEN
     BEGIN
@@ -66,6 +66,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
 
   SET RowCount = ( SELECT 1 FROM userInformation WHERE phoneNumber = UserPhoneNumber AND password = AES_ENCRYPT(p_Password,UserPhoneNumber) );
   
+
   IF(RowCount > 0 ) THEN 
     SELECT Code,ErrorFound,Message,version,language,ErrorMessage,UserEmail,UserPhoneNumber FROM MessageMaster WHERE Code = 'ERR00006' AND language = p_Language;
   ELSE
@@ -77,5 +78,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_userLogin('9074200979','12345678','Android','English');
+call USP_userLogin('9074200979','Test123!','Android','English');
   */

@@ -2,8 +2,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS UserInformation;
 CREATE TABLE UserInformation (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-	password varchar(100) NOT NULL,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	password varbinary(255) NOT NULL,
 	firstName varchar(100),
 	middleName varchar(100),
 	lastName varchar(100),
@@ -15,7 +15,7 @@ CREATE TABLE UserInformation (
 	UserPolicyID BIGINT(20) UNSIGNED NOT NULL,
 	Active INT(1) NOT NULL DEFAULT '1',
 	Deleted INT(1) NOT NULL DEFAULT '0',
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -23,7 +23,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS Transaction;
 CREATE TABLE Transaction (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT UNIQUE,
 	TransactionUUID varchar(64) NOT NULL UNIQUE,
 	datetime varchar(64) NOT NULL UNIQUE,
 	CustomerID BIGINT(20) UNSIGNED NOT NULL UNIQUE,
@@ -47,7 +47,7 @@ CREATE TABLE Transaction (
 	Authorization varchar(200) NOT NULL,
 	ReversalTransactionID varchar(200) NOT NULL,
 	SettlementDate varchar(200) NOT NULL,
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -55,14 +55,14 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS userPolicy;
 CREATE TABLE userPolicy (
-	u_ID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	policyName varchar(255) NOT NULL UNIQUE,
 	userLockTime int(11) NOT NULL DEFAULT -1,
 	invaildUpdateAttemptsAllowed int(11) NOT NULL DEFAULT 3,
 	isLocked tinyint(4) DEFAULT 0,
 	active tinyint(4) DEFAULT 1,
 	deleted tinyint(4) DEFAULT 0,
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -70,7 +70,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS ActivityLog;
 CREATE TABLE ActivityLog (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	service varchar(100) NOT NULL,
 	method varchar(50) NOT NULL,
 	errorFound varchar(50) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE ActivityLog (
 	customerPhone varchar(10),
 	customerEmailid varchar(100),
 	customerUUID varchar(100),
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -96,7 +96,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS ThirdPartyAPISetup;
 CREATE TABLE ThirdPartyAPISetup (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	APIName varchar(255) NOT NULL UNIQUE,
 	server varchar(200) NOT NULL,
 	resource varchar(200) NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE ThirdPartyAPISetup (
 	value6 varchar(255),
 	param7 varchar(255),
 	value7 varchar(255),
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -127,12 +127,12 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS APISetup;
 CREATE TABLE APISetup (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	serviceName varchar(100) NOT NULL UNIQUE,
 	serviceType varchar(100) NOT NULL,
 	resource varchar(100) NOT NULL,
 	description varchar(200) NOT NULL,
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -140,13 +140,13 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS MessageMaster;
 CREATE TABLE MessageMaster (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	Code varchar(100) NOT NULL,
 	ErrorFound varchar(5) NOT NULL,
 	Message varchar(200) NOT NULL,
 	version varchar(100) NOT NULL,
 	language varchar(255) NOT NULL,
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -154,7 +154,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS ThirdPartyAPISetupActivityLog;
 CREATE TABLE ThirdPartyAPISetupActivityLog (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	serviceID INT(10) NOT NULL,
 	ResponseCode varchar(200),
 	ResponseMessage varchar(200),
@@ -163,7 +163,7 @@ CREATE TABLE ThirdPartyAPISetupActivityLog (
 	timeTaken FLOAT NOT NULL,
 	request varchar(5000) NOT NULL,
 	response varchar(5000),
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -171,9 +171,9 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS languageLookup;
 CREATE TABLE languageLookup (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	language varchar(255) NOT NULL UNIQUE,
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -181,7 +181,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS Customer;
 CREATE TABLE Customer (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	password varbinary(255) NOT NULL,
 	firstName varchar(100),
 	middleName varchar(100),
@@ -199,7 +199,7 @@ CREATE TABLE Customer (
 	Active INT(1) NOT NULL DEFAULT '1',
 	Deleted INT(1) NOT NULL DEFAULT '0',
   UUID varchar(100) NOT NULL,
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -207,7 +207,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS CustomerPlan;
 CREATE TABLE CustomerPlan (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	PlanName varchar(255) NOT NULL UNIQUE DEFAULT '1',
 	InvaildUpdateAttemptsAllowed INT NOT NULL DEFAULT '3',
 	userLockTime INT(10) NOT NULL DEFAULT '600',
@@ -215,7 +215,7 @@ CREATE TABLE CustomerPlan (
 	walletAmountLimit INT(10) NOT NULL,
 	Active INT NOT NULL DEFAULT '1',
 	Deleted varchar(255) NOT NULL DEFAULT '0',
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -223,7 +223,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS SMSAPISetupActivityLogs;
 CREATE TABLE SMSAPISetupActivityLogs (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	serviceID INT(10) NOT NULL,
 	ResponseCode varchar(200),
 	ResponseMessage varchar(200),
@@ -233,7 +233,7 @@ CREATE TABLE SMSAPISetupActivityLogs (
 	timeTaken FLOAT NOT NULL,
 	request varchar(5000) NOT NULL,
 	response varchar(5000),
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -241,7 +241,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS SMSAPISetups;
 CREATE TABLE SMSAPISetups (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	APIName varchar(255) NOT NULL UNIQUE,
 	server varchar(255) NOT NULL,
 	resource varchar(255) NOT NULL,
@@ -270,7 +270,7 @@ CREATE TABLE SMSAPISetups (
 	responseMessageTag varchar(255) NOT NULL,
 	Active INT(1) NOT NULL DEFAULT '1',
 	Deleted INT(1) NOT NULL DEFAULT '0',
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -278,9 +278,9 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS APP_ENV;
 CREATE TABLE APP_ENV (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	envName varchar(255) NOT NULL ,
-  PRIMARY KEY (u_ID)
+  PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -288,13 +288,13 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS SMSTemplates;
 CREATE TABLE SMSTemplates (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	templateName varchar(255) NOT NULL ,
 	message varchar(1000),
 	language varchar(255) NOT NULL,
 	Active INT(1) NOT NULL DEFAULT '1',
 	Deleted INT(1) NOT NULL DEFAULT '0',
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -302,11 +302,11 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS urlcodemap;
 CREATE TABLE urlcodemap (
-	u_ID INT(11) NOT NULL AUTO_INCREMENT,
+	uniqueID INT(11) NOT NULL AUTO_INCREMENT,
 	encoded VARCHAR(128) NOT NULL,
 	decoded VARCHAR(128) NOT NULL,
 	UNIQUE KEY urlcodemapUIdx1(encoded),
-	PRIMARY KEY (u_ID)  
+	PRIMARY KEY (uniqueID)  
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -314,7 +314,7 @@ COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS loginSetup;
 CREATE TABLE loginSetup (
-	u_ID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+	uniqueID BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	source varchar(100),
 	OTPExpiryTime INT (2),
 	resendOTPAttempts INT (2),
@@ -322,7 +322,7 @@ CREATE TABLE loginSetup (
 	userLockTiming INT (2),
 	Active INT(1) NOT NULL DEFAULT '1',
 	Deleted INT(1) NOT NULL DEFAULT '0',
-	PRIMARY KEY (u_ID)
+	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
@@ -339,3 +339,17 @@ CREATE TABLE lookUp (
 ENGINE = INNODB,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
+
+
+DROP TABLE IF EXISTS userotplog;
+CREATE TABLE userotplog (
+  uniqueID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  userPhoneNumber varchar(10) NOT NULL,
+  OTP varchar(255) NOT NULL,
+  sendTime datetime NOT NULL,
+  PRIMARY KEY (uniqueID)
+)
+ENGINE = INNODB,
+CHARACTER SET utf8,
+COLLATE utf8_general_ci;
+

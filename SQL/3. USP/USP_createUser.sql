@@ -137,7 +137,7 @@ proc_Call:BEGIN
   END IF;
 	
   -- User Policy ID valdation block : START
-  SET RowCount = ( SELECT 1 FROM userPolicy WHERE u_ID = p_userPolicyID);
+  SET RowCount = ( SELECT 1 FROM userPolicy WHERE uniqueID = p_userPolicyID);
   IF(  RowCount = 0 OR RowCount IS NULL ) THEN
     BEGIN
         SELECT Code,ErrorFound,Message,version,language,ErrorMessage,p_PhoneNumber CustomerPhoneNumber,p_EmailID CustomerEmailID,op_UUID as CustomerUUID FROM MessageMaster WHERE Code = 'ERR00034' AND language = p_Language;
@@ -200,5 +200,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_createUser('Test123!','Test123!','vfv',null,'vfv','1452cd@v.cw','9074200579',1,'English','Android');
+call USP_createUser('Test123!','Test123!','vfv',null,'vfv','1452cd@v.cw','9074200979',1,'English','Android');
 */

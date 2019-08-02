@@ -116,7 +116,7 @@ proc_Call:BEGIN
   END IF;
 	
   -- Plan ID valdation block : START
-  SET RowCount = ( SELECT 1 FROM CustomerPlan WHERE u_ID = p_PlanID);
+  SET RowCount = ( SELECT 1 FROM CustomerPlan WHERE uniqueID = p_PlanID);
   IF(  RowCount = 0 OR RowCount IS NULL ) THEN
     BEGIN
         SELECT Code,ErrorFound,Message,version,language,ErrorMessage,p_PhoneNumber CustomerPhoneNumber,p_EmailID CustomerEmailID,op_UUID as CustomerUUID FROM MessageMaster WHERE Code = 'ERR00021' AND language = p_Language;

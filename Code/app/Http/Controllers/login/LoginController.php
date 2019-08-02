@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Providers\SendOTPProvider;
 
 require_once app_path() . '/Helpers/Logger.php';
 require_once app_path() . '/Helpers/basic.php';
@@ -13,6 +14,7 @@ require_once app_path() . '/Helpers/basic.php';
 
 class LoginController extends Controller
 {
+    private $sendOTPProvider;
 
     public function resendPassword(Request $request)
     {
@@ -21,15 +23,10 @@ class LoginController extends Controller
 
     public function forgetPassword(Request $request)
     {
-        $this->validate($request, [
-            'phoneNumber' => 'required|min:15|max:35',
-        ], [
-            'phoneNumber.required' => ' The first name field is required.',
-            'phoneNumber.min' => ' The first name must be at least 15 characters.',
-            'phoneNumber.max' => ' The first name may not be greater than 35 characters.',
-        ]);
+        $this->sendOTPProvider = new SendOTPProvider($request);
 
-        return view('forgetPassword');
+        return $this->sendOTPProvider->sendOTP($request);
+        return redirect()->action('SmsController@sentSMS');
     }
 
     public function login(Request $request)

@@ -8,9 +8,9 @@ BEGIN
   DECLARE EncodeValue VARCHAR(256);
   DECLARE DecodeValue VARCHAR(256);
   SET X = 1;
-  WHILE X  <= (SELECT MAX(u_ID) FROM urlcodemap) DO
-     SET EncodeValue = (SELECT encoded FROM urlcodemap WHERE u_ID = X);
-     SET DecodeValue = (SELECT decoded FROM urlcodemap WHERE u_ID = X);                
+  WHILE X  <= (SELECT MAX(uniqueID) FROM urlcodemap) DO
+     SET EncodeValue = (SELECT encoded FROM urlcodemap WHERE uniqueID = X);
+     SET DecodeValue = (SELECT decoded FROM urlcodemap WHERE uniqueID = X);                
      SET str = replace(str,DecodeValue,EncodeValue);
      SET  X = X + 1;                           
   END WHILE;

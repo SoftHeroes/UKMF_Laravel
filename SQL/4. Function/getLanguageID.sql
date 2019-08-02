@@ -8,7 +8,7 @@ CREATE FUNCTION getLanguageID(val varchar(1024))
 BEGIN
   DECLARE LangCode INT(10);
 
-SET LangCode = (SELECT u_ID FROM languageLookup WHERE `language` = val);
+SET LangCode = (SELECT uniqueID FROM languageLookup WHERE `language` = val);
  return LangCode;
 END$$
 

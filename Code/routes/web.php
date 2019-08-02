@@ -17,4 +17,4 @@ Route::get('/admin', function () {
 
 Route::post('/forgetPassword', 'login\LoginController@forgetPassword');
 
-Route::post('/login', 'login\LoginController@login');
+Route::post('/userLogin', 'login\LoginController@login');

@@ -162,7 +162,7 @@ proc_Call:BEGIN
          responseStatusTag,
          responseMessageTag,
          APIName,
-         u_ID
+         uniqueID
   INTO op_URL,op_Method,op_UserID,op_Password,op_AccessCode,op_ResponseStatusTag,op_ResponseMessageTag,op_APIName,op_APIID
   FROM SMSAPISetups WHERE /*APIName = p_APIName AND */ op_Environment = op_Environment AND Active = 1 AND Deleted = 0;
     

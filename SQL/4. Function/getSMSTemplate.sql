@@ -18,7 +18,7 @@ CREATE FUNCTION getSMSTemplate (
 
 		SELECT message INTO SMSMessage FROM SMSTemplates WHERE templateName = p_TemplateName AND language = p_Language AND Active = 1 AND Deleted = 0 ;
 		SELECT firstName,PlanID INTO CustomerFirstName,CustomerPlanID FROM Customer WHERE phoneNumber = p_PhoneNumber;
-		SELECT InvaildUpdateAttemptsAllowed,userLockTime INTO InvaildUpdateAttempts,LockTime FROM CustomerPlan WHERE u_ID = CustomerPlanID;
+		SELECT InvaildUpdateAttemptsAllowed,userLockTime INTO InvaildUpdateAttempts,LockTime FROM CustomerPlan WHERE uniqueID = CustomerPlanID;
 
 
 		SET SMSMessage = replace(SMSMessage,'<OTP>', CASE WHEN p_OTP IS NULL THEN '' ELSE p_OTP END );
