@@ -1,8 +1,8 @@
 DELIMITER $$
 
-DROP FUNCTION IF EXISTS `isPassword`$$
+DROP FUNCTION IF EXISTS isPassword$$
 
-CREATE FUNCTION `isPassword`(p_Password varchar(255))   RETURNS TINYINT(4) DETERMINISTIC
+CREATE FUNCTION isPassword(p_Password varchar(255))   RETURNS TINYINT(4) DETERMINISTIC
 BEGIN
 
      IF(LENGTH(p_Password) < 8) THEN
