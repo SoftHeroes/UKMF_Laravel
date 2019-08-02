@@ -18,4 +18,9 @@ class LoginController extends Controller
         $request->input('phoneNumber');
         return view('forgetPassword');
     }
+
+    public function login(Request $request)
+    {
+        return view('dashboard');
+    }
 }

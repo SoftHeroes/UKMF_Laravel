@@ -19,15 +19,16 @@
         <h1>Pay7</h1>
       </div>
       <div class="login-box">
-        <form class="login-form" action="{{URL::to('/login')}}" >
+        <form class="login-form" action="{{URL::to('/login')}}" method="POST" >
+          {{csrf_field()}}
           <h3 class="login-head"><i class="fa fa-lg fa-fw fa-user"></i>SIGN IN</h3>
           <div class="form-group">
             <label class="control-label">USERNAME</label>
-            <input class="form-control" type="text" placeholder="Username" autofocus>
+            <input class="form-control" name="username" type="text" placeholder="Username" autofocus>
           </div>
           <div class="form-group">
             <label class="control-label">PASSWORD</label>
-            <input class="form-control" type="password" placeholder="Password">
+            <input class="form-control" name="password" type="password" placeholder="Password">
           </div>
           <div class="form-group">
             <div class="utility">
