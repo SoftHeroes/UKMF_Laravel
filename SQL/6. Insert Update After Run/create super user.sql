@@ -1,0 +1,1 @@
+call USP_createUser('Test123!','Test123!','Super',null,'user','shubhamjobanputra@gmail.com','9074200979',1,'English','Android');

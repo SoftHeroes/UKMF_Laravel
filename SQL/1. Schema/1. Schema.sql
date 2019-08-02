@@ -1,3 +1,5 @@
+SET FOREIGN_KEY_CHECKS = 0;
+
 DROP TABLE IF EXISTS `UserInformation`;
 CREATE TABLE `UserInformation` (
 	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
@@ -45,13 +47,20 @@ CREATE TABLE `Transaction` (
 	PRIMARY KEY (`u_ID`)
 );
 
-DROP TABLE IF EXISTS `UserPolicy`;
-CREATE TABLE `UserPolicy` (
-	`u_ID` INT(10) NOT NULL AUTO_INCREMENT,
-	`InvaildUpdateAttemptsAllowed` INT NOT NULL DEFAULT '3',
-	`userLockTime` INT(10) NOT NULL DEFAULT '600',
-	PRIMARY KEY (`u_ID`)
-);
+DROP TABLE IF EXISTS userPolicy;
+CREATE TABLE userPolicy (
+  `u_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `policyName` varchar(255) NOT NULL UNIQUE,
+  `userLockTime` int(11) NOT NULL DEFAULT -1,
+  `invaildUpdateAttemptsAllowed` int(11) NOT NULL DEFAULT 3,
+  `isLocked` tinyint(4) DEFAULT 0,
+  `active` tinyint(4) DEFAULT 1,
+  `deleted` tinyint(4) DEFAULT 0,
+  PRIMARY KEY (`u_ID`)
+)
+ENGINE = INNODB,
+CHARACTER SET utf8,
+COLLATE utf8_general_ci;
 
 DROP TABLE IF EXISTS `ActivityLog`;
 CREATE TABLE `ActivityLog` (
@@ -188,7 +197,7 @@ CREATE TABLE `SMSAPISetupActivityLogs` (
 	`serviceID` INT(10) NOT NULL,
 	`ResponseCode` varchar(200),
 	`ResponseMessage` varchar(200),
-  `sendTo` varchar(10),
+  `sendTo` varchar(15),
   `requestTime` DATETIME NOT NULL,
 	`responseTime` DATETIME NOT NULL,
   `timeTaken` FLOAT NOT NULL,

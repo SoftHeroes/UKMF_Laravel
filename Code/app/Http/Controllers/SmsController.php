@@ -9,50 +9,63 @@ use Illuminate\Support\Facades\Route;
 require_once app_path() . '/Helpers/APICall.php';
 require_once app_path() . '/Helpers/Logger.php';
 require_once app_path() . '/Helpers/Maths.php';
+require_once app_path() . '/Helpers/basic.php';
 
 class SmsController extends Controller
 {
     public function sentSMS(Request $request)
     {
         date_default_timezone_set('Asia/Kolkata');
+        $RequestTime = substr( date('Y-m-d h:i:s.U', time()) ,0,25 );
 
-        $source = $request->input("source");
-        $templateName = $request->input("templateName");
-        $phoneNumber = $request->input("phoneNumber");
-        $language = $request->input("language");
+        $source = 'NULL';
+        $templateName = 'NULL';
+        $phoneNumber = 'NULL';
+        $language = 'NULL';        
 
-        $APIdata =  DB::select("call USP_getSMSURL('".$source."','".$templateName."','".$phoneNumber."','".$language."');");
+        if( !isEmpty( $request->input("source")) )
+        {
+            $source = "'".$request->input("source")."'";
+        }
+        if( !isEmpty( $request->input("templateName")) )
+        {
+            $templateName = "'".$request->input("templateName")."'";
+        }
+        if( !isEmpty( $request->input("phoneNumber")) )
+        {
+            $phoneNumber = "'".$request->input("phoneNumber")."'";
+        }
+        if( !isEmpty( $request->input("language")) )
+        {
+            $language = "'".$request->input("language")."'";
+        }
+
+        $APIData =  DB::select("call USP_getSMSURL(".$source.",".$templateName.",".$phoneNumber.",".$language.");");
         
 
-        if($APIdata[0]->ErrorFound == 'YES')
+        if($APIData[0]->ErrorFound == 'YES')
         {
-            $response = array("Code" => $APIdata[0]->Code,"ErrorFound" => $APIdata[0]->ErrorFound,"Message" => $APIdata[0]->Message,"version" => $APIdata[0]->version,"language" => $APIdata[0]->language,"ErrorMessage" => $APIdata[0]->ErrorMessage);
+            $response = array((object) array("Code" => $APIData[0]->Code,"ErrorFound" => $APIData[0]->ErrorFound,"Message" => $APIData[0]->Message,"version" => $APIData[0]->version,"language" => $APIData[0]->language,"ErrorMessage" => $APIData[0]->ErrorMessage));
         }
         else
         {
-            $RequestTime = date('Y-m-d h:i:s.u', time());
-            $APIExecuteResponse = json_decode(APIExecute($APIdata[0]->Method,$APIdata[0]->URL,null), true);
+            $APIExecuteResponse = json_decode(APIExecute($APIData[0]->Method,$APIData[0]->URL,null), true);
 
-            if($APIdata[0]->ErrorMessage == null )
+            if($APIData[0]->ErrorMessage == null )
             {
-                $APIdata[0]->ErrorMessage = 'null';
+                $APIData[0]->ErrorMessage = 'null';
             }
 
-            if($APIdata[0]->CustomerPassword == null )
-            {
-                $APIdata[0]->CustomerPassword = 'null';
-            }
-
-            if( $APIExecuteResponse[$APIdata[0]->ResponseStatusTag] == '200')
+            if( $APIExecuteResponse[$APIData[0]->ResponseStatusTag] == '200')
             {   
-                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,"."'".$APIdata[0]->AlreadyRegisteredUser."'"." as AlreadyRegisteredUser,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP, ".$APIdata[0]->OTPExpiryTime." as OTPExpiryTime,".$APIdata[0]->resendOTPAttempts." as resendOTPAttempts,".$APIdata[0]->OTPAttempts." as OTPAttempts,".$APIdata[0]->userLockTiming." as userLockTiming,".$APIdata[0]->CustomerPassword." as CustomerPassword FROM MessageMaster WHERE Code = 'ERR00030' AND language = '$language'") );
+                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,"."'".$APIData[0]->AlreadyRegisteredUser."'"." as AlreadyRegisteredUser,".$APIData[0]->ErrorMessage ." as ErrorMessage,".$APIData[0]->OTP." as OTP FROM MessageMaster WHERE Code = 'ERR00030' AND language = $language") );
             }
             else
             {
-                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,"."'".$APIdata[0]->AlreadyRegisteredUser."'"." as AlreadyRegisteredUser,".$APIdata[0]->ErrorMessage ." as ErrorMessage,".$APIdata[0]->OTP." as OTP, ".$APIdata[0]->OTPExpiryTime." as OTPExpiryTime,".$APIdata[0]->resendOTPAttempts." as resendOTPAttempts,".$APIdata[0]->OTPAttempts." as OTPAttempts,".$APIdata[0]->userLockTiming." as userLockTiming,".$APIdata[0]->CustomerPassword." as CustomerPassword FROM MessageMaster WHERE Code = 'ERR00031' AND language = '$language' ") );
+                $response = DB::select( DB::raw(" SELECT `Code`,`ErrorFound`,`Message`,`version`,`language`,"."'".$APIData[0]->AlreadyRegisteredUser."'"." as AlreadyRegisteredUser,".$APIData[0]->ErrorMessage ." as ErrorMessage,".$APIData[0]->OTP." as OTP FROM MessageMaster WHERE Code = 'ERR00031' AND language = $language ") );
             }
 
-            Log_SMSAPISetupActivityLogs($RequestTime,$phoneNumber,$APIdata[0]->APIID,$APIExecuteResponse[$APIdata[0]->ResponseStatusTag],$APIExecuteResponse[$APIdata[0]->ResponseMessageTag],$APIdata[0]->URL,json_encode($APIExecuteResponse));
+            Log_SMSAPISetupActivityLogs($RequestTime,$phoneNumber,$APIData[0]->APIID,$APIExecuteResponse[$APIData[0]->ResponseStatusTag],$APIExecuteResponse[$APIData[0]->ResponseMessageTag],$APIData[0]->URL,json_encode($APIExecuteResponse));
         }
 
         Log_APIActivityLog(
@@ -71,7 +84,6 @@ class SmsController extends Controller
             $request->input("phoneNumber"),
             '',
             ''
-
         );
         
         return response()->json($response[0]);
