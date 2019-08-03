@@ -23,4 +23,18 @@ Route::get('/forgetPassword/{phoneNumber}', function ($phoneNumber) {
     return view('forgetPassword');
 });
 
-Route::post('/userLogin', 'login\LoginController@login');
+Route::get('/search', function () {
+    return view('search');
+});
+
+Route::get('/viewaccounts', function () {
+    return view('viewaccounts');
+});
+
+Route::get('/updateaccounts', function () {
+    return view('updateaccounts');
+});
+
+Route::get('/createaccounts', function () {
+    return view('createaccounts');
+});
