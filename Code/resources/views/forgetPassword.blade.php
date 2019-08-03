@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href=" {{ asset('css/main.css') }} ">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Reset Password</title>
+    <title>Reset Password {{$phoneNumber}} </title>
   </head>
   <body>
     <section class="material-half-bg">
@@ -23,7 +23,7 @@
         <form class="login-form" action="{{URL::to('/resetPassword')}}" method="POST">
             <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Reset Password ?</h3>
             <div class="form-group">
-            <input class="form-control" name="phoneNumber" type="hidden" value="{{$phoneNumber}}">
+            <input class="form-control" name="phoneNumber" type="hidden" value= "" >
             </div>
             <div class="form-group">
                 <label class="control-label">OTP</label>

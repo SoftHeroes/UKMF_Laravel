@@ -15,13 +15,15 @@ Route::get('/admin', function () {
     return view('admin');
 });
 
+Route::post('/userLogin', 'login\LoginController@userLogin');
+
 Route::post('/resendOTP', 'login\LoginController@resendOTP');
 
 Route::post('/resetPassword', 'login\LoginController@resetPassword');
 
 Route::get('/forgetPassword/{phoneNumber}', function ($phoneNumber) {
-    return view('forgetPassword');
-});
+    return view('forgetPassword', compact('phoneNumber'));
+})->name('forgetPassword');
 
 Route::get('/search', function () {
     return view('search');

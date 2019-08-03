@@ -50,14 +50,6 @@ class LoginController extends Controller
     }
 
 
-    public function sendSMS(Request $request)
-    { }
-
-    public function forgetPassword($phoneNumber)
-    {
-        return view('forgetPassword');
-    }
-
     public function resendOTP(Request $request)
     {
 
@@ -84,14 +76,15 @@ class LoginController extends Controller
                 $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
                 throw $error;
             } else {
-                return redirect('/forgetPassword')->with('phoneNumber', $request->input('phoneNumber'));
+                return redirect()->route('forgetPassword', ['phoneNumber' => $request->input('phoneNumber')]);
+                // return redirect('/forgetPassword')->with('phoneNumber', $request->input('phoneNumber'));
             }
             $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
             throw $error;
         }
     }
 
-    public function login(Request $request)
+    public function userLogin(Request $request)
     {
 
         date_default_timezone_set('Asia/Kolkata');
