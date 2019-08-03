@@ -6,6 +6,11 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
+require_once app_path() . '/Helpers/APICall.php';
+require_once app_path() . '/Helpers/Logger.php';
+require_once app_path() . '/Helpers/Maths.php';
+require_once app_path() . '/Helpers/basic.php';
+
 class SendOTPProvider extends ServiceProvider
 {
     /**
@@ -18,7 +23,7 @@ class SendOTPProvider extends ServiceProvider
         //
     }
 
-    public function sendOTP($request)
+    public function sendSMS($request)
     {
         date_default_timezone_set('Asia/Kolkata');
         $RequestTime = substr(date('Y-m-d h:i:s.U', time()), 0, 25);
@@ -79,7 +84,7 @@ class SendOTPProvider extends ServiceProvider
             '',
             ''
         );
-        return response()->json($response[0]);
+        return $response[0];
     }
 
     /**

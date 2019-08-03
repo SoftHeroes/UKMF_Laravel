@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Main CSS-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main.css') }} ">
     <!-- Font-icon css-->
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Login - UKMF Admin</title>
@@ -57,12 +57,24 @@
             <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
           </div>
         </form>
-        <form class="forget-form" action="{{URL::to('/forgetPassword')}}" method="POST">
+        <form class="forget-form" action="{{URL::to("/resendOTP")}}" method="POST">
             {{csrf_field()}}
             <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
             <div class="form-group">
                 <label class="control-label">Mobile Number</label>
                 <input class="form-control phoneNumber" name="phoneNumber" required="required" minlength=10 type="text" placeholder="Mobile Number">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="source" type="hidden" value="Web">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="language" type="hidden" value="English">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="templateName" type="hidden" value="resetPassword">
+            </div>
+            <div class="form-group">
+                <input class="form-control" name="calledFrom" type="hidden" value="adminLogin">
             </div>
             <div class="form-group btn-container">
                 <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>RESET</button>
@@ -74,13 +86,13 @@
     </div>
     </section>
     <!-- Essential javascripts for application to work-->
-    <script src="js/inputValidation.js"></script>
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/inputValidation.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
     <!-- The javascript plugin to display page loading on top-->
-    <script src="js/plugins/pace.min.js"></script>
+    <script src="{{ asset('js/plugins/pace.min.js') }}"></script>
     <script type="text/javascript">
       // Login Page Flipbox control
       $('.login-content [data-toggle="flip"]').click(function() {

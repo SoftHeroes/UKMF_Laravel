@@ -241,3 +241,27 @@ SELECT * FROM (SELECT 'ERR00039','YES','Password must contain at least 1 special
 WHERE NOT EXISTS (
     SELECT Code FROM MessageMaster WHERE Code = 'ERR00039' AND  Message = 'Password must contain at least 1 special character form ( @,%,!,#,$,:,(,),{,},~,_ ).'
 ) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00040','YES','OTP cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00040' AND  Message = 'OTP cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00041','YES','Invalid OTP.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00041' AND  Message = 'Invalid OTP.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00042','YES','User not exists.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00042' AND  Message = 'User not exists.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00043','NO','Password update successfully.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00043' AND  Message = 'Password update successfully.'
+) LIMIT 1;

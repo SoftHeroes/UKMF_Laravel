@@ -16,17 +16,79 @@ class LoginController extends Controller
 {
     private $sendOTPProvider;
 
-    public function resendPassword(Request $request)
+    public function resetPassword(Request $request)
     {
-        return $request->input('otp') . ' ' . $request->input('confirmPassword') . ' ' . $request->input('newPassword');
+        // USP_userPasswordReset
+
+        $phoneNumber     = 'NULL';
+        $otp             = 'NULL';
+        $newPassword     = 'NULL';
+        $confirmPassword = 'NULL';
+        $source          = 'NULL';
+        $language        = 'NULL';
+
+        if (!isEmpty($request->input("phoneNumber"))) {
+            $phoneNumber = "'" . trim($request->input("phoneNumber")) . "'";
+        }
+        if (!isEmpty($request->input("otp"))) {
+            $otp = "'" . trim($request->input("otp")) . "'";
+        }
+        if (!isEmpty($request->input("newPassword"))) {
+            $newPassword = "'" . trim($request->input("newPassword")) . "'";
+        }
+        if (!isEmpty($request->input("confirmPassword"))) {
+            $confirmPassword = "'" . trim($request->input("confirmPassword")) . "'";
+        }
+        if (!isEmpty($request->input("source"))) {
+            $source = "'" . trim($request->input("source")) . "'";
+        }
+        if (!isEmpty($request->input("language"))) {
+            $language = "'" . trim($request->input("language")) . "'";
+        }
+
+        $response =  DB::select("call USP_userOTPLogger(" . $sendTo . "," . $OTP . ");");
     }
 
-    public function forgetPassword(Request $request)
-    {
-        $this->sendOTPProvider = new SendOTPProvider($request);
 
-        return $this->sendOTPProvider->sendOTP($request);
-        return redirect()->action('SmsController@sentSMS');
+    public function sendSMS(Request $request)
+    { }
+
+    public function forgetPassword($phoneNumber)
+    {
+        return view('forgetPassword');
+    }
+
+    public function resendOTP(Request $request)
+    {
+
+        $this->sendOTPProvider = new SendOTPProvider($request);
+        $sendSMSResponse = $this->sendOTPProvider->sendSMS($request);
+
+        if ($sendSMSResponse->ErrorFound == 'YES') {
+            $error = \Illuminate\Validation\ValidationException::withMessages([$sendSMSResponse->Message]);
+            throw $error;
+        } else {
+
+            $sendTo = 'NULL';
+            $OTP = 'NULL';
+
+            if (!isEmpty($request->input("phoneNumber"))) {
+                $sendTo = "'" . trim($request->input("phoneNumber")) . "'";
+            }
+            if (!isEmpty($sendSMSResponse->OTP)) {
+                $OTP = "'" . trim($sendSMSResponse->OTP) . "'";
+            }
+            $response =  DB::select("call USP_userOTPLogger(" . $sendTo . "," . $OTP . ");");
+
+            if ($response[0]->ErrorFound == "YES") {
+                $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
+                throw $error;
+            } else {
+                return redirect('/forgetPassword')->with('phoneNumber', $request->input('phoneNumber'));
+            }
+            $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
+            throw $error;
+        }
     }
 
     public function login(Request $request)

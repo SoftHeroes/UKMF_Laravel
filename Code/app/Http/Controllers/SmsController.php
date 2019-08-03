@@ -5,10 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Providers\SendOTPProvider;
 
-require_once app_path() . '/Helpers/APICall.php';
-require_once app_path() . '/Helpers/Logger.php';
-require_once app_path() . '/Helpers/Maths.php';
-require_once app_path() . '/Helpers/basic.php';
 
 class SmsController extends Controller
 {
@@ -18,6 +14,6 @@ class SmsController extends Controller
     {
         $this->sendOTPProvider = new SendOTPProvider($request);
 
-        return $this->sendOTPProvider->sendOTP($request);
+        return response()->json($this->sendOTPProvider->sendSMS($request));
     }
 }

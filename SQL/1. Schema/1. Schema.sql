@@ -341,15 +341,12 @@ CHARACTER SET utf8,
 COLLATE utf8_general_ci;
 
 
-DROP TABLE IF EXISTS userotplog;
-CREATE TABLE userotplog (
-  uniqueID bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+DROP TABLE IF EXISTS userOTPLog;
+CREATE TABLE userOTPLog (
   userPhoneNumber varchar(10) NOT NULL,
   OTP varchar(255) NOT NULL,
-  sendTime datetime NOT NULL,
-  PRIMARY KEY (uniqueID)
+  sendTime datetime NOT NULL
 )
 ENGINE = INNODB,
 CHARACTER SET utf8,
 COLLATE utf8_general_ci;
-
