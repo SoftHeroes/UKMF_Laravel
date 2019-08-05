@@ -5,6 +5,9 @@ proc_Call:BEGIN
   DECLARE RowCount INT DEFAULT 0;
   DECLARE ErrorNumber INT;
   DECLARE ErrorMessage VARCHAR(1000);
+  DECLARE OTPExpiryTime DATETIME;
+  DECLARE OTPSendTime DATETIME;
+  DECLARE OTPValidTime INT;
 
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -106,6 +109,19 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
             LEAVE proc_Call;
       END;
     END IF;
+
+    SET OTPValidTime = ( SELECT otpValidTime FROM userPolicy WHERE uniqueID = ( SELECT UserPolicyID FROM userInformation  WHERE phoneNumber = p_PhoneNumber LIMIT 1 ) );
+    SET OTPSendTime = ( SELECT sendTime FROM userOTPLog WHERE userPhoneNumber = p_PhoneNumber AND OTP = p_OTP);
+
+    SET OTPExpiryTime = DATE_ADD( OTPSendTime, INTERVAL OTPValidTime SECOND );
+    SELECT OTPExpiryTime;
+--     IF NOT EXISTS( CURRENT_TIMESTAMP()  >  OTPExpiryTime ) THEN
+--       BEGIN
+--             SELECT Code,ErrorFound,Message,version,language,ErrorMessage  FROM MessageMaster  WHERE Code = 'ERR00041' AND language = p_Language;
+--             LEAVE proc_Call;
+--       END;
+--     END IF;
+
   -- OTP verification block : END
 
   -- Password Update block : START

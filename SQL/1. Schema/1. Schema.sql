@@ -60,7 +60,7 @@ CREATE TABLE userPolicy (
 	policyName varchar(255) NOT NULL UNIQUE,
 	userLockTime int(11) NOT NULL DEFAULT -1,
 	invaildUpdateAttemptsAllowed int(11) NOT NULL DEFAULT 3,
-	isLocked tinyint(4) DEFAULT 0,
+	otpValidTime int(11) NOT NULL DEFAULT 180,
 	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
