@@ -265,3 +265,15 @@ SELECT * FROM (SELECT 'ERR00043','NO','Password update successfully.','1.0.0','E
 WHERE NOT EXISTS (
     SELECT Code FROM MessageMaster WHERE Code = 'ERR00043' AND  Message = 'Password update successfully.'
 ) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00044','YES','Username cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00044' AND  Message = 'Username cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00045','YES','Username Already Exists.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00045' AND  Message = 'Username Already Exists.'
+) LIMIT 1;

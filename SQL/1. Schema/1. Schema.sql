@@ -9,6 +9,7 @@ CREATE TABLE UserInformation (
 	lastName varchar(100),
 	emailID varchar(250) NOT NULL UNIQUE,
 	phoneNumber varchar(10) NOT NULL UNIQUE,
+	username VARCHAR(255) NOT NULL UNIQUE,
 	creationDatetime DATETIME NOT NULL,
 	lastUpdateDatetime DATETIME,
 	InvaildUpdateAttemptsCount INT NOT NULL DEFAULT '0',
