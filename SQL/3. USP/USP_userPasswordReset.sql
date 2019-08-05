@@ -90,23 +90,23 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	-- Input check block : END
     
   
-  -- User Varifcation block : START  
-    IF NOT EXISTS(  SELECT 1 FROM userInformation WHERE phoneNumber = p_PhoneNumber AND Deleted = 0  ) THEN
+  -- User verification block : START  
+    IF NOT EXISTS(  SELECT 1 FROM userInformation WHERE phoneNumber = p_PhoneNumber AND deletedAt IS NULL ) THEN
       BEGIN
             SELECT Code,ErrorFound,Message,version,language,ErrorMessage  FROM MessageMaster  WHERE Code = 'ERR00042' AND language = p_Language;
             LEAVE proc_Call;
       END;
     END IF;
-  -- User Varifcation block : END
+  -- User verification block : END
 
-  -- OTP Varifcation block : START  
+  -- OTP verification block : START  
     IF NOT EXISTS(  SELECT 1 FROM userOTPLog WHERE userPhoneNumber = p_PhoneNumber AND OTP = p_OTP  ) THEN
       BEGIN
             SELECT Code,ErrorFound,Message,version,language,ErrorMessage  FROM MessageMaster  WHERE Code = 'ERR00041' AND language = p_Language;
             LEAVE proc_Call;
       END;
     END IF;
-  -- OTP Varifcation block : END
+  -- OTP verification block : END
 
   -- Password Update block : START
 
@@ -114,7 +114,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
   
     UPDATE userInformation 
         SET password = AES_ENCRYPT(p_NewPassword,p_PhoneNumber) , Active = 1 , lastUpdateDatetime = CURRENT_TIMESTAMP() 
-        WHERE phoneNumber = p_PhoneNumber AND Deleted = 0 ;
+        WHERE phoneNumber = p_PhoneNumber AND deletedAt IS NULL ;
 
     COMMIT WORK;
     

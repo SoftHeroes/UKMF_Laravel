@@ -78,5 +78,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_login('9630054749','Test123!','xd','English');
+call USP_login('9630054749','Test123!','Web','English');
   */

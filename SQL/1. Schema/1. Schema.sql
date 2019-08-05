@@ -13,8 +13,8 @@ CREATE TABLE UserInformation (
 	lastUpdateDatetime DATETIME,
 	InvaildUpdateAttemptsCount INT NOT NULL DEFAULT '0',
 	UserPolicyID BIGINT(20) UNSIGNED NOT NULL,
-	Active INT(1) NOT NULL DEFAULT '1',
-	Deleted INT(1) NOT NULL DEFAULT '0',
+	isLock TINYINT NOT NULL DEFAULT '0',
+	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
@@ -60,8 +60,7 @@ CREATE TABLE userPolicy (
 	userLockTime int(11) NOT NULL DEFAULT -1,
 	invaildUpdateAttemptsAllowed int(11) NOT NULL DEFAULT 3,
 	isLocked tinyint(4) DEFAULT 0,
-	active tinyint(4) DEFAULT 1,
-	deleted tinyint(4) DEFAULT 0,
+	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
@@ -196,8 +195,7 @@ CREATE TABLE Customer (
 	UPIQRCode varbinary(255),
 	walletAmount INT(10) DEFAULT '0',
 	UPIID varchar(100),
-	Active INT(1) NOT NULL DEFAULT '1',
-	Deleted INT(1) NOT NULL DEFAULT '0',
+	deletedAt DATETIME DEFAULT NULL,
   UUID varchar(100) NOT NULL,
 	PRIMARY KEY (uniqueID)
 )
@@ -213,8 +211,7 @@ CREATE TABLE CustomerPlan (
 	userLockTime INT(10) NOT NULL DEFAULT '600',
 	QRCodeMethods INT,
 	walletAmountLimit INT(10) NOT NULL,
-	Active INT NOT NULL DEFAULT '1',
-	Deleted varchar(255) NOT NULL DEFAULT '0',
+	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
@@ -268,8 +265,7 @@ CREATE TABLE SMSAPISetups (
 	messageTag varchar(255) NOT NULL,
 	responseStatusTag varchar(255) NOT NULL,
 	responseMessageTag varchar(255) NOT NULL,
-	Active INT(1) NOT NULL DEFAULT '1',
-	Deleted INT(1) NOT NULL DEFAULT '0',
+	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
@@ -292,8 +288,7 @@ CREATE TABLE SMSTemplates (
 	templateName varchar(255) NOT NULL ,
 	message varchar(1000),
 	language varchar(255) NOT NULL,
-	Active INT(1) NOT NULL DEFAULT '1',
-	Deleted INT(1) NOT NULL DEFAULT '0',
+	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,
@@ -320,8 +315,7 @@ CREATE TABLE loginSetup (
 	resendOTPAttempts INT (2),
 	OTPAttempts INT (2),
 	userLockTiming INT (2),
-	Active INT(1) NOT NULL DEFAULT '1',
-	Deleted INT(1) NOT NULL DEFAULT '0',
+	deletedAt DATETIME DEFAULT NULL,
 	PRIMARY KEY (uniqueID)
 )
 ENGINE = INNODB,

@@ -101,7 +101,7 @@ proc_Call:BEGIN
   -- Phone Number valdation block : END
 
   -- API validation : START
---   SET RowCount = ( SELECT 1 FROM SMSAPISetups WHERE APIName = p_APIName AND op_Environment = op_Environment AND Active = 1 AND Deleted = 0 );
+--   SET RowCount = ( SELECT 1 FROM SMSAPISetups WHERE APIName = p_APIName AND op_Environment = op_Environment AND deletedAt IS NULL );
 --   IF( RowCount IS NULL) THEN
 --     BEGIN
 --         SELECT  Code,ErrorFound,Message,version,language,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM MessageMaster  WHERE Code = 'ERR00027' AND language = p_Language;
@@ -120,7 +120,7 @@ proc_Call:BEGIN
 
 
   -- Getting Template and validation : START
-  SET RowCount = ( SELECT 1 FROM SMSTemplates WHERE templateName = p_TemplateName AND language = p_Language AND Active = 1 AND Deleted = 0 );
+  SET RowCount = ( SELECT 1 FROM SMSTemplates WHERE templateName = p_TemplateName AND language = p_Language AND deletedAt IS NULL );
   IF( RowCount IS NULL) THEN
     BEGIN
         SELECT  Code,ErrorFound,Message,version,language,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM MessageMaster  WHERE Code = 'ERR00025' AND language = p_Language;
@@ -164,7 +164,7 @@ proc_Call:BEGIN
          APIName,
          uniqueID
   INTO op_URL,op_Method,op_UserID,op_Password,op_AccessCode,op_ResponseStatusTag,op_ResponseMessageTag,op_APIName,op_APIID
-  FROM SMSAPISetups WHERE /*APIName = p_APIName AND */ op_Environment = op_Environment AND Active = 1 AND Deleted = 0;
+  FROM SMSAPISetups WHERE /*APIName = p_APIName AND */ op_Environment = op_Environment AND deletedAt IS NULL;
     
 
   SELECT  Code,ErrorFound,Message,version,language,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM MessageMaster  WHERE Code = 'ERR00028' AND language = p_Language;

@@ -21,7 +21,3 @@ REFERENCES languageLookup (language) ON DELETE NO ACTION;
 ALTER TABLE messageMaster
 ADD CONSTRAINT FK_messageMaster_language FOREIGN KEY (language)
 REFERENCES languageLookup (language) ON DELETE NO ACTION;
-
-ALTER TABLE userotplog
-ADD CONSTRAINT FK_userOTPLog_userPhoneNumber FOREIGN KEY (userPhoneNumber)
-REFERENCES userinformation (phoneNumber) ON DELETE NO ACTION;
