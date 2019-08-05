@@ -1,4 +1,4 @@
-DROP DATABASE ukmf_master;
+DROP DATABASE IF EXISTS ukmf_master;
 
 CREATE DATABASE ukmf_master
 CHARACTER SET utf8
