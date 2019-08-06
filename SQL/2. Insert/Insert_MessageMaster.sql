@@ -277,3 +277,9 @@ SELECT * FROM (SELECT 'ERR00045','YES','Username Already Exists.','1.0.0','Engli
 WHERE NOT EXISTS (
     SELECT Code FROM MessageMaster WHERE Code = 'ERR00045' AND  Message = 'Username Already Exists.'
 ) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00046','YES','OTP is expired.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00046' AND  Message = 'OTP is expired.'
+) LIMIT 1;

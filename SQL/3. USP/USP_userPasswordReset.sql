@@ -7,7 +7,7 @@ proc_Call:BEGIN
   DECLARE ErrorMessage VARCHAR(1000);
   DECLARE OTPExpiryTime DATETIME;
   DECLARE OTPSendTime DATETIME;
-  DECLARE OTPValidTime INT;
+  DECLARE OTPTimeForValidationInSeconds INT;
 
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
@@ -110,17 +110,17 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
       END;
     END IF;
 
-    SET OTPValidTime = ( SELECT otpValidTime FROM userPolicy WHERE uniqueID = ( SELECT UserPolicyID FROM userInformation  WHERE phoneNumber = p_PhoneNumber LIMIT 1 ) );
+    SET OTPTimeForValidationInSeconds = ( SELECT otpValidTime FROM userPolicy WHERE uniqueID = ( SELECT UserPolicyID FROM userInformation  WHERE phoneNumber = p_PhoneNumber LIMIT 1 ) );
     SET OTPSendTime = ( SELECT sendTime FROM userOTPLog WHERE userPhoneNumber = p_PhoneNumber AND OTP = p_OTP);
 
-    SET OTPExpiryTime = DATE_ADD( OTPSendTime, INTERVAL OTPValidTime SECOND );
-    SELECT OTPExpiryTime;
---     IF NOT EXISTS( CURRENT_TIMESTAMP()  >  OTPExpiryTime ) THEN
---       BEGIN
---             SELECT Code,ErrorFound,Message,version,language,ErrorMessage  FROM MessageMaster  WHERE Code = 'ERR00041' AND language = p_Language;
---             LEAVE proc_Call;
---       END;
---     END IF;
+    SET OTPExpiryTime = DATE_ADD( OTPSendTime, INTERVAL OTPTimeForValidationInSeconds SECOND );
+
+    IF ( CURRENT_TIMESTAMP()  >  OTPExpiryTime ) THEN
+      BEGIN
+            SELECT Code,ErrorFound,Message,version,language,ErrorMessage  FROM MessageMaster  WHERE Code = 'ERR00046' AND language = p_Language;
+            LEAVE proc_Call;
+      END;
+    END IF;
 
   -- OTP verification block : END
 
@@ -129,7 +129,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
     START TRANSACTION;
   
     UPDATE userInformation 
-        SET password = AES_ENCRYPT(p_NewPassword,p_PhoneNumber) , Active = 1 , lastUpdateDatetime = CURRENT_TIMESTAMP() 
+        SET password = AES_ENCRYPT(p_NewPassword,p_PhoneNumber) , isLock = 0, InvaildUpdateAttemptsCount = 0 , lastUpdateDatetime = CURRENT_TIMESTAMP() 
         WHERE phoneNumber = p_PhoneNumber AND deletedAt IS NULL ;
 
     COMMIT WORK;
@@ -142,5 +142,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_userPasswordReset('9074200979','262254','Test123!','Test123!','Android','English');
+call USP_userPasswordReset('9074200979','695609','Test123!','Test123!','Android','English');
   */

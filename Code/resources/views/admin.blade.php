@@ -57,7 +57,7 @@
             <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
           </div>
         </form>
-        <form class="forget-form" action="{{URL::to("/resendOTP")}}" method="POST">
+        <form class="forget-form" action="{{URL::to('/resendOTP')}}" method="POST">
             {{csrf_field()}}
             <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
             <div class="form-group">

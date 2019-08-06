@@ -46,7 +46,16 @@ class LoginController extends Controller
             $language = "'" . trim($request->input("language")) . "'";
         }
 
-        $response =  DB::select("call USP_userOTPLogger(" . $sendTo . "," . $OTP . ");");
+        $response =  DB::select("call USP_userPasswordReset(" . $phoneNumber . "," . $otp . ",".$newPassword.",".$confirmPassword.",".$source.",".$language.");");
+        
+        if ($response[0]->ErrorFound == "NO") {
+            return redirect()->route('admin');
+        } else {
+            $error = \Illuminate\Validation\ValidationException::withMessages([$response[0]->Message]);
+            throw $error;
+        }
+        $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to reset password']);
+        throw $error;
     }
 
 

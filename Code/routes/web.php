@@ -13,7 +13,7 @@
 
 Route::get('/admin', function () {
     return view('admin');
-});
+})->name('admin');
 
 Route::post('/userLogin', 'login\LoginController@userLogin');
 
