@@ -196,7 +196,8 @@ proc_Call:BEGIN
       phoneNumber,
       lastUpdateDatetime,
       userPolicyID,
-      username
+      username,
+      UUID
     ) 
     VALUES (
       AES_ENCRYPT(p_Password,CAST(p_PhoneNumber as CHAR(10)) ),
@@ -207,7 +208,8 @@ proc_Call:BEGIN
       p_PhoneNumber,
       CURRENT_TIMESTAMP(),
       p_UserPolicyID,
-      p_Username 
+      p_Username ,
+      op_UUID
     );
   COMMIT WORK;
   -- Customer Account creation block : END
@@ -219,5 +221,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_createUser('Test123!','Test123!','vfv',null,'vfv','1452cjd@v.cw','9078200979','Admin   ',1,'English','Android');
+call USP_createUser('Test123!','Test123!','Super',null,'user','shubhamjobanputra@gmail.com','9074200979','superUser',1,'English','Android');
 */

@@ -77,7 +77,6 @@ class LoginController extends Controller
                 throw $error;
             } else {
                 return redirect()->route('forgetPassword', ['phoneNumber' => $request->input('phoneNumber')]);
-                // return redirect('/forgetPassword')->with('phoneNumber', $request->input('phoneNumber'));
             }
             $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
             throw $error;
@@ -131,11 +130,18 @@ class LoginController extends Controller
             'null'
         );
 
-        if ($response[0]->ErrorFound == 'YES') {
+        $ErrorFound = 'NULL';
+        if (!isEmpty($response[0]->ErrorFound)) {
+            $ErrorFound = "'" . trim($response[0]->ErrorFound) . "'";
+        }
+
+        DB::select("call USP_markLogin(" . $username . "," . $ErrorFound . ");");
+
+        if ($ErrorFound == "'NO'") {
+            return redirect()->route('dashboard', ['username' => $response[0]->Username]);
+        } else {
             $error = \Illuminate\Validation\ValidationException::withMessages([$response[0]->Message]);
             throw $error;
-        } else {
-            return view('dashboard');
         }
     }
 }
