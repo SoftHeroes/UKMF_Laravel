@@ -9,16 +9,25 @@ proc_Call:BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
       GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,ErrorMessage = MESSAGE_TEXT;
-      SELECT Code,ErrorFound,Message,version,language,ErrorMessage FROM MessageMaster WHERE Code = 'ERR00000' AND language = p_Language;
+      SELECT Code,ErrorFound,Message,version,language,ErrorMessage FROM MessageMaster WHERE Code = 'ERR00000' AND language = 'English';
       ROLLBACK;
     END;
 
-  IF NOT EXISTS( SELECT 1 FROM userInformation WHERE username = p_username ) THEN
+  IF NOT EXISTS( SELECT 1 FROM userInformation WHERE username = p_username OR phoneNumber = p_username OR emailID = p_username ) THEN
     LEAVE proc_Call;
   END IF;
   
-  IF(p_loginFail = 'YES' ) THEN
+  IF(p_loginFail = 'NO' ) THEN
     BEGIN
+      START TRANSACTION;
+    
+        UPDATE userinformation SET InvaildUpdateAttemptsCount = 0
+          WHERE username = p_username OR phoneNumber = p_username OR emailID = p_username ;
+      
+      COMMIT WORK;
+    END;
+    ELSE
+
       START TRANSACTION;
     
       UPDATE userinformation UserInfo
@@ -29,17 +38,10 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
             THEN 1 
             ELSE 0 
          END
-        WHERE UserInfo.username = p_username ;
+        WHERE UserInfo.username = p_username OR UserInfo.phoneNumber = p_username OR UserInfo.emailID = p_username;
       
       COMMIT WORK;
-    END;
-    ELSE
-      START TRANSACTION;
-    
-        UPDATE userinformation SET InvaildUpdateAttemptsCount = 0
-          WHERE UserInfo.username = p_username ;
-      
-      COMMIT WORK;
+
   END IF;
 
 END$$
@@ -48,5 +50,5 @@ END$$
 DELIMITER ;
 
 /*
-call USP_markLogin('superAdmin',0);
+call USP_markLogin('superUser','YES');
   */

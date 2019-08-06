@@ -21,10 +21,6 @@ Route::post('/resendOTP', 'login\LoginController@resendOTP');
 
 Route::post('/resetPassword', 'login\LoginController@resetPassword');
 
-Route::get('/forgetPassword/{phoneNumber}', function ($phoneNumber) {
-    return view('forgetPassword', compact('phoneNumber'));
-})->name('forgetPassword');
-
 Route::get('/search', function () {
     return view('search');
 });
@@ -40,3 +36,11 @@ Route::get('/updateaccounts', function () {
 Route::get('/createaccounts', function () {
     return view('createaccounts');
 });
+
+Route::get('/forgetPassword/{phoneNumber}', function ($phoneNumber) {
+    return view('forgetPassword', compact('phoneNumber'));
+})->name('forgetPassword');
+
+Route::get('/dashboard/{username}', function ($username) {
+    return view('dashboard', compact('username'));
+})->name('dashboard');
