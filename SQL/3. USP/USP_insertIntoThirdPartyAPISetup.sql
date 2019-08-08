@@ -1,4 +1,4 @@
-﻿DROP procedure IF EXISTS USP_insertIntoThirdPartyAPISetup;
+DROP procedure IF EXISTS USP_insertIntoThirdPartyAPISetup;
 
 DELIMITER $$
 CREATE PROCEDURE USP_insertIntoThirdPartyAPISetup ( 
@@ -17,7 +17,7 @@ CREATE PROCEDURE USP_insertIntoThirdPartyAPISetup (
   IN p_tranAmountInputTag VARCHAR(255),
   IN p_circleIdInputTag VARCHAR(255),
   IN p_tranIDInputTag VARCHAR(255),
-  IN p_numberInputTag VARCHAR(255),
+  IN p_serviceIDNumberInputTag VARCHAR(255),
   IN p_providerIdInputTag VARCHAR(255),
   IN p_providerIdOutputTag VARCHAR(255),
   IN p_providerNameOutputTag VARCHAR(255),
@@ -66,7 +66,7 @@ proc_Call:BEGIN
         tranAmountInputTag,
         circleIdInputTag,
         tranIDInputTag,
-        numberInputTag,
+        serviceIDNumberInputTag,
         providerIdInputTag,
         providerIdOutputTag,
         providerNameOutputTag,
@@ -101,7 +101,7 @@ proc_Call:BEGIN
         p_tranAmountInputTag AS tranAmountInputTag,
         p_circleIdInputTag AS circleIdInputTag,
         p_tranIDInputTag AS tranIDInputTag,
-        p_numberInputTag AS numberInputTag,
+        p_serviceIDNumberInputTag AS serviceIDNumberInputTag,
         p_providerIdInputTag AS providerIdInputTag,
         p_providerIdOutputTag AS providerIdOutputTag,
         p_providerNameOutputTag AS providerNameOutputTag,
@@ -147,7 +147,7 @@ call USP_insertIntoThirdPartyAPISetup(
   'tranAmountInputTag',
   'circleIdInputTag',
   'tranIDInputTag',
-  'numberInputTag',
+  'serviceIDNumberInputTag',
   'providerIdInputTag',
   'providerIdOutputTag',
   'providerNameOutputTag',

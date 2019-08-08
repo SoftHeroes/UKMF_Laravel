@@ -4,7 +4,7 @@ CALL USP_insertIntoThirdPartyAPISetup('getCommissionDetail', 'https://www.pay2al
 
 CALL USP_insertIntoThirdPartyAPISetup('getCircleDetail', 'https://www.pay2all.in/', 'web-api/get-circle?', 'local', 'GET', NULL, NULL, NULL, 'api_token', 'aCOWtwjrSeXWXubFPRd4OxgbLn5FXcZIiUBk4Q3pUDOOuoRwcrh9X3UxVRUf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'circle_id', 'circle_name', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-CALL USP_insertIntoThirdPartyAPISetup('rechargeBillPayment', 'https://www.pay2all.in/', 'web-api/paynow?', 'local', 'GET', NULL, NULL, NULL, 'api_token', 'aCOWtwjrSeXWXubFPRd4OxgbLn5FXcZIiUBk4Q3pUDOOuoRwcrh9X3UxVRUf', NULL, NULL, 'amount', 'client_id', 'payid', 'number', 'provider_id', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'status', 'payid', 'txstatus_desc', NULL, NULL, 'operator_ref', NULL, 'message', NULL);
+CALL USP_insertIntoThirdPartyAPISetup('rechargeBillPayment', 'https://www.pay2all.in/', 'web-api/paynow?', 'local', 'GET', NULL, NULL, NULL, 'api_token', 'aCOWtwjrSeXWXubFPRd4OxgbLn5FXcZIiUBk4Q3pUDOOuoRwcrh9X3UxVRUf', NULL, NULL, 'amount', 'client_id', NULL, 'number', 'provider_id', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'status', 'payid', 'txstatus_desc', NULL, NULL, 'operator_ref', NULL, 'message', NULL);
 
 CALL USP_insertIntoThirdPartyAPISetup('getLast50Transaction', 'https://www.pay2all.in/', 'web-api/get-report?', 'local', 'GET', NULL, NULL, NULL, 'api_token', 'aCOWtwjrSeXWXubFPRd4OxgbLn5FXcZIiUBk4Q3pUDOOuoRwcrh9X3UxVRUf', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'provider', NULL, NULL, NULL, NULL, NULL, 'profit', NULL, 'order_no', 'status', 'date', 'amount', NULL, NULL, NULL, 'total_balance');
 

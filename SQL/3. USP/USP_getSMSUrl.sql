@@ -164,7 +164,7 @@ proc_Call:BEGIN
          APIName,
          uniqueID
   INTO op_URL,op_Method,op_UserID,op_Password,op_AccessCode,op_ResponseStatusTag,op_ResponseMessageTag,op_APIName,op_APIID
-  FROM SMSAPISetups WHERE /*APIName = p_APIName AND */ op_Environment = op_Environment AND deletedAt IS NULL;
+  FROM SMSAPISetups WHERE /*APIName = p_APIName AND */ environment = op_Environment AND deletedAt IS NULL;
     
 
   SELECT  Code,ErrorFound,Message,version,language,op_ErrorMessage as ErrorMessage,op_URL as URL,op_Method as Method,op_UserID as UserID,op_Password as Password,op_AccessCode as AccessCode,op_ResponseStatusTag as ResponseStatusTag,op_ResponseMessageTag as ResponseMessageTag,op_APIName as APIName,op_APIID as APIID,OTP,op_AlreadyRegisteredUser as AlreadyRegisteredUser,op_OTPExpiryTime as OTPExpiryTime,op_resendOTPAttempts as resendOTPAttempts,op_OTPAttempts as OTPAttempts,op_userLockTiming as userLockTiming,op_CustomerPassword as CustomerPassword FROM MessageMaster  WHERE Code = 'ERR00028' AND language = p_Language;

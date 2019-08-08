@@ -113,7 +113,7 @@ CREATE TABLE ThirdPartyAPISetup (
   tranAmountInputTag varchar(255),
   circleIdInputTag varchar(255),
   tranIDInputTag varchar(255),
-  numberInputTag varchar(255),
+  serviceIDNumberInputTag varchar(255),
   providerIdInputTag varchar(255),
   providerIdOutputTag varchar(255),
   providerNameOutputTag varchar(255),

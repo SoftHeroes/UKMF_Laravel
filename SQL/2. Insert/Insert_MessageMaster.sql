@@ -289,3 +289,33 @@ SELECT * FROM (SELECT 'ERR00047','NO','Insert to Third Party API Setup successfu
 WHERE NOT EXISTS (
     SELECT Code FROM MessageMaster WHERE Code = 'ERR00047' AND  Message = 'Insert to Third Party API Setup successfully.'
 ) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00048','YES','Transaction amount cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00048' AND  Message = 'Transaction amount cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00049','YES','Circle Id cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00049' AND  Message = 'Circle Id cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00050','YES','Transaction Id cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00050' AND  Message = 'Transaction Id cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00051','YES','Service ID number cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00051' AND  Message = 'Service ID number cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00052','YES','Provider Id cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00052' AND  Message = 'Provider Id cannot be empty.'
+) LIMIT 1;
