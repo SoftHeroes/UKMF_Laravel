@@ -319,3 +319,27 @@ SELECT * FROM (SELECT 'ERR00052','YES','Provider Id cannot be empty.','1.0.0','E
 WHERE NOT EXISTS (
     SELECT Code FROM MessageMaster WHERE Code = 'ERR00052' AND  Message = 'Provider Id cannot be empty.'
 ) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00053','YES','Batch size cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00053' AND  Message = 'Batch size cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00054','YES','Page Number cannot be empty.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00054' AND  Message = 'Page Number cannot be empty.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00055','YES','Invalid Batch size.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00055' AND  Message = 'Invalid Batch size.'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00056','YES','Invalid Page Number.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00056' AND  Message = 'Invalid Page Number.'
+) LIMIT 1;
