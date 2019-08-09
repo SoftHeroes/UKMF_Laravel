@@ -45,7 +45,7 @@ class CustomerAPI extends Controller
         }
 
 
-        $response =  DB::select("call USP_userLogin(" . $username . "," . $password . "," . $source . "," . $language . ");");
+        $response =  DB::select("call USP_login(" . $username . "," . $password . "," . $source . "," . $language . ");");
 
         Log_APIActivityLog(
             Route::getFacadeRoot()->current()->uri(),
@@ -63,7 +63,6 @@ class CustomerAPI extends Controller
             $response[0]->CustomerPhoneNumber,
             $response[0]->CustomerEmail,
             $response[0]->CustomerUUID
-
         );
 
         return response()->json($response[0]);
