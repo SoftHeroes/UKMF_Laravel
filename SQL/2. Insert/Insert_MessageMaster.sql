@@ -343,3 +343,15 @@ SELECT * FROM (SELECT 'ERR00056','YES','Invalid Page Number.','1.0.0','English')
 WHERE NOT EXISTS (
     SELECT Code FROM MessageMaster WHERE Code = 'ERR00056' AND  Message = 'Invalid Page Number.'
 ) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00057','YES','Please enter at least one account identifier','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00057' AND  Message = 'Please enter at least one account identifier'
+) LIMIT 1;
+
+INSERT INTO MessageMaster (Code,ErrorFound, Message, version, language)
+SELECT * FROM (SELECT 'ERR00058','NO','Account details return successfully.','1.0.0','English') AS tmp
+WHERE NOT EXISTS (
+    SELECT Code FROM MessageMaster WHERE Code = 'ERR00058' AND  Message = 'Account details return successfully.'
+) LIMIT 1;

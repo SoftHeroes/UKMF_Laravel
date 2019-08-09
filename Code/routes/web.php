@@ -48,3 +48,6 @@ Route::get('/forgetPassword/{phoneNumber}/{source}/{templateName}/{language}', f
 Route::get('/dashboard/{username}', function ($username) {
     return view('dashboard', compact('username'));
 })->name('dashboard');
+
+
+Route::get('/SearchAccount', 'AccountView@searchAccount');
