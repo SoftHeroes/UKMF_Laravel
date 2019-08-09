@@ -12,12 +12,16 @@
 */
 
 Route::get('/admin', function () {
-    return view('admin');
+    return redirect()->route('adminWithAlert', ['showAlert' => 0]);
 })->name('admin');
+
+Route::get('/adminLogin/{showAlert}', function ($showAlert) {
+    return view('admin', compact('showAlert'));
+})->name('adminWithAlert');
 
 Route::post('/userLogin', 'login\LoginController@userLogin');
 
-Route::post('/resendOTP', 'login\LoginController@resendOTP');
+Route::get('/resendOTP', 'login\LoginController@resendOTP')->name('resendOTP');
 
 Route::post('/resetPassword', 'login\LoginController@resetPassword');
 
@@ -37,8 +41,8 @@ Route::get('/createaccounts', function () {
     return view('createaccounts');
 });
 
-Route::get('/forgetPassword/{phoneNumber}', function ($phoneNumber) {
-    return view('forgetPassword', compact('phoneNumber'));
+Route::get('/forgetPassword/{phoneNumber}/{source}/{templateName}/{language}', function ($phoneNumber, $source, $templateName, $language) {
+    return view('forgetPassword', compact('phoneNumber', 'source', 'templateName', 'language'));
 })->name('forgetPassword');
 
 Route::get('/dashboard/{username}', function ($username) {

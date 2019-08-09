@@ -57,7 +57,7 @@
             <button class="btn btn-primary btn-block"><i class="fa fa-sign-in fa-lg fa-fw"></i>SIGN IN</button>
           </div>
         </form>
-        <form class="forget-form" action="{{URL::to('/resendOTP')}}" method="POST">
+        <form class="forget-form" action="{{URL::to('/resendOTP')}}" method="GET">
             {{csrf_field()}}
             <h3 class="login-head"><i class="fa fa-lg fa-fw fa-lock"></i>Forgot Password ?</h3>
             <div class="form-group">
@@ -94,11 +94,16 @@
     <!-- The javascript plugin to display page loading on top-->
     <script src="{{ asset('js/plugins/pace.min.js') }}"></script>
     <script type="text/javascript">
-      // Login Page Flipbox control
-      $('.login-content [data-toggle="flip"]').click(function() {
-      	$('.login-box').toggleClass('flipped');
-      	return false;
-      });
+        let showAlert = {{$showAlert}};
+        if ( showAlert ) {
+        alert("Password reset successfully.");
+        }
+
+        // Login Page Flipbox control
+        $('.login-content [data-toggle="flip"]').click(function() {
+        $('.login-box').toggleClass('flipped');
+        return false;
+        });
     </script>
   </body>
 </html>

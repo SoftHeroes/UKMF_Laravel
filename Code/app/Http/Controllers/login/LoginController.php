@@ -46,10 +46,10 @@ class LoginController extends Controller
             $language = "'" . trim($request->input("language")) . "'";
         }
 
-        $response =  DB::select("call USP_userPasswordReset(" . $phoneNumber . "," . $otp . ",".$newPassword.",".$confirmPassword.",".$source.",".$language.");");
-        
+        $response =  DB::select("call USP_userPasswordReset(" . $phoneNumber . "," . $otp . "," . $newPassword . "," . $confirmPassword . "," . $source . "," . $language . ");");
+
         if ($response[0]->ErrorFound == "NO") {
-            return redirect()->route('admin');
+            return redirect()->route('adminWithAlert', ['showAlert' => 1]);
         } else {
             $error = \Illuminate\Validation\ValidationException::withMessages([$response[0]->Message]);
             throw $error;
@@ -85,7 +85,15 @@ class LoginController extends Controller
                 $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
                 throw $error;
             } else {
-                return redirect()->route('forgetPassword', ['phoneNumber' => $request->input('phoneNumber')]);
+                return redirect()->route(
+                    'forgetPassword',
+                    [
+                        'phoneNumber' => $request->input('phoneNumber'),
+                        'source' => $request->input('source'),
+                        'templateName' => $request->input('templateName'),
+                        'language' => $request->input('language')
+                    ]
+                );
             }
             $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
             throw $error;

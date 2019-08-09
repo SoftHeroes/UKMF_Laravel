@@ -56,7 +56,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
     
     
   -- Credentials validation block : START
-  SELECT phoneNumber,emailID,UUID INTO CustomerPhoneNumber,CustomerEmail,CustomerUUID FROM Customer WHERE emailID = p_Username OR phoneNumber = p_Username OR CustomerEmail = p_Username OR CustomerPhoneNumber = p_Username;
+  SELECT phoneNumber,emailID,UUID INTO CustomerPhoneNumber,CustomerEmail,CustomerUUID FROM Customer WHERE emailID = p_Username OR phoneNumber = p_Username ;
 
   IF( CustomerPhoneNumber IS NULL OR TRIM(CustomerPhoneNumber) = '' ) THEN
     BEGIN

@@ -1,5 +1,3 @@
-console.log("fsdf");
-
 function setInputFilter(textbox, inputFilter) {
     [
         "input",
