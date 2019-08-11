@@ -17,51 +17,62 @@
   <div class="col-md-12">
     <div class="tile">
       <h3 class="tile-title">Search Account</h3>
+      @if(count($errors))
+      <div class="alert alert-danger">
+        <strong>Whoops!</strong> There were some problems with your input.
+        <br />
+        <ul>
+          @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
+      @endif
       <div class="tile-body">
-        <form class="row">
+        <form class="row" action="{{URL::to('/accountSearch')}}" method="POST">
+          {{csrf_field()}}
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">First Name</label>
-            <input class="form-control" id="firstname" name="firstname" type="text" aria-describedby="emailHelp" placeholder="First Name">
+            <input class="form-control" id="firstName" name="firstName" type="text" aria-describedby="emailHelp" placeholder="First Name">
           </div>
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Middle Name</label>
-            <input class="form-control" id="lastname" id="lastname" type="Text" aria-describedby="emailHelp" placeholder="Middle Name">
+            <input class="form-control" id="middleName" name="middleName" type="Text" aria-describedby="emailHelp" placeholder="Middle Name">
           </div>
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Last Name</label>
-            <input class="form-control" id="lastname" id="lastname" type="Text" aria-describedby="emailHelp" placeholder="Last Name">
+            <input class="form-control" id="lastName" name="lastName" type="Text" aria-describedby="emailHelp" placeholder="Last Name">
           </div>
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Email address</label>
-            <input class="form-control" id="email" name="email" type="email" aria-describedby="emailHelp" placeholder="Email address"><small class="form-text text-muted" id="emailHelp">We'll never share your email with anyone
-              else.</small>
+            <input class="form-control" id="emailAddress" name="emailAddress" type="email" aria-describedby="emailHelp" placeholder="Email address">
           </div>
-
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Phone Number</label>
-            <input class="form-control" id="firstname" name="firstname" type="number" aria-describedby="emailHelp" placeholder="Phone Number">
+            <input class="form-control phoneNumber" id="phoneNumber" name="phoneNumber" type="text" aria-describedby="emailHelp" placeholder="Phone Number">
           </div>
-          <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">Created Date Time</label>
-            <input class="form-control" id="firstname" name="firstname" type="time" aria-describedby="emailHelp" placeholder="Created Date Time">
-          </div>
-
-          <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">Last Update Time</label>
-            <input class="form-control" id="firstname" name="firstname" type="time" aria-describedby="emailHelp" placeholder="Last Update Time">
-          </div>
-
           <div class="form-group col-md-4">
             <label for="exampleInputEmail1">Plain Id</label>
-            <input class="form-control" id="firstname" name="firstname" type="number" aria-describedby="emailHelp" placeholder="Plain Id">
+            <input class="form-control INT" id="plainId" name="plainId" type="text" aria-describedby="emailHelp" placeholder="Plain Id">
           </div>
-
           <div class="form-group col-md-4">
-            <label for="exampleInputEmail1">UU ID</label>
-            <input class="form-control" id="firstname" name="firstname" type="number" aria-describedby="emailHelp" placeholder="UPI ID">
+            <label for="exampleInputEmail1">UUID</label>
+            <input class="form-control uuid" id="UUID" name="UUID" type="text" aria-describedby="emailHelp" placeholder="UPI ID">
           </div>
-          <div class="form-group col-md-4 align-self-end">
-            <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Search</button>
+          <div class="form-group">
+            <input class="form-control" id="batchSize" name="batchSize" type="hidden" value=4>
+          </div>
+          <div class="form-group">
+            <input class="form-control" id="pageNumber" name="pageNumber" type="hidden" value=1>
+          </div>
+          <div class="form-group">
+            <input class="form-control" id="source" name="source" type="hidden" value="Web">
+          </div>
+          <div class="form-group">
+            <input class="form-control" id="language" name="language" type="hidden" value="English">
+          </div>
+          <div class="form-group text-center col-md-12 align-self-center">
+            <br> <button class="btn btn-primary" type="submit"><i class="fa fa-fw fa-lg fa-check-circle"></i>Search</button>
           </div>
         </form>
       </div>

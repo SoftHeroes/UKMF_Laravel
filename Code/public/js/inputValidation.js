@@ -8,8 +8,8 @@ function setInputFilter(textbox, inputFilter) {
         "select",
         "contextmenu",
         "drop"
-    ].forEach(function(event) {
-        textbox.addEventListener(event, function() {
+    ].forEach(function (event) {
+        textbox.addEventListener(event, function () {
             if (inputFilter(this.value)) {
                 this.oldValue = this.value;
                 this.oldSelectionStart = this.selectionStart;
@@ -29,10 +29,20 @@ var inputFieldArr;
 inputFieldArr = document.getElementsByClassName("phoneNumber");
 
 for (let index = 0; index < inputFieldArr.length; index++) {
-    setInputFilter(inputFieldArr[0], function(value) {
+    setInputFilter(inputFieldArr[0], function (value) {
         return (
             /^\d*$/.test(value) &&
             (value === "" || parseInt(value) <= 9999999999)
+        );
+    });
+}
+
+inputFieldArr = document.getElementsByClassName("INT");
+
+for (let index = 0; index < inputFieldArr.length; index++) {
+    setInputFilter(inputFieldArr[0], function (value) {
+        return (
+            /^\d*$/.test(value) 
         );
     });
 }

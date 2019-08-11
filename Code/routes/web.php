@@ -76,5 +76,5 @@ Route::get('/searchAccounts', function () {
 })->name('vSearchAccounts');
 
 // Account Managment Logic View routes : START
-Route::post('/SearchAccounts', 'AccountView@searchAccount')->name('SearchAccounts');
+Route::post('/accountSearch', 'AccountView@accountSearch')->name('accountSearch');
 // Account Managment Logic View routes : END

@@ -96,11 +96,7 @@
   <!-- The javascript plugin to display page loading on top-->
   <script src="{{ asset('js/plugins/pace.min.js') }}"></script>
   <script type="text/javascript">
-    let showAlert = {
-      {
-        $showAlert
-      }
-    };
+    let showAlert = {{$showAlert}};
     if (showAlert) {
       alert("Password reset successfully.");
     }

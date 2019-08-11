@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Providers\SendOTPProvider;
+use Illuminate\Validation\ValidationException;
 
 require_once app_path() . '/Helpers/Logger.php';
 require_once app_path() . '/Helpers/basic.php';
@@ -51,10 +52,10 @@ class LoginController extends Controller
         if ($response[0]->ErrorFound == "NO") {
             return redirect()->route('adminWithAlert', ['showAlert' => 1]);
         } else {
-            $error = \Illuminate\Validation\ValidationException::withMessages([$response[0]->Message]);
+            $error = ValidationException::withMessages([$response[0]->Message]);
             throw $error;
         }
-        $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to reset password']);
+        $error = ValidationException::withMessages(['Unable to reset password']);
         throw $error;
     }
 
@@ -66,7 +67,7 @@ class LoginController extends Controller
         $sendSMSResponse = $this->sendOTPProvider->sendSMS($request);
 
         if ($sendSMSResponse->ErrorFound == 'YES') {
-            $error = \Illuminate\Validation\ValidationException::withMessages([$sendSMSResponse->Message]);
+            $error = ValidationException::withMessages([$sendSMSResponse->Message]);
             throw $error;
         } else {
 
@@ -82,7 +83,7 @@ class LoginController extends Controller
             $response =  DB::select("call USP_userOTPLogger(" . $sendTo . "," . $OTP . ");");
 
             if ($response[0]->ErrorFound == "YES") {
-                $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
+                $error = ValidationException::withMessages(['Unable to send sms']);
                 throw $error;
             } else {
                 return redirect()->route(
@@ -95,7 +96,7 @@ class LoginController extends Controller
                     ]
                 );
             }
-            $error = \Illuminate\Validation\ValidationException::withMessages(['Unable to send sms']);
+            $error = ValidationException::withMessages(['Unable to send sms']);
             throw $error;
         }
     }
@@ -157,7 +158,7 @@ class LoginController extends Controller
         if ($ErrorFound == "'NO'") {
             return redirect()->route('dashboard', ['username' => $response[0]->Username]);
         } else {
-            $error = \Illuminate\Validation\ValidationException::withMessages([$response[0]->Message]);
+            $error = ValidationException::withMessages([$response[0]->Message]);
             throw $error;
         }
     }
