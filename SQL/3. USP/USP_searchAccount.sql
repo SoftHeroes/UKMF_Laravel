@@ -47,7 +47,7 @@ proc_Call:BEGIN
   -- Input check block : START
   IF(stringIsNull(p_Source)) THEN
   BEGIN
-    SELECT Code,ErrorFound,Message,version,language,ErrorMessage FROM MessageMaster WHERE Code = 'ERR00010' AND language = p_Language;
+    SELECT Code,ErrorFound,Message,version,language,ErrorMessage FROM MessageMaster WHERE Code = 'ERR00022' AND language = p_Language;
     LEAVE proc_Call;
   END;
   ELSEIF (stringIsNull(p_BatchSize)) THEN
@@ -68,11 +68,6 @@ proc_Call:BEGIN
   ELSEIF ( !isNumeric(p_PageNumber) ) THEN
   BEGIN
     SELECT Code,ErrorFound,Message,version,language,ErrorMessage FROM MessageMaster WHERE Code = 'ERR00056' AND language = p_Language;
-    LEAVE proc_Call;
-  END;
-  ELSEIF NOT EXISTS( SELECT 1 FROM lookUp WHERE name = p_Source AND category = 'source' AND languageID =  getLanguageID(p_Language) ) THEN
-  BEGIN
-    SELECT Code,ErrorFound,Message,version,language,ErrorMessage FROM MessageMaster WHERE Code = 'ERR00033' AND language = p_Language;
     LEAVE proc_Call;
   END;
   ELSEIF NOT EXISTS( SELECT 1 FROM lookUp WHERE name = p_Source AND category = 'source' AND languageID =  getLanguageID(p_Language) ) THEN
