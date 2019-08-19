@@ -16,12 +16,16 @@ pass   : spna@1563365000
 Encryp : TLS/SSL Explicit encryption
 
 ---------------------------------------------------------------------------------------------------------------------------
+[BigRock]
+user: excelunitech@gmail.com
+pass: Excel@7654321
 
 [HOSTGATOR]
 host : ukmf.in/cpanel
 user : ukmfworld@gmail.com
 pass : ergK*nzViQx8heb
 Customer Id: 20329779
+
 
 [Domain : ukmf.in]
 User : ukmfir9u
