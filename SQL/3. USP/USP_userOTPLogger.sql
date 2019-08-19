@@ -11,23 +11,23 @@ proc_Call:BEGIN
   DECLARE ErrorMessage VARCHAR(1000);
       
   DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-      GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,ErrorMessage = MESSAGE_TEXT;
-      SELECT 'YES' ErrorFound ,ErrorMessage Message;
-      ROLLBACK;
-    END;
+  BEGIN
+    GET CURRENT DIAGNOSTICS CONDITION 1 ErrorNumber = MYSQL_ERRNO,ErrorMessage = MESSAGE_TEXT;
+    SELECT 'YES' ErrorFound ,ErrorMessage Message;
+    ROLLBACK;
+  END;
 
 
   -- Parameter validation block : START
-  IF ( p_sendTo IS NULL OR TRIM(p_sendTo) = '' ) THEN
+  IF (stringIsNull(p_sendTo)) THEN
   BEGIN
     SELECT 'YES' ErrorFound ,'sendTo is null' Message;
   END;
-  ELSEIF ( p_OTP IS NULL OR TRIM(p_OTP) = '' ) THEN
-    BEGIN
-      SELECT 'YES' ErrorFound ,'OTP is null' Message;
-      LEAVE proc_Call;
-    END;
+  ELSEIF (stringIsNull(p_OTP)) THEN
+  BEGIN
+    SELECT 'YES' ErrorFound ,'OTP is null' Message;
+    LEAVE proc_Call;
+  END;
   END IF;
   -- Parameter validation block : END
 
@@ -41,7 +41,7 @@ proc_Call:BEGIN
 
   COMMIT WORK;
       
-   SELECT 'NO' ErrorFound ,'OTP save successfully.' Message;
+  SELECT 'NO' ErrorFound ,'OTP save successfully.' Message;
   -- Insertion block into User OTP Log  : START
 
 END$$

@@ -1,0 +1,17 @@
+DELIMITER $$
+
+DROP FUNCTION IF EXISTS stringIsNull$$
+
+CREATE FUNCTION stringIsNull(p_String varchar(5000))   RETURNS TINYINT(1) DETERMINISTIC
+BEGIN
+
+  IF( p_String IS NULL OR TRIM(p_String) = '' ) THEN
+    RETURN 1 ;
+  END IF;
+
+  RETURN 0;
+
+END$$
+
+DELIMITER ;
+-- SELECT stringIsNull('Test123!')

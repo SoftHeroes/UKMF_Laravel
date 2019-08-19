@@ -10,8 +10,7 @@
     <!-- Main CSS-->
     <link rel="stylesheet" type="text/css" href=" {{ asset('css/main.css') }}">
     <!-- Font-icon css-->
-    <link rel="stylesheet" type="text/css"
-        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Reset Password {{$phoneNumber}} </title>
 </head>
 
@@ -43,18 +42,15 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">OTP</label>
-                    <input class="form-control otp" name="otp" type="text" minlength=6 maxlength=10 placeholder="OTP"
-                        autofocus>
+                    <input class="form-control otp" name="otp" type="text" minlength=6 maxlength=10 placeholder="OTP" autofocus>
                 </div>
                 <div class="form-group">
                     <label class="control-label">New password</label>
-                    <input class="form-control" name="newPassword" type="password" minlength=8 maxlength=16
-                        placeholder="********" autofocus>
+                    <input class="form-control" name="newPassword" type="password" minlength=8 maxlength=16 placeholder="********" autofocus>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Confirm password</label>
-                    <input class="form-control" name="confirmPassword" type="password" minlength=8 maxlength=16
-                        placeholder="********">
+                    <input class="form-control" name="confirmPassword" type="password" minlength=8 maxlength=16 placeholder="********">
                 </div>
                 <div class="form-group">
                     <input class="form-control" name="source" type="hidden" value="Web">
@@ -68,8 +64,7 @@
                     </div>
                 </div>
                 <div class="form-group btn-container">
-                    <button type="submit" class="btn btn-primary btn-block"><i
-                            class="fa fa-unlock fa-lg fa-fw"></i>RESET</button>
+                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-unlock fa-lg fa-fw"></i>RESET</button>
                 </div>
             </form>
         </div>

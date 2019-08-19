@@ -21,3 +21,4 @@ Route::get("/GetAllCustomers", "CustomerAPI@getAll");
 Route::post("/LoginCustomer", "CustomerAPI@login");
 Route::post("/SignupCustomer", "CustomerAPI@signup");
 Route::post('/send-sms', "SmsController@sentSMS");
+Route::post('/SearchAccount', 'AccountView@accountSearch');
