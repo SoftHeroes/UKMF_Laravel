@@ -58,3 +58,7 @@ url    		: http://ukmf.in/Code/tunnel.php
 user 		: ukmfir9u_CPuser
 pass 		: inPhLRaQKe3wPMX
 access DB 	: ukmfir9u_CardMaster 
+
+DNS :
+ns1.md-in-92.webhostbox.net
+ns2.md-in-92.webhostbox.net
