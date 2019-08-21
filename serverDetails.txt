@@ -42,11 +42,10 @@ Mobile 		: 9869374644
 HostName : md-in-92.webhostbox.net
 
 [FTP]
-Host   : sapnasingh.in (gains.linuxbigapps.com)
-user   : sapnasingh
-pass   : spna@1563365000
+Host   : ukmf.in (md-in-92.webhostbox.net)
+user   : ukmfir9u
+pass   : D$U5d#Anf!SaRu4
 Encryp : TLS/SSL Explicit encryption
-
 
 ns1.md-in-92.webhostbox.net
 ns2.md-in-92.webhostbox.net
