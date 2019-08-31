@@ -22,8 +22,8 @@ pass: Excel@7654321
 
 [HOSTGATOR]
 host : ukmf.in/cpanel
-user : ukmfworld@gmail.com
-pass : ergK*nzViQx8heb
+user : Shubhamjobanputra1@gmail.com
+pass : dkX@ghz:9R?bXe#
 Customer Id: 20329779
 
 
