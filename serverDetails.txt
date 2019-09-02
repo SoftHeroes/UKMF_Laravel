@@ -23,7 +23,7 @@ pass: Excel@7654321
 [HOSTGATOR] and select customer
 host : https://manage.hostgator.in/
 user : Shubhamjobanputra1@gmail.com
-pass : AZ6#Ken@QsC5Xj_
+pass : Salary%050
 Customer Id: 20329779
 
 
