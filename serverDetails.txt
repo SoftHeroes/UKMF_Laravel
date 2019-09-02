@@ -20,14 +20,15 @@ Encryp : TLS/SSL Explicit encryption
 user: excelunitech@gmail.com
 pass: Excel@7654321
 
-[HOSTGATOR]
-host : ukmf.in/cpanel
+[HOSTGATOR] and select customer
+host : https://manage.hostgator.in/
 user : Shubhamjobanputra1@gmail.com
 pass : AZ6#Ken@QsC5Xj_
 Customer Id: 20329779
 
 
-[Domain : ukmf.in]
+[Domain : shmain.com]
+link : http://103.50.162.86:2082/
 User : ukmfir9u
 Admin password : ~B!A9?!9v!3EdSb
 
