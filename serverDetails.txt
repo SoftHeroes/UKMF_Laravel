@@ -66,3 +66,9 @@ access DB 	: ukmfir9u_CardMaster
 DNS :
 ns1.md-in-92.webhostbox.net
 ns2.md-in-92.webhostbox.net
+
+[VScode]
+Host : 103.50.162.86
+Root : /home/ukmfir9u/public_html/
+user : ukmfir9u
+pass : ~B!A9?!9v!3EdSb
